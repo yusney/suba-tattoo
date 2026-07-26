@@ -1,0 +1,29 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  testimonial: string;
+  clientName?: string;
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { testimonial, clientName } = Astro.props;
+---
+
+<section class="bg-surface-container-low border-y border-outline-variant mb-section-gap">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-gap text-center">
+    <span class="material-symbols-outlined text-primary mb-6 text-4xl" aria-hidden="true">format_quote</span>
+    <blockquote class="font-headline-lg text-headline-lg italic max-w-4xl mx-auto mb-8 text-balance">
+      &ldquo;{testimonial}&rdquo;
+    </blockquote>
+    {clientName && (
+      <cite class="font-label-sm text-label-sm text-on-surface-variant not-italic tracking-widest uppercase">
+        — {clientName}{t("detalle.client_suffix")}
+      </cite>
+    )}
+  </div>
+</section>

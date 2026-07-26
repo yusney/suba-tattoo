@@ -1,0 +1,92 @@
+{
+  "sections": [
+    {
+      "category_label": "INFORMATION",
+      "page_title": "Frequently Asked Questions",
+      "page_subtitle": "Our studio operates under standards of technical rigour and artistic excellence. We answer your questions about the surgical and creative process behind your next piece.",
+      "questions": [
+        {
+          "question": "How much does it cost?",
+          "answer": "The minimum price per session is €150. The final cost is set after evaluating the technical complexity, the exact size and the anatomical placement of the design. We provide personalised quotes after the initial consultation."
+        },
+        {
+          "question": "How long does healing take?",
+          "answer": "Surface epidermal regeneration takes 2 to 3 weeks. The deeper dermis, however, only stabilises internally after roughly 45 to 60 days."
+        },
+        {
+          "question": "Does it hurt?",
+          "answer": "Pain perception is subjective and varies by area. We use precise application techniques to minimise tissue trauma. Being well hydrated and properly fed reduces sensitivity."
+        },
+        {
+          "question": "Do you accept walk-ins?",
+          "answer": "We mainly work by appointment to guarantee the studio is prepared. We sometimes have slots for small pieces; we recommend calling ahead or checking our social stories."
+        },
+        {
+          "question": "Can I bring my own design?",
+          "answer": "We accept references, but our artists always reinterpret the idea through their personal style and durability criteria to guarantee a top-tier piece."
+        },
+        {
+          "question": "How do I care for a new tattoo?",
+          "answer": "Aftercare is essential. Wash with neutral soap, apply a thin layer of the recommended balm and avoid direct sun exposure or submerging the piece (pools/sea) for 15 days."
+        },
+        {
+          "question": "Do you offer free touch-ups?",
+          "answer": "We offer one complimentary touch-up within the first 2 months if the artist deems it necessary, provided the post-session care instructions have been followed rigorously."
+        },
+        {
+          "question": "What is your cancellation policy?",
+          "answer": "Deposits are non-refundable. We require at least 48 hours' notice to reschedule an appointment without forfeiting the booking deposit."
+        }
+      ]
+    },
+    {
+      "category_label": "AFTERCARE",
+      "page_title": "Post-Session Care",
+      "page_subtitle": "Aftercare decides how your tattoo will age. Follow this protocol to the letter during the first few weeks.",
+      "care_steps": [
+        {
+          "step_number": 1,
+          "title": "Cleaning",
+          "description": "Wash 3 times a day with neutral soap and lukewarm water. Pat dry with disposable paper using gentle touches."
+        },
+        {
+          "step_number": 2,
+          "title": "Hydration",
+          "description": "Apply a very thin layer of the recommended balm. The skin needs to breathe; avoid excess product."
+        },
+        {
+          "step_number": 3,
+          "title": "Protection",
+          "description": "Avoid sun, pools, gyms and tight clothing during the first 10 days to prevent infection."
+        },
+        {
+          "step_number": 4,
+          "title": "Follow-up",
+          "description": "Any technical concern after the session must be discussed directly with the studio via WhatsApp."
+        }
+      ]
+    },
+    {
+      "category_label": "HYGIENE",
+      "page_title": "Sterilisation Protocol",
+      "page_subtitle": "Client safety is non-negotiable. These are the surgical standards we apply at every session.",
+      "protocol_items": [
+        {
+          "icon": "sanitizer",
+          "title": "Sterilisation",
+          "description": "Medical-grade autoclave plus high-level chemical disinfection on every contact surface."
+        },
+        {
+          "icon": "medical_services",
+          "title": "Disposable Material",
+          "description": "Needles, cartridges, covers and barriers are 100% disposable and opened in front of the client at each session."
+        },
+        {
+          "icon": "shield",
+          "title": "Aseptic Studio",
+          "description": "We maintain a controlled environment under strict sanitary regulations, guaranteeing a contaminant-free space."
+        }
+      ]
+    }
+  ]
+}

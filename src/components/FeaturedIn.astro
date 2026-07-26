@@ -1,0 +1,33 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface PressItem {
+  publication_name: string;
+}
+
+interface Props {
+  items: PressItem[];
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { items } = Astro.props;
+---
+
+<section class="py-24 border-b border-outline-variant">
+  <div class="max-w-container-max mx-auto px-margin-desktop">
+    <span class="font-label-sm text-label-sm text-center block mb-12 opacity-50 uppercase tracking-[0.3em]">
+      {t("sobre.featured_in_label")}
+    </span>
+    <div class="flex flex-wrap justify-center gap-6" data-reveal>
+      {items.map((item) => (
+        <div class="border border-outline-variant px-8 py-4 font-headline-md text-on-surface-variant hover:text-primary hover:border-primary transition-[color,border-color,opacity] duration-300 cursor-default opacity-40 hover:opacity-100">
+          {item.publication_name}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

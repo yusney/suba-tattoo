@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#454747",
+                    "secondary": "#c6c6c7",
+                    "on-surface": "#e5e2e1",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-primary-container": "#5c0008",
+                    "outline": "#ab8986",
+                    "primary-fixed": "#ffdad7",
+                    "on-error": "#690005",
+                    "tertiary": "#69d8d4",
+                    "surface-container-highest": "#353534",
+                    "on-surface-variant": "#e4beba",
+                    "on-background": "#e5e2e1",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-tertiary-fixed": "#00201f",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "on-primary-fixed": "#410004",
+                    "surface-dim": "#131313",
+                    "surface-variant": "#353534",
+                    "surface": "#131313",
+                    "on-error-container": "#ffdad6",
+                    "inverse-on-surface": "#313030",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary-fixed-variant": "#454747",
+                    "surface-bright": "#393939",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#003736",
+                    "on-primary": "#68000a",
+                    "error": "#ffb4ab",
+                    "primary": "#ffb3ad",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#00302e",
+                    "surface-container": "#201f1f",
+                    "secondary-fixed": "#e2e2e2",
+                    "surface-container-lowest": "#0e0e0e",
+                    "inverse-surface": "#e5e2e1",
+                    "tertiary-container": "#24a09d",
+                    "tertiary-fixed": "#87f4f0",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "outline-variant": "#5b403e",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-secondary": "#2f3131",
+                    "surface-tint": "#ffb3ad",
+                    "on-primary-fixed-variant": "#930013",
+                    "primary-container": "#ff5451",
+                    "inverse-primary": "#b91a24",
+                    "background": "#131313"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "base": "8px",
+                    "margin-desktop": "64px",
+                    "section-gap": "120px",
+                    "gutter": "24px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Syne"],
+                    "display-lg": ["Syne"],
+                    "headline-md": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "display-lg": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+        .editorial-border {
+            border: 1px solid #2a2a2a;
+        }
+        .hover-scarlet:hover {
+            border-color: #ff5451;
+            color: #ff5451;
+        }
+        .btn-scarlet {
+            background-color: #ff5451;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-scarlet:hover {
+            background-color: #000000;
+            color: #ff5451;
+            box-shadow: inset 0 0 0 2px #ff5451;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5451;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary-container selection:text-white">
+<!-- Header / TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-background border-b border-outline-variant">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-base w-full max-w-container-max mx-auto">
+<a class="font-headline-md text-headline-md font-bold tracking-tighter text-on-background" href="#">SUBA TATTOO</a>
+<nav class="hidden md:flex space-x-8">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors duration-300" href="#">Artists</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-sm text-label-sm" href="#">Portfolio</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors duration-300" href="#">Studio</a>
+</nav>
+<button class="bg-primary-container text-white px-6 py-2 text-label-sm font-label-sm cursor-pointer active:opacity-80 transition-all duration-300">BOOK NOW</button>
+</div>
+</header>
+<main class="pt-24">
+<!-- Metadata Navigation -->
+<div class="w-full border-b border-outline-variant bg-surface">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="font-label-sm text-label-sm text-on-surface-variant tracking-widest">
+                    PIEZA 003 · BLACKWORK · 2024
+                </div>
+<div class="flex gap-12">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">← ANTERIOR</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">SIGUIENTE →</a>
+</div>
+</div>
+</div>
+<!-- Hero Section -->
+<section class="w-full">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+<div class="aspect-[16/9] w-full editorial-border overflow-hidden relative">
+<img alt="A high-contrast, moody, professional studio photograph of a large geometric blackwork tattoo on a person's forearm. The tattoo features an ouroboros design with sharp geometric patterns and deep black ink. Dark, moody lighting, subtle skin texture, desaturated tones, editorial style. High-end tattoo photography." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB99jFTRjQ6_EpjFQWM57_nNdcuJeTR86AAgBnAlm36EFWLDdnhf4VwpX32dGy7JcIRvsPoMnutZQNaSUFYriosKYFPug92Hmme7ivXMOnjyjec3cVnwOPBuTtSQkSyOG3FqQrz8vqPrp4YVvUImc4lpXnXk1yeogzTsvhqYSyb12owE-dyZ2jHV3VUjdfjdxseM3UGOCyjbthMbLRs_awbTseCjOTnV5gi-Pkrq6KmgmUxoUOIkwh4702d_xjklg5WNfKBx1bIW9g"/>
+</div>
+</div>
+</section>
+<!-- Content & Headline -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<div class="lg:col-span-8">
+<h1 class="font-display-lg text-4xl md:text-display-lg uppercase mb-4 text-on-surface">Ouroboros Descent</h1>
+<p class="font-label-sm text-label-sm text-primary tracking-[0.2em] mb-12">BLACKWORK · GEOMETRIC · EDITORIAL PIECE</p>
+<!-- Artist Notes -->
+<div class="space-y-8 max-w-3xl">
+<div>
+<h2 class="font-headline-md text-headline-md mb-4 text-on-surface">Simbolismo y Visión</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                                El concepto de Ouroboros Descent nace de la dualidad entre el ciclo infinito y el colapso geométrico. Representa no solo la renovación, sino la estructura matemática que subyace en la naturaleza. Cada escama fue diseñada para integrarse con la anatomía del brazo, creando un flujo visual que cambia según el movimiento.
+                            </p>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md mb-4 text-on-surface">Ejecución Técnica</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                                Realizado íntegramente con técnicas de saturación de negro sólido y sombreado de látigo (whip-shading) para las transiciones geométricas. El contraste extremo busca una legibilidad que perdure décadas, utilizando pigmentos de grado profesional para asegurar la profundidad del negro.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Data Grid (Sidebar-like on desktop) -->
+<div class="lg:col-span-4">
+<div class="editorial-border divide-y divide-outline-variant">
+<div class="grid grid-cols-2 divide-x divide-outline-variant">
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Agujas</p>
+<p class="font-label-sm text-label-sm text-on-surface">3RL, 14RS, 27CM</p>
+</div>
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Duración</p>
+<p class="font-label-sm text-label-sm text-on-surface">14 Horas</p>
+</div>
+</div>
+<div class="grid grid-cols-2 divide-x divide-outline-variant">
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Sesiones</p>
+<p class="font-label-sm text-label-sm text-on-surface">02</p>
+</div>
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Zona</p>
+<p class="font-label-sm text-label-sm text-on-surface">Antebrazo Ext.</p>
+</div>
+</div>
+<div class="grid grid-cols-2 divide-x divide-outline-variant">
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Tamaño</p>
+<p class="font-label-sm text-label-sm text-on-surface">22cm x 12cm</p>
+</div>
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Estilo</p>
+<p class="font-label-sm text-label-sm text-on-surface">Blackwork</p>
+</div>
+</div>
+<div class="grid grid-cols-2 divide-x divide-outline-variant">
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Año</p>
+<p class="font-label-sm text-label-sm text-on-surface">2024</p>
+</div>
+<div class="p-6">
+<p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">Estado</p>
+<p class="font-label-sm text-label-sm text-primary">Completado</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="bg-surface-container-low border-y border-outline-variant mb-section-gap">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-section-gap text-center">
+<span class="material-symbols-outlined text-primary mb-6 text-4xl">format_quote</span>
+<blockquote class="font-headline-lg text-headline-lg italic max-w-4xl mx-auto mb-8">
+                    "Una pieza que llevaba años imaginando. La ejecución superó mis expectativas, capturando exactamente la agresividad y elegancia que buscaba."
+                </blockquote>
+<cite class="font-label-sm text-label-sm text-on-surface-variant not-italic tracking-widest uppercase">— MARCUS V. / CLIENTE</cite>
+</div>
+</section>
+<!-- Related Works -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<div class="flex justify-between items-end mb-12">
+<h2 class="font-headline-lg text-headline-lg uppercase">Piezas Relacionadas</h2>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors border-b border-outline-variant pb-1" href="#">VER ARCHIVO COMPLETO</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Related 1 -->
+<div class="group cursor-pointer">
+<div class="editorial-border mb-4 overflow-hidden aspect-[3/4]">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A macro studio shot of a fine line tattoo featuring architectural sketches on a clean skin surface. High contrast black and white lighting, emphasizing the delicate ink lines and precise geometry. Editorial tattoo photography in a dark, minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnZkmpoTJ68DOwZPnEOJQkzy9ncy2SymX8BJEp3ObKNXMqnlyvOVFtqE-7UnBKJ1CS8MtVwGjKG3UultVYul34YOZ-VXsHfeXS6QJEfkk4KWLbhgAhmqybPwF6irwY8NCM-8vFFSVdTsS16wR6AYI6Jr7eKxgevrQrVqaglOiaRCEAf7axme8Da4a7tfzJHppBk8CdEiGQAECGYkHRJQc8Rar4RQwPlkMSK_elCsRoe9lQvTasWUjHNg8vJY7onUPb4CozhZtDIqY"/>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface-variant mb-1">FINE LINE · 2023</p>
+<h3 class="font-headline-md text-2xl uppercase group-hover:text-primary transition-colors">Fragmented Arch</h3>
+</div>
+<!-- Related 2 -->
+<div class="group cursor-pointer">
+<div class="editorial-border mb-4 overflow-hidden aspect-[3/4]">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A dark and moody editorial photograph of a massive realism tattoo on a back. The tattoo depicts a mythological scene with deep black shadows and stark white highlights. Technical precision, heavy ink saturation, professional studio lighting in an underground gallery aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrRXslWmWoc9J2Rpuq3Ulz02caQZN7carMHJ6NSEew99NFgskFPo_wNYENPctcESbdVxD8yDGziloAxs7snlZi9piViHPG37hvtaGgVxK8OpUCEMyG9wa5C2kDLxyanyeIk3SbP90ZzP92X9kUhDktEkYIeOrrSQEYwqAg3dXt3ajCQORX5DL-r3qa0xE4utStBKvyF66IUDdvn6067W7hL-jrfO4FwOMB3O8PGBTBKQwXs3Wf6zE3Uzy3I4ayF6iMS5Kur-a_iKs"/>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface-variant mb-1">REALISMO · 2024</p>
+<h3 class="font-headline-md text-2xl uppercase group-hover:text-primary transition-colors">Void Mythos</h3>
+</div>
+<!-- Related 3 -->
+<div class="group cursor-pointer">
+<div class="editorial-border mb-4 overflow-hidden aspect-[3/4]">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Technical blackwork tattoo on a thigh featuring abstract algorithmic patterns and sharp spikes. High-key contrast on dark skin, professional photography with sharp focus and cinematic atmosphere. Sophisticated underground tattoo culture vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRPQdJfFNBVPyMN7TJEYNNoizzDnx4UzEeOS4gSpvUL7kyxJsUkfoQXh05LHAeK3-jjiYTSovvS80uHRhAfAIirqcXqd7BPZnx0LK2Qr6-QDnCm1tndSISO_Dg-vuproXDlLo5QXRD9YqLcGNfvbHuPPIm0IoI79fjDyiZhXjRcxnYb7LlmXrE7aRfE2pJkIm0qlpQYSD4K7QA__i9ktUM68wHXhk68JCQhizltZf8fyxJmhciYThEYXzVdydl-yMpoFP_tRk3nvM"/>
+</div>
+<p class="font-label-sm text-[10px] text-on-surface-variant mb-1">BLACKWORK · 2023</p>
+<h3 class="font-headline-md text-2xl uppercase group-hover:text-primary transition-colors">Static Pulse</h3>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap text-center">
+<div class="editorial-border p-16 flex flex-col items-center">
+<h2 class="font-display-lg text-4xl md:text-5xl uppercase mb-8">¿Tienes un proyecto en mente?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12">
+                    Actualmente aceptando solicitudes para el último trimestre de 2024. Solo piezas de gran formato y temática oscura/geométrica.
+                </p>
+<button class="btn-scarlet px-12 py-6 font-label-sm text-body-md uppercase tracking-widest font-bold">
+                    SOLICITAR UNA PIEZA SIMILAR
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant mt-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter px-margin-desktop py-section-gap w-full max-w-container-max mx-auto">
+<div class="space-y-6">
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface">SUBA TATTOO</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+                    Estudio privado especializado en la intersección del arte brutalista y la modificación corporal de alta precisión.
+                </p>
+</div>
+<div class="flex flex-col space-y-4">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-200" href="#">INSTAGRAM</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-200" href="#">FACEBOOK</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-200" href="#">TWITTER</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">LOCATION: LONDON UK</span>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-200" href="#">PRIVACY POLICY</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary hover:underline transition-all duration-200" href="#">TERMS OF SERVICE</a>
+<div class="pt-8 font-label-sm text-[10px] text-on-surface-variant/50">
+                    © 2024 SUBA TATTOO. ALL RIGHTS RESERVED.
+                </div>
+</div>
+</div>
+</footer>
+<script>
+        // Smooth scroll reveal logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+                observer.observe(section);
+            });
+        });
+    </script>
+</body></html>

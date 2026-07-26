@@ -1,0 +1,92 @@
+{
+  "sections": [
+    {
+      "category_label": "INFORMACIÓ",
+      "page_title": "Preguntes Freqüents",
+      "page_subtitle": "El nostre estudi opera sota estàndards de rigor tècnic i excel·lència artística. Resolem els teus dubtes sobre el procés quirúrgic i creatiu de la teva propera peça.",
+      "questions": [
+        {
+          "question": "Quant costa?",
+          "answer": "El cost mínim per sessió és de 150€. El preu final es determina avaluant la complexitat tècnica, la mida exacta i la ubicació anatòmica del disseny. Oferim pressupostos personalitzats després de la consulta inicial."
+        },
+        {
+          "question": "Quant triga la cicatrització?",
+          "answer": "La regeneració epidèrmica superficial triga entre 2 i 3 setmanes. La dermis, però, completa la seva estabilització interna al cap d'uns 45 a 60 dies."
+        },
+        {
+          "question": "Fa mal?",
+          "answer": "La percepció del dolor és subjectiva i varia segons la zona. Utilitzem tècniques d'aplicació precises per minimitzar el trauma tissular. Estar ben hidratat i haver menjat redueix la sensibilitat."
+        },
+        {
+          "question": "Accepteu walk-ins?",
+          "answer": "Principalment treballem amb cita per garantir la preparació de l'estudi. De vegades tenim espais disponibles per a peces petites; recomanem trucar abans o revisar les nostres stories."
+        },
+        {
+          "question": "Puc portar el meu propi disseny?",
+          "answer": "Acceptem referències, però els nostres artistes sempre reinterpretaran la idea segons el seu estil personal i criteris tècnics de durabilitat per garantir una peça d'alt nivell."
+        },
+        {
+          "question": "Com cuido el meu tatuatge nou?",
+          "answer": "Les cures són essencials. Inclouen rentar amb sabó neutre, aplicar una capa fina de pomada específica i evitar el sol directe o la immersió en aigua (piscines/mar) durant 15 dies."
+        },
+        {
+          "question": "Feu repàs gratuït?",
+          "answer": "Oferim un repàs de cortesia durant els primers 2 mesos si l'artista ho considera necessari, sempre que s'hagin seguit rigorosament les instruccions de cura post-sessió."
+        },
+        {
+          "question": "Quina és la política de cancel·lació?",
+          "answer": "Els dipòsits no són reemborsables. Es requereix un avís d'almenys 48 hores per reprogramar una cita sense perdre el dipòsit inicial."
+        }
+      ]
+    },
+    {
+      "category_label": "MANTENIMENT",
+      "page_title": "Cures Post-Sessió",
+      "page_subtitle": "Les cures posteriors determinen com envelleix el teu tatuatge. Segueix aquest protocol al peu de la lletra durant les primeres setmanes.",
+      "care_steps": [
+        {
+          "step_number": 1,
+          "title": "Neteja",
+          "description": "Rentar 3 vegades al dia amb sabó neutre i aigua tèbia. Assecar amb tocs suaus amb paper d'un sol ús."
+        },
+        {
+          "step_number": 2,
+          "title": "Hidratació",
+          "description": "Aplicar una capa molt fina de pomada recomanada. La pell ha de respirar; evita l'excés de producte."
+        },
+        {
+          "step_number": 3,
+          "title": "Protecció",
+          "description": "Evitar el sol, piscines, gimnasos i roba ajustada durant els primers 10 dies per prevenir infeccions."
+        },
+        {
+          "step_number": 4,
+          "title": "Seguiment",
+          "description": "Qualsevol dubte tècnic després de la sessió s'ha de consultar directament amb l'estudi via WhatsApp."
+        }
+      ]
+    },
+    {
+      "category_label": "HIGIENE",
+      "page_title": "Protocol d'Esterilització",
+      "page_subtitle": "La seguretat del client no és negociable. Aquests són els estàndards quirúrgics que apliquem en cada sessió.",
+      "protocol_items": [
+        {
+          "icon": "sanitizer",
+          "title": "Esterilització",
+          "description": "Autoclau de grau mèdic i processos de desinfecció química d'alt nivell a totes les superfícies de contacte."
+        },
+        {
+          "icon": "medical_services",
+          "title": "Material D'un Sol Ús",
+          "description": "Agulles, cartutxos, camps i proteccions són 100% d'un sol ús i s'obren davant del client a cada sessió."
+        },
+        {
+          "icon": "shield",
+          "title": "Estudi Asèptic",
+          "description": "Mantenim un ambient controlat sota normatives sanitàries estrictes, garantint un espai lliure de contaminants."
+        }
+      ]
+    }
+  ]
+}

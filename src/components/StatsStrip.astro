@@ -1,0 +1,96 @@
+---
+interface Stat {
+  number: string;
+  label: string;
+}
+
+interface Props {
+  stats: Stat[];
+}
+
+const { stats } = Astro.props;
+
+const parseStat = (raw: string): { target: number; suffix: string } => {
+  const match = raw.match(/^(\d+)(.*)$/);
+  if (!match) return { target: 0, suffix: raw };
+  return { target: parseInt(match[1], 10), suffix: match[2] };
+};
+---
+
+<section class="border-b border-outline-variant py-16 bg-surface-container-lowest">
+  <div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-8">
+    {stats.map((stat) => {
+      const { target, suffix } = parseStat(stat.number);
+      return (
+        <div
+          class:list={[
+            "flex flex-col items-center md:items-start text-center md:text-left border-outline-variant md:border-r last:border-r-0 pr-0 md:pr-8",
+          ]}
+          data-reveal
+        >
+          <span
+            class="font-headline-lg text-headline-lg text-on-surface leading-none mb-2 stat-counter"
+            data-counter={target}
+            data-suffix={suffix}
+            aria-live="polite"
+          >
+            <span class="stat-counter__value">0</span><span class="stat-counter__suffix">{suffix}</span>
+          </span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">
+            {stat.label}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const easeOutExpo = (t: number): number =>
+    t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+
+  const animateCounter = (el: HTMLElement) => {
+    const target = Number(el.dataset.counter ?? "0");
+    const valueEl = el.querySelector<HTMLElement>(".stat-counter__value");
+    if (!valueEl) return;
+
+    if (reduceMotion || target === 0) {
+      valueEl.textContent = String(target);
+      return;
+    }
+
+    const duration = 1500;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutExpo(progress);
+      const current = Math.round(target * eased);
+      valueEl.textContent = String(current);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        valueEl.textContent = String(target);
+      }
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        animateCounter(el);
+        observer.unobserve(el);
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  document.querySelectorAll<HTMLElement>(".stat-counter").forEach((el) => observer.observe(el));
+</script>

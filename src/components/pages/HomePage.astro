@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Hero from "../../components/Hero.astro";
+import Marquee from "../../components/Marquee.astro";
+import FilosofiaSection from "../../components/FilosofiaSection.astro";
+import GallerySection from "../../components/GallerySection.astro";
+import ProcessSection from "../../components/ProcessSection.astro";
+import ContactSection from "../../components/ContactSection.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import { useTranslations } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+const t = useTranslations(locale);
+---
+
+<Layout title={t("meta.home.title")} description={t("meta.home.description")} ogType="website">
+  <TopBar />
+  <main id="main" class="pt-24 scroll-mt-24">
+    <Hero />
+    <Marquee />
+    <FilosofiaSection />
+    <GallerySection />
+    <ProcessSection />
+    <ContactSection />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

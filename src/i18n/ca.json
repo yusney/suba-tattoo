@@ -1,0 +1,234 @@
+{
+  "nav": {
+    "gallery": "Galeria",
+    "process": "Procés",
+    "about": "Filosofia",
+    "contact": "Contacte",
+    "cta": "Sol·licitar Valoració"
+  },
+  "switcher": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English",
+    "ca": "Català"
+  },
+  "hero": {
+    "tagline": "Barcelona · Underground Studio",
+    "title_line1": "Tatuatges Personalitzats",
+    "title_line2": "& Art Únic",
+    "subtitle": "Realisme, Blackwork, Color i Fine Line. Dissenys concebuts a mida per a cada anatomia. Fusionem la precisió tècnica amb la cruesa artística.",
+    "cta_primary": "Sol·licitar Valoració",
+    "cta_secondary": "Explorar Portafoli",
+    "scroll": "Desplaça per explorar"
+  },
+  "filosofia": {
+    "title": "L'Art de la Marca Permanent",
+    "body": "Treballo estils tan diversos com realisme, blackwork, color i fine line. La meva filosofia es basa en una convicció: el tatuatge no és només una imatge, sinó una peça d'arquitectura corporal que ha de fluir amb el moviment i l'essència de qui el porta.",
+    "card1_title": "Composició i Anatomia",
+    "card1_body": "Anàlisi del flux muscular perquè el disseny s'adapti orgànicament al cos.",
+    "card2_title": "Higiene i Tècnica Rigorosa",
+    "card2_body": "Estàndards quirúrgics i materials d'altíssima gamma per a la teva seguretat.",
+    "card3_title": "Assessorament Personalitzat",
+    "card3_body": "Consultoria profunda per transformar la teva idea en una obra perpètua."
+  },
+  "gallery": {
+    "title": "Arxiu d'Obres",
+    "subtitle": "Selecció curada de projectes recents",
+    "filter_all": "Tots"
+  },
+  "process": {
+    "title": "El Camí de la Tinta",
+    "step1_number": "01",
+    "step1_title": "Valoració Prèvia",
+    "step1_body": "Entrevista inicial per entendre la teva visió, anatomia i expectatives. Definim estil, mida i ubicació tècnica.",
+    "step2_number": "02",
+    "step2_title": "Disseny Personalitzat",
+    "step2_body": "Creació de la peça exclusiva. Ajustem cada traç digitalment sobre la teva anatomia real per a un encaix perfecte.",
+    "step3_number": "03",
+    "step3_title": "Sessió i Cures",
+    "step3_body": "Execució amb precisió tècnica en un entorn asèptic. T'acompanyem en el protocol de curació post-sessió."
+  },
+  "contact": {
+    "title": "Inicia el teu Projecte",
+    "subtitle": "Explica'ns la teva idea. Et respondrem per concertar una consultoria tècnica.",
+    "label_name": "Nom Complet",
+    "label_email": "Correu de Contacte",
+    "label_body": "Zona del Cos & Mida aprox.",
+    "label_style": "Estil Desitjat",
+    "label_description": "Descripció de la Idea",
+    "style_option_realismo": "Realisme",
+    "style_option_blackwork": "Blackwork / Dark Art",
+    "style_option_fineline": "Fine Line / Minimal",
+    "style_option_color": "Color / Il·lustratiu",
+    "submit": "Enviar Sol·licitud"
+  },
+  "marquee": {
+    "styles": ["BLACKWORK", "REALISME", "FINE LINE", "COLOR", "GEOMÈTRIC", "DARK ART"]
+  },
+  "footer": {
+    "studio_suffix": " STUDIO",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "ubicacion": "Ubicació",
+    "privacidad": "Privacitat",
+    "copyright_prefix": "© "
+  },
+  "common": {
+    "back": "Tornar",
+    "next": "Següent",
+    "previous": "Anterior",
+    "loading": "Carregant…"
+  },
+  "a11y": {
+    "skip_to_content": "Salta al contingut principal",
+    "section_marker_format": "{current} / {total}"
+  },
+  "site_meta": {
+    "default_title": "SUBA TATTOO | Technical Precision. Artistic Rawness.",
+    "default_description": "Estudi de tatuatge underground a Barcelona. Realisme, Blackwork, Color i Fine Line. Dissenys personalitzats amb precisió tècnica i cruesa artística."
+  },
+  "meta": {
+    "og": {
+      "site_name": "SUBA TATTOO",
+      "locale_es": "es_ES",
+      "locale_en": "en_US",
+      "locale_ca": "ca_ES"
+    },
+    "home": {
+      "title": "SUBA TATTOO — Tatuatges Personalitzats Barcelona",
+      "description": "Realisme, Blackwork, Color i Fine Line. Dissenys concebuts a mida per a cada anatomia. Estudi a Barcelona."
+    },
+    "sobre": {
+      "title": "Sobre l'Estudi — SUBA TATTOO Barcelona",
+      "description": "10+ anys d'experiència en tatuatge professional. Realisme, blackwork, fine line i color."
+    },
+    "reserva": {
+      "title": "Reserva la teva Sessió — SUBA TATTOO Barcelona",
+      "description": "Sol·licita una valoració per al teu proper tatuatge. Consulta inicial gratuïta, sessió completa o touch-up."
+    },
+    "faq": {
+      "title": "FAQ & Cures — SUBA TATTOO Barcelona",
+      "description": "Preguntes freqüents sobre tatuatges, cures post-sessió, protocol d'higiene i reserves."
+    },
+    "detalle": {
+      "title_suffix": " — SUBA TATTOO Barcelona"
+    }
+  },
+  "sobre": {
+    "page_title_suffix": " · Sobre l'Estudi | ",
+    "filosofia_tab": "FILOSOFIA",
+    "filosofia_section_title": "L'Arquitectura del Cos",
+    "filosofia_card1_title": "Disseny Estructural",
+    "filosofia_card1_body": "Cada disseny es crea específicament per adaptar-se a la curvatura i al flux muscular de l'àrea triada, garantint una distorsió mínima amb el pas del temps.",
+    "filosofia_card2_title": "Longevitat Tècnica",
+    "filosofia_card2_body": "Utilitzem pigments de grau mèdic i tècniques d'injecció que prioritzen l'estabilitat del tatuatge a llarg termini, evitant el blur prematur.",
+    "styles_portfolio_label": "PORTFOLI",
+    "styles_title": "Estils Dominats",
+    "styles_subtitle": "Especialització tècnica en corrents contemporànies i clàssiques del tatuatge underground.",
+    "featured_in_label": "Featured In / Premsa"
+  },
+  "reserva": {
+    "page_title": "Reserva la teva Sessió | ",
+    "page_description": "Sol·licita una consultoria tècnica per a la teva propera peça. Sessions completes, consultes inicials i touch-ups a l'estudi SUBA TATTOO Barcelona.",
+    "eyebrow": "RESERVA · 01",
+    "title": "Inicia el teu Projecte",
+    "subtitle": "Cada tatuatge és una col·laboració tècnica i artística. Omple el formulari per enviar-nos la teva proposta. Revisem totes les sol·licituds personalment en un termini màxim de 48 hores.",
+    "policy_title": "Política de Reserva Tècnica",
+    "policy_bullets": [
+      {
+        "number": "01",
+        "title": "Dipòsit",
+        "body": "Es requereix un dipòsit del 30% del pressupost per confirmar la data i començar el disseny."
+      },
+      {
+        "number": "02",
+        "title": "Cancel·lacions",
+        "body": "Canvis de data permesos amb 72h d'antelació. Les cancel·lacions posteriors comporten la pèrdua del dipòsit."
+      },
+      {
+        "number": "03",
+        "title": "Propietat Intel·lectual",
+        "body": "Els dissenys personalitzats són propietat de l'estudi fins a l'execució final de la peça."
+      }
+    ],
+    "form": {
+      "title": "Detalls del Projecte",
+      "label_name": "Nom Complet",
+      "placeholder_name": "P. EX. JÚLIA ALBA",
+      "label_email": "Correu",
+      "placeholder_email": "HELLO@DOMINI.COM",
+      "label_phone": "Telèfon / WhatsApp",
+      "placeholder_phone": "+34 600 000 000",
+      "label_style": "Estil Desitjat",
+      "style_options": [
+        "BLACKWORK / BRUTALISTA",
+        "TRADICIONAL AMERICÀ",
+        "FINE LINE",
+        "DOTWORK / GEOMÈTRIC",
+        "ALTRES ESTILS"
+      ],
+      "label_zone": "Zona del Cos",
+      "placeholder_zone": "P. EX. AVANTBRAÇ EXTERIOR",
+      "label_size": "Mida (Aprox. cm)",
+      "placeholder_size": "P. EX. 15X10 CM",
+      "label_date": "Data Preferida",
+      "label_description": "Descripció de la Idea",
+      "placeholder_description": "EXPLICA'NS LA TEVA VISIÓ, REFERÈNCIES I QUALSEVOL DETALL TÈCNIC...",
+      "submit": "Enviar Sol·licitud",
+      "legal": "En enviar, acceptes el tractament de les teves dades per a la gestió de la cita."
+    },
+    "sessions": {
+      "phase1_label": "Fase 01",
+      "phase1_title": "Consulta Inicial",
+      "phase1_body": "Discussió presencial o digital sobre el concepte, dimensions i ubicació.",
+      "phase1_price": "GRATUÏT",
+      "phase1_duration": "30 MINUTS",
+      "recommended_badge": "Recomanat",
+      "phase2_label": "Fase 02",
+      "phase2_title": "Sessió Completa",
+      "phase2_body": "Per a projectes mitjans i grans. Inclou disseny personalitzat i execució final.",
+      "phase2_price": "DES DE 200€",
+      "phase2_duration": "3-6 HORES",
+      "phase3_label": "Manteniment",
+      "phase3_title": "Touch-up / Petit",
+      "phase3_body": "Repassos de peces existents o dissenys minimalistes d'execució ràpida.",
+      "phase3_price": "DES DE 80€",
+      "phase3_duration": "1 HORA"
+    },
+    "image_alt": "Estudi privat de tatuatge, ambient fosc i eines professionals sobre formigó vist",
+    "studio_identity": "Studio Identity"
+  },
+  "faq": {
+    "page_title_suffix": " | ",
+    "care_label_default": "MANTENIMENT",
+    "care_title_default": "Cures Post-Sessió",
+    "hygiene_label_default": "HIGIENE",
+    "hygiene_title_default": "Protocol d'Esterilització",
+    "cta_title": "Llest per marcar la teva pell?",
+    "cta_button": "Sol·licitar la meva Sessió"
+  },
+  "detalle": {
+    "prev": "Anterior",
+    "next": "Següent",
+    "piece_label": "Peça ",
+    "editorial_label": "Editorial Piece",
+    "notes_title": "Notes de l'Artista",
+    "related_title": "Peces Relacionades",
+    "view_all": "Veure Arxiu Complet",
+    "field_needles": "Agulles",
+    "field_duration": "Durada",
+    "field_sessions": "Sessions",
+    "field_body_part": "Zona",
+    "field_size": "Mida",
+    "field_style": "Estil",
+    "field_year": "Any",
+    "field_status": "Estat",
+    "status_value": "Completat",
+    "hours_suffix": " Hores",
+    "size_suffix": " cm",
+    "client_suffix": " / Clienta",
+    "bottom_title": "Tens un projecte al cap?",
+    "bottom_body": "Acceptem sol·licituds per a sessions personalitzades. Explica'ns la teva visió i la convertirem en arquitectura corporal.",
+    "bottom_cta": "Sol·licitar una Peça Similar"
+  }
+}

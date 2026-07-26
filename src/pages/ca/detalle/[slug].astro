@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import DetallePage from "../../../components/pages/DetallePage.astro";
+
+export async function getStaticPaths() {
+  const all = await getCollection("tattoos");
+  const slugs = Array.from(new Set(all.map((e) => e.data.slug)));
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<DetallePage locale="ca" slug={slug as string} />

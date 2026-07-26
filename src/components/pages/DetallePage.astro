@@ -1,0 +1,130 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import DetalleMeta from "../../components/DetalleMeta.astro";
+import DetalleHero from "../../components/DetalleHero.astro";
+import DetalleTitle from "../../components/DetalleTitle.astro";
+import DetalleMetadata from "../../components/DetalleMetadata.astro";
+import DetalleNotes from "../../components/DetalleNotes.astro";
+import DetalleTestimonial from "../../components/DetalleTestimonial.astro";
+import DetalleRelated from "../../components/DetalleRelated.astro";
+import { getSiteSettings } from "../../lib/site";
+import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props as Props;
+
+const allTattoos = await getCollection("tattoos");
+const localeTattoos = allTattoos
+  .filter((e) => e.data.locale === locale)
+  .sort((a, b) => +b.data.date - +a.data.date);
+
+const entry = localeTattoos.find((e) => e.data.slug === slug);
+if (!entry) {
+  throw new Error(`[DetallePage] No tattoo "${slug}" for locale "${locale}"`);
+}
+const idx = localeTattoos.findIndex((e) => e.data.slug === slug);
+const prev = idx > 0 ? localeTattoos[idx - 1] : null;
+const next = idx < localeTattoos.length - 1 ? localeTattoos[idx + 1] : null;
+const data = entry.data;
+
+const t = useTranslations(locale);
+const pieceNumber = `${t("detalle.piece_label")}${String(idx + 1).padStart(3, "0")}`;
+
+const settings = await getSiteSettings(locale);
+
+const related = localeTattoos
+  .filter((e) => e.data.slug !== slug)
+  .slice(0, 3)
+  .map((e) => ({
+    slug: e.data.slug,
+    title: e.data.title,
+    style: e.data.style,
+    year: e.data.year,
+    image: e.data.image,
+    alt_text: e.data.alt_text,
+  }));
+
+const subtitleParts = [data.style, data.category, t("detalle.editorial_label")];
+const subtitle = subtitleParts.filter(Boolean).join(" · ");
+const pageTitle = `${data.title}${t("meta.detalle.title_suffix")}`;
+const pageDescription = (data.description ?? settings.about_short).slice(0, 160);
+
+const toHref = (s: string) =>
+  locale === DEFAULT_LOCALE ? `/detalle/${s}` : `/${locale}/detalle/${s}`;
+const prevLink = prev
+  ? { slug: prev.data.slug, title: prev.data.title, style: prev.data.style, year: prev.data.year, href: toHref(prev.data.slug) }
+  : null;
+const nextLink = next
+  ? { slug: next.data.slug, title: next.data.title, style: next.data.style, year: next.data.year, href: toHref(next.data.slug) }
+  : null;
+
+const relatedItems = related.map((r) => ({ ...r, href: toHref(r.slug) }));
+const archiveHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
+const reservaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+---
+
+<Layout title={pageTitle} description={pageDescription} ogType="article">
+  <TopBar />
+  <main id="main" class="pt-24 scroll-mt-24">
+    <DetalleMeta
+      pieceNumber={pieceNumber}
+      style={data.style}
+      year={data.year}
+      prev={prevLink}
+      next={nextLink}
+    />
+    <DetalleHero image={data.image} alt={data.alt_text} />
+    <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+        <div class="lg:col-span-8">
+          <DetalleTitle title={data.title} subtitle={subtitle} />
+          <DetalleNotes description={data.description} />
+        </div>
+        <div class="lg:col-span-4">
+          <DetalleMetadata
+            needles={data.needles}
+            durationHours={data.duration_hours}
+            sessions={data.sessions}
+            bodyPart={data.body_part}
+            sizeCm={data.size_cm}
+            style={data.style}
+            year={data.year}
+          />
+        </div>
+      </div>
+    </section>
+    {data.testimonial && (
+      <DetalleTestimonial testimonial={data.testimonial} clientName={data.client_name} />
+    )}
+    {relatedItems.length > 0 && (
+      <DetalleRelated items={relatedItems} archiveHref={archiveHref} />
+    )}
+    <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap text-center">
+      <div class="border border-outline-variant p-16 flex flex-col items-center" data-reveal>
+        <h2 class="font-display-lg text-4xl md:text-5xl uppercase mb-8">{t("detalle.bottom_title")}</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12">
+          {t("detalle.bottom_body")}
+        </p>
+        <a
+          href={reservaHref}
+          class="bg-primary text-on-primary px-12 py-6 font-label-sm text-body-md uppercase tracking-widest font-bold hover:bg-primary-fixed hover:text-surface transition-[background-color,color] touch-manipulation"
+        >
+          {t("detalle.bottom_cta")}
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

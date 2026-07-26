@@ -1,0 +1,430 @@
+# ============================================================================
+# BACKEND
+# ----------------------------------------------------------------------------
+# Production: GitHub backend (requires OAuth app — see DEPLOY.md).
+# Local dev:   git-gateway + decap-server on port 8081 (run `pnpm run cms-dev`).
+# ============================================================================
+backend:
+  name: github
+  repo: yusney/suba-tattoo
+  branch: main
+  base_url: https://suba.donduque.dev
+  auth_endpoint: api
+
+local_backend:
+  name: git-gateway
+  proxy_url: http://localhost:8081/api/v1
+
+media_folder: "public/images"
+public_folder: "/images"
+
+publish_mode: editorial_workflow
+
+# ---------------------------------------------------------------------------
+# i18n notes
+# ---------------------------------------------------------------------------
+# The site ships in three locales: `es` (default), `en`, `ca`. Every
+# translatable collection stores one entry per locale. The shape of the data
+# is identical across locales — only the strings inside change.
+#
+# - `tattoos`   → one Markdown file per (locale, slug), folder structure
+#                `src/content/tattoos/<locale>/<slug>.md`. The locale is also
+#                a field on the frontmatter so pages can filter.
+# - `faq`       → one JSON file per locale: `src/content/faq/{es,en,ca}.json`.
+# - `sobre`     → `src/content/sobre/{es,en,ca}.json`.
+# - `site_settings` → `src/content/settings/{es,en,ca}.json`.
+#
+# URL scheme:
+#   /                       Spanish (default, no prefix)
+#   /en/...                 English
+#   /ca/...                 Catalan
+#
+# Translation strings that do NOT live in content (nav, hero, footer, etc.)
+# live in `src/i18n/<locale>.json` and are looked up via `useTranslations()`
+# from `src/lib/i18n.ts`. They are not editable from the CMS by design —
+# the pull-request flow keeps translators consistent across the JSON file
+# and any in-page content, and keeps the schema in sync.
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Collections
+# ---------------------------------------------------------------------------
+collections:
+  # ============================== TATTOOS ==============================
+  - name: "tattoos"
+    label: "Tatuajes · Galería"
+    label_singular: "Tatuaje"
+    folder: "src/content/tattoos"
+    create: true
+    delete: true
+    slug: "{{year}}-{{slug}}"
+    summary: "{{title}} — {{category}} · {{year}} · [{{locale | upper}}]"
+    sortable_fields: ["date", "title", "category", "style", "year", "featured"]
+    view_filters:
+      - label: "Destacados"
+        field: "featured"
+        pattern: true
+      - label: "Año actual"
+        field: "year"
+        pattern: "{{year}}"
+      - label: "Idioma · Español"
+        field: "locale"
+        pattern: "es"
+      - label: "Idioma · Inglés"
+        field: "locale"
+        pattern: "en"
+      - label: "Idioma · Catalán"
+        field: "locale"
+        pattern: "ca"
+    view_groups:
+      - label: "Año"
+        field: "year"
+      - label: "Idioma"
+        field: "locale"
+    fields:
+      - { name: "locale",        label: "Idioma",                   widget: "select", options: ["es", "en", "ca"], hint: "Determina en qué carpeta se guardará el archivo (src/content/tattoos/<locale>/)." }
+      - { name: "title",         label: "Título",                  widget: "string" }
+      - { name: "slug",          label: "Slug (URL)",              widget: "string", hint: "Identificador único, sin espacios. Ej: ouroboros-descent" }
+      - { name: "date",          label: "Fecha de la sesión",      widget: "datetime", picker_utc: false, format: "YYYY-MM-DD HH:mm" }
+      - { name: "year",          label: "Año",                     widget: "number", value_type: "int", min: 2014, max: 2100 }
+      - name: "style"
+        label: "Estilo técnico"
+        widget: "select"
+        options:
+          - "Blackwork"
+          - "Realismo"
+          - "Fine Line"
+          - "Illustrative Color"
+          - "Geométrico"
+          - "Dark Art"
+      - name: "category"
+        label: "Categoría (filtro de galería)"
+        widget: "select"
+        options:
+          - "Blackwork"
+          - "Realismo"
+          - "Fine Line"
+          - "Color"
+        hint: "Determina en qué chip de filtro aparece esta pieza."
+      - { name: "featured",      label: "Destacado (tarjeta grande)", widget: "boolean", default: false, hint: "Solo una pieza debe estar destacada a la vez." }
+      - name: "image"
+        label: "Imagen principal"
+        widget: "image"
+        allow_multiple: false
+        media_library:
+          config:
+            multiple: false
+        hint: "Sube a public/images/tattoos/. Recomendado: 1600x1000 (feature) o 1200x1200 (cuadrado)."
+      - { name: "alt_text",      label: "Texto alternativo (a11y)", widget: "string", hint: "Describe la pieza para lectores de pantalla. Obligatorio." }
+      - { name: "client_name",   label: "Nombre del cliente",      widget: "string", required: false }
+      - { name: "needles",       label: "Agujas (ej: 7RL, 9RL, 14RM)", widget: "string", required: false }
+      - { name: "duration_hours", label: "Duración (horas)",       widget: "number", value_type: "float", required: false, min: 0 }
+      - { name: "sessions",      label: "Sesiones",                widget: "number", value_type: "int", default: 1, min: 1 }
+      - { name: "body_part",     label: "Zona del cuerpo",         widget: "string", required: false, hint: "Ej: Antebrazo externo, Espalda alta, Gemelo" }
+      - { name: "size_cm",       label: "Tamaño (cm)",             widget: "string", required: false, hint: "Ej: 18x22, 25x30" }
+      - { name: "description",   label: "Notas del artista (página de detalle)", widget: "text", required: false }
+      - { name: "testimonial",   label: "Testimonio del cliente",  widget: "text", required: false }
+
+  # ============================== FAQ ==============================
+  - name: "faq"
+    label: "FAQ & Cuidados"
+    label_singular: "Sección FAQ"
+    files:
+      - name: "es"
+        label: "FAQ & Cuidados · Español"
+        file: "src/content/faq/es.json"
+        fields:
+          - name: "sections"
+            label: "Secciones"
+            widget: "list"
+            summary: "{{fields.category_label}} — {{fields.page_title}}"
+            fields:
+              - { name: "category_label", label: "Etiqueta superior (JetBrains Mono)", widget: "string", hint: "Ej: INFORMACIÓN, MANTENIMIENTO, HIGIENE" }
+              - { name: "page_title",     label: "Título de página (Syne headline)",  widget: "string" }
+              - { name: "page_subtitle",  label: "Subtítulo / bajada",                widget: "text" }
+              - name: "questions"
+                label: "Preguntas (acordeón)"
+                widget: "list"
+                required: false
+                summary: "{{fields.question}}"
+                fields:
+                  - { name: "question", label: "Pregunta",  widget: "string" }
+                  - { name: "answer",   label: "Respuesta", widget: "text" }
+              - name: "care_steps"
+                label: "Pasos de cuidados (timeline)"
+                widget: "list"
+                required: false
+                summary: "{{fields.step_number}} · {{fields.title}}"
+                fields:
+                  - { name: "step_number", label: "Nº de paso", widget: "number", value_type: "int", min: 1, max: 4 }
+                  - { name: "title",       label: "Título",    widget: "string" }
+                  - { name: "description", label: "Descripción", widget: "text" }
+              - name: "protocol_items"
+                label: "Items de protocolo (higiene)"
+                widget: "list"
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - name: "icon"
+                    label: "Ícono (Material Symbols)"
+                    widget: "select"
+                    options:
+                      - "cleaning_services"
+                      - "medical_services"
+                      - "shield"
+                      - "local_hospital"
+                      - "sanitizer"
+                  - { name: "title",       label: "Título",      widget: "string" }
+                  - { name: "description", label: "Descripción", widget: "text" }
+      - name: "en"
+        label: "FAQ & Cuidados · English"
+        file: "src/content/faq/en.json"
+        fields:
+          - name: "sections"
+            label: "Sections"
+            widget: "list"
+            summary: "{{fields.category_label}} — {{fields.page_title}}"
+            fields:
+              - { name: "category_label", label: "Eyebrow label (JetBrains Mono)", widget: "string", hint: "E.g. INFORMATION, AFTERCARE, HYGIENE" }
+              - { name: "page_title",     label: "Page title (Syne headline)",    widget: "string" }
+              - { name: "page_subtitle",  label: "Subtitle / standfirst",         widget: "text" }
+              - name: "questions"
+                label: "Questions (accordion)"
+                widget: "list"
+                required: false
+                summary: "{{fields.question}}"
+                fields:
+                  - { name: "question", label: "Question",  widget: "string" }
+                  - { name: "answer",   label: "Answer",    widget: "text" }
+              - name: "care_steps"
+                label: "Aftercare steps (timeline)"
+                widget: "list"
+                required: false
+                summary: "{{fields.step_number}} · {{fields.title}}"
+                fields:
+                  - { name: "step_number", label: "Step number", widget: "number", value_type: "int", min: 1, max: 4 }
+                  - { name: "title",       label: "Title",       widget: "string" }
+                  - { name: "description", label: "Description", widget: "text" }
+              - name: "protocol_items"
+                label: "Protocol items (hygiene)"
+                widget: "list"
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - name: "icon"
+                    label: "Icon (Material Symbols)"
+                    widget: "select"
+                    options:
+                      - "cleaning_services"
+                      - "medical_services"
+                      - "shield"
+                      - "local_hospital"
+                      - "sanitizer"
+                  - { name: "title",       label: "Title",       widget: "string" }
+                  - { name: "description", label: "Description", widget: "text" }
+      - name: "ca"
+        label: "FAQ & Cuidados · Català"
+        file: "src/content/faq/ca.json"
+        fields:
+          - name: "sections"
+            label: "Seccions"
+            widget: "list"
+            summary: "{{fields.category_label}} — {{fields.page_title}}"
+            fields:
+              - { name: "category_label", label: "Etiqueta superior (JetBrains Mono)", widget: "string", hint: "Ex.: INFORMACIÓ, MANTENIMENT, HIGIENE" }
+              - { name: "page_title",     label: "Títol de pàgina (Syne headline)",   widget: "string" }
+              - { name: "page_subtitle",  label: "Subtítol / baixada",               widget: "text" }
+              - name: "questions"
+                label: "Preguntes (acordió)"
+                widget: "list"
+                required: false
+                summary: "{{fields.question}}"
+                fields:
+                  - { name: "question", label: "Pregunta",  widget: "string" }
+                  - { name: "answer",   label: "Resposta",  widget: "text" }
+              - name: "care_steps"
+                label: "Passos de cures (timeline)"
+                widget: "list"
+                required: false
+                summary: "{{fields.step_number}} · {{fields.title}}"
+                fields:
+                  - { name: "step_number", label: "Nº de pas", widget: "number", value_type: "int", min: 1, max: 4 }
+                  - { name: "title",       label: "Títol",     widget: "string" }
+                  - { name: "description", label: "Descripció", widget: "text" }
+              - name: "protocol_items"
+                label: "Ítems de protocol (higiene)"
+                widget: "list"
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - name: "icon"
+                    label: "Icona (Material Symbols)"
+                    widget: "select"
+                    options:
+                      - "cleaning_services"
+                      - "medical_services"
+                      - "shield"
+                      - "local_hospital"
+                      - "sanitizer"
+                  - { name: "title",       label: "Títol",      widget: "string" }
+                  - { name: "description", label: "Descripció", widget: "text" }
+
+  # ============================== SOBRE ==============================
+  - name: "sobre"
+    label: "Sobre el Artista"
+    label_singular: "Sobre el Artista"
+    files:
+      - name: "es"
+        label: "Sobre · Español"
+        file: "src/content/sobre/es.json"
+        fields:
+          - { name: "artist_name",     label: "Nombre artístico", widget: "string", default: "Joshua Jiménez Buendía" }
+          - { name: "artist_subtitle", label: "Subtítulo",       widget: "string", default: "ARTIST · BARCELONA · 2014 — PRESENTE" }
+          - name: "intro_text"
+            label: "Texto introductorio (párrafos separados por línea en blanco)"
+            widget: "text"
+            hint: "Cada párrafo en una línea separada por un salto de línea en blanco."
+          - name: "stats"
+            label: "Estadísticas (4 entradas)"
+            widget: "list"
+            summary: "{{fields.number}} · {{fields.label}}"
+            fields:
+              - { name: "number", label: "Número / cifra", widget: "string" }
+              - { name: "label",  label: "Etiqueta",       widget: "string" }
+          - name: "filosofia_text"
+            label: "Texto de filosofía (párrafos separados por línea en blanco)"
+            widget: "text"
+          - name: "styles"
+            label: "Estilos dominados (6 entradas)"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name",        label: "Nombre del estilo",  widget: "string" }
+              - { name: "description", label: "Descripción corta",  widget: "text" }
+              - { name: "image",       label: "Imagen (opcional)",  widget: "image", required: false }
+          - name: "featured_in"
+            label: "Featured In / Press"
+            widget: "list"
+            summary: "{{fields.publication_name}}"
+            fields:
+              - { name: "publication_name", label: "Publicación", widget: "string" }
+      - name: "en"
+        label: "Sobre · English"
+        file: "src/content/sobre/en.json"
+        fields:
+          - { name: "artist_name",     label: "Artist name",         widget: "string", default: "Joshua Jiménez Buendía" }
+          - { name: "artist_subtitle", label: "Subtitle",            widget: "string", default: "ARTIST · BARCELONA · 2014 — PRESENT" }
+          - name: "intro_text"
+            label: "Intro text (paragraphs separated by a blank line)"
+            widget: "text"
+          - name: "stats"
+            label: "Stats (4 entries)"
+            widget: "list"
+            summary: "{{fields.number}} · {{fields.label}}"
+            fields:
+              - { name: "number", label: "Number / figure", widget: "string" }
+              - { name: "label",  label: "Label",           widget: "string" }
+          - name: "filosofia_text"
+            label: "Philosophy text (paragraphs separated by a blank line)"
+            widget: "text"
+          - name: "styles"
+            label: "Mastered styles (6 entries)"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name",        label: "Style name",     widget: "string" }
+              - { name: "description", label: "Short description", widget: "text" }
+              - { name: "image",       label: "Image (optional)", widget: "image", required: false }
+          - name: "featured_in"
+            label: "Featured In / Press"
+            widget: "list"
+            summary: "{{fields.publication_name}}"
+            fields:
+              - { name: "publication_name", label: "Publication", widget: "string" }
+      - name: "ca"
+        label: "Sobre · Català"
+        file: "src/content/sobre/ca.json"
+        fields:
+          - { name: "artist_name",     label: "Nom artístic",         widget: "string", default: "Joshua Jiménez Buendía" }
+          - { name: "artist_subtitle", label: "Subtítol",             widget: "string", default: "ARTISTA · BARCELONA · 2014 — PRESENT" }
+          - name: "intro_text"
+            label: "Text introductori (paràgrafs separats per una línia en blanc)"
+            widget: "text"
+          - name: "stats"
+            label: "Estadístiques (4 entrades)"
+            widget: "list"
+            summary: "{{fields.number}} · {{fields.label}}"
+            fields:
+              - { name: "number", label: "Número / xifra", widget: "string" }
+              - { name: "label",  label: "Etiqueta",       widget: "string" }
+          - name: "filosofia_text"
+            label: "Text de filosofia (paràgrafs separats per una línia en blanc)"
+            widget: "text"
+          - name: "styles"
+            label: "Estils dominats (6 entrades)"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name",        label: "Nom de l'estil",     widget: "string" }
+              - { name: "description", label: "Descripció curta",   widget: "text" }
+              - { name: "image",       label: "Imatge (opcional)",  widget: "image", required: false }
+          - name: "featured_in"
+            label: "Featured In / Premsa"
+            widget: "list"
+            summary: "{{fields.publication_name}}"
+            fields:
+              - { name: "publication_name", label: "Publicació", widget: "string" }
+
+  # ============================== SITE SETTINGS ==============================
+  - name: "site_settings"
+    label: "Configuración del sitio"
+    label_singular: "Configuración del sitio"
+    files:
+      - name: "es"
+        label: "Settings · Español"
+        file: "src/content/settings/es.json"
+        fields:
+          - { name: "brand_name",     label: "Nombre de marca",       widget: "string", default: "SUBA TATTOO" }
+          - { name: "tagline",        label: "Tagline",               widget: "string", default: "Technical Precision. Artistic Rawness." }
+          - { name: "location",       label: "Ubicación corta",       widget: "string", default: "Barcelona · Underground Studio" }
+          - { name: "contact_email",  label: "Email de contacto",     widget: "string" }
+          - { name: "instagram_url",  label: "URL de Instagram",      widget: "string", required: false }
+          - { name: "whatsapp_number", label: "Número WhatsApp (formato internacional, ej: +34000000000)", widget: "string", required: false }
+          - { name: "address",        label: "Dirección física",      widget: "string", required: false }
+          - { name: "hero_headline_line_1",       label: "Hero — línea 1 (sólida)",          widget: "string" }
+          - { name: "hero_headline_line_2_stroke", label: "Hero — línea 2 (text-stroke)",     widget: "string" }
+          - { name: "hero_subtitle",              label: "Hero — subtítulo",                 widget: "text" }
+          - { name: "about_short",                label: "Descripción corta (meta description)", widget: "text" }
+          - { name: "opening_hours",              label: "Horario de atención",              widget: "string", required: false }
+      - name: "en"
+        label: "Settings · English"
+        file: "src/content/settings/en.json"
+        fields:
+          - { name: "brand_name",     label: "Brand name",   widget: "string", default: "SUBA TATTOO" }
+          - { name: "tagline",        label: "Tagline",      widget: "string", default: "Technical Precision. Artistic Rawness." }
+          - { name: "location",       label: "Short location", widget: "string", default: "Barcelona · Underground Studio" }
+          - { name: "contact_email",  label: "Contact email", widget: "string" }
+          - { name: "instagram_url",  label: "Instagram URL", widget: "string", required: false }
+          - { name: "whatsapp_number", label: "WhatsApp number (international format, e.g. +44000000000)", widget: "string", required: false }
+          - { name: "address",        label: "Physical address", widget: "string", required: false }
+          - { name: "hero_headline_line_1",       label: "Hero — line 1 (solid)",        widget: "string" }
+          - { name: "hero_headline_line_2_stroke", label: "Hero — line 2 (text-stroke)",   widget: "string" }
+          - { name: "hero_subtitle",              label: "Hero — subtitle",               widget: "text" }
+          - { name: "about_short",                label: "Short description (meta description)", widget: "text" }
+          - { name: "opening_hours",              label: "Opening hours",                 widget: "string", required: false }
+      - name: "ca"
+        label: "Settings · Català"
+        file: "src/content/settings/ca.json"
+        fields:
+          - { name: "brand_name",     label: "Nom de marca",     widget: "string", default: "SUBA TATTOO" }
+          - { name: "tagline",        label: "Tagline",          widget: "string", default: "Technical Precision. Artistic Rawness." }
+          - { name: "location",       label: "Ubicació curta",   widget: "string", default: "Barcelona · Underground Studio" }
+          - { name: "contact_email",  label: "Correu de contacte", widget: "string" }
+          - { name: "instagram_url",  label: "URL d'Instagram",  widget: "string", required: false }
+          - { name: "whatsapp_number", label: "Número WhatsApp (format internacional, ex.: +34000000000)", widget: "string", required: false }
+          - { name: "address",        label: "Adreça física",    widget: "string", required: false }
+          - { name: "hero_headline_line_1",       label: "Hero — línia 1 (sòlida)",     widget: "string" }
+          - { name: "hero_headline_line_2_stroke", label: "Hero — línia 2 (text-stroke)", widget: "string" }
+          - { name: "hero_subtitle",              label: "Hero — subtítol",             widget: "text" }
+          - { name: "about_short",                label: "Descripció curta (meta description)", widget: "text" }
+          - { name: "opening_hours",              label: "Horari d'atenció",            widget: "string", required: false }

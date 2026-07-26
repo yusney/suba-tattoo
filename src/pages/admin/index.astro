@@ -1,0 +1,11 @@
+---
+// The Decap CMS UI lives at /public/admin/index.html. Astro's dev server
+// doesn't auto-serve directory indexes from `public/`, so this route makes
+// /admin and /admin/ work in `pnpm run dev`.
+//
+// In production, the static host (Netlify, GitHub Pages, etc.) handles the
+// index.html lookup itself, and this file is shadowed by
+// /public/admin/index.html. Astro prints a "skipping" warning during build
+// to alert us of the conflict — that warning is expected and harmless.
+return Astro.redirect("/admin/index.html");
+---

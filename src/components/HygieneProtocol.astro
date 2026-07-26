@@ -1,0 +1,45 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface ProtocolItem {
+  icon:
+    | "cleaning_services"
+    | "medical_services"
+    | "shield"
+    | "local_hospital"
+    | "sanitizer";
+  title: string;
+  description: string;
+}
+
+interface Props {
+  label?: string;
+  title?: string;
+  items: ProtocolItem[];
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { label = t("faq.hygiene_label_default"), title = t("faq.hygiene_title_default"), items } = Astro.props;
+---
+
+<section class="px-margin-desktop py-section-gap max-w-container-max mx-auto">
+  <div class="flex flex-col gap-4 mb-16" data-reveal>
+    <span class="font-label-sm text-label-sm text-primary uppercase">{label}</span>
+    <h2 class="font-headline-lg text-headline-lg uppercase">{title}</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+    {items.map((item) => (
+      <div class="flex flex-col gap-6 p-8 border border-outline-variant">
+        <span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">
+          {item.icon}
+        </span>
+        <h3 class="font-headline-md text-headline-md uppercase">{item.title}</h3>
+        <p class="font-body-md text-on-surface-variant">{item.description}</p>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const styleOptions = t.array("reserva.form.style_options");
+---
+
+<section class="px-margin-desktop max-w-6xl mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+    <div class="lg:col-span-8">
+      <h2 class="font-headline-md text-headline-md uppercase mb-12 flex items-center gap-4" data-reveal>
+        <span class="w-12 h-px bg-primary"></span>
+        {t("reserva.form.title")}
+      </h2>
+      <form action="#" method="post" class="space-y-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          <div class="group">
+            <label for="nombre" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_name")}</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder={t("reserva.form.placeholder_name") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+          <div class="group">
+            <label for="email" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_email")}</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required placeholder={t("reserva.form.placeholder_email") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+          <div class="group">
+            <label for="telefono" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_phone")}</label>
+            <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder={t("reserva.form.placeholder_phone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+          <div class="group">
+            <label for="estilo" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_style")}</label>
+            <select id="estilo" name="estilo" autocomplete="off" class="w-full bg-surface border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none touch-manipulation">
+              {(Array.isArray(styleOptions) ? styleOptions : []).map((opt: string) => (
+                <option value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
+          <div class="group">
+            <label for="zona" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_zone")}</label>
+            <input id="zona" name="zona" type="text" autocomplete="off" placeholder={t("reserva.form.placeholder_zone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+          <div class="group">
+            <label for="tamano" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_size")}</label>
+            <input id="tamano" name="tamano" type="text" autocomplete="off" placeholder={t("reserva.form.placeholder_size") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+          <div class="group md:col-span-2">
+            <label for="fecha" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_date")}</label>
+            <input id="fecha" name="fecha" type="date" autocomplete="off" class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+          </div>
+        </div>
+        <div class="group">
+          <label for="descripcion" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_description")}</label>
+          <textarea id="descripcion" name="descripcion" rows="4" autocomplete="off" placeholder={t("reserva.form.placeholder_description") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface resize-none focus:outline-none focus:border-primary transition-colors touch-manipulation"></textarea>
+        </div>
+        <div class="flex flex-col items-center pt-8">
+          <button type="submit" class="bg-primary text-on-primary w-full md:w-auto px-16 py-5 font-headline-md text-2xl uppercase tracking-tighter flex items-center justify-center gap-4 hover:bg-primary-fixed hover:text-surface transition-[background-color,color] duration-300 touch-manipulation">
+            {t("reserva.form.submit")}
+            <span class="material-symbols-outlined text-4xl" aria-hidden="true">arrow_right_alt</span>
+          </button>
+          <p class="mt-6 font-label-sm text-[10px] uppercase opacity-40 text-center">{t("reserva.form.legal")}</p>
+        </div>
+      </form>
+    </div>
+    <div class="lg:col-span-4">
+      <slot name="aside" />
+    </div>
+  </div>
+</section>

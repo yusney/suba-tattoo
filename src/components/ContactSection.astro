@@ -1,0 +1,51 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const fields = [
+  { name: "name", label: t("contact.label_name"), type: "text", autocomplete: "name", spellcheck: "true" },
+  { name: "email", label: t("contact.label_email"), type: "email", autocomplete: "email", spellcheck: "false" },
+  { name: "body", label: t("contact.label_body"), type: "text", autocomplete: "off", spellcheck: "true" },
+];
+
+const styleOptions = [
+  t("contact.style_option_realismo"),
+  t("contact.style_option_blackwork"),
+  t("contact.style_option_fineline"),
+  t("contact.style_option_color"),
+];
+---
+
+<section class="mx-auto max-w-container-max bg-surface-container-low px-margin-desktop py-section-gap" id="contact">
+  <div class="mx-auto max-w-4xl" data-reveal>
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-headline-lg font-headline-lg uppercase">{t("contact.title")}</h2>
+      <p class="text-body-lg font-body-lg text-on-surface-variant">{t("contact.subtitle")}</p>
+    </div>
+    <form action="#" method="post" class="grid gap-8 md:grid-cols-2">
+      {fields.map((f) => (
+        <div class="space-y-2">
+          <label for={f.name} class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{f.label}</label>
+          <input id={f.name} name={f.name} autocomplete={f.autocomplete} spellcheck={f.spellcheck} required={f.name !== "body"} class="w-full border border-outline-variant bg-surface p-4 font-label-sm text-on-surface transition-colors focus:border-primary focus:outline-none touch-manipulation" type={f.type} />
+        </div>
+      ))}
+      <div class="space-y-2">
+        <label for="style" class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("contact.label_style")}</label>
+        <select id="style" name="style" autocomplete="off" class="w-full appearance-none border border-outline-variant bg-surface p-4 font-label-sm text-on-surface focus:border-primary focus:outline-none touch-manipulation">
+          {styleOptions.map((opt) => <option value={opt}>{opt}</option>)}
+        </select>
+      </div>
+      <div class="space-y-2 md:col-span-2">
+        <label for="description" class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("contact.label_description")}</label>
+        <textarea id="description" name="description" rows="4" autocomplete="off" class="w-full border border-outline-variant bg-surface p-4 font-label-sm text-on-surface focus:border-primary focus:outline-none touch-manipulation"></textarea>
+      </div>
+      <div class="mt-8 flex justify-center md:col-span-2">
+        <button class="border border-primary bg-primary px-16 py-5 text-label-sm font-label-sm font-bold uppercase tracking-[0.3em] text-on-primary transition-[background-color,color,border-color] hover:bg-transparent hover:text-primary touch-manipulation" type="submit">{t("contact.submit")}</button>
+      </div>
+    </form>
+  </div>
+</section>

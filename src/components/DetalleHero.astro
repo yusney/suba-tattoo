@@ -1,0 +1,16 @@
+---
+interface Props {
+  image: string;
+  alt: string;
+}
+
+const { image, alt } = Astro.props;
+---
+
+<section class="w-full">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8">
+    <div class="aspect-[16/9] w-full border border-outline-variant overflow-hidden relative">
+      <img class="w-full h-full object-cover" src={image} alt={alt} width="1280" height="720" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reserva tu Sesión | SUBA TATTOO MADRID</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#87f4f0",
+                    "on-primary-container": "#5c0008",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "on-tertiary-fixed": "#00201f",
+                    "background": "#121212",
+                    "secondary-container": "#454747",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-surface-variant": "#e4beba",
+                    "on-secondary-container": "#b4b5b5",
+                    "surface": "#121212",
+                    "outline": "#2a2a2a",
+                    "on-secondary": "#2f3131",
+                    "tertiary": "#69d8d4",
+                    "surface-container": "#1a1a1a",
+                    "on-surface": "#e5e2e1",
+                    "on-primary-fixed": "#410004",
+                    "on-tertiary-container": "#00302e",
+                    "primary": "#ef4444",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "on-tertiary": "#003736",
+                    "secondary": "#c6c6c7",
+                    "on-secondary-fixed-variant": "#454747",
+                    "surface-container-lowest": "#0e0e0e",
+                    "error-container": "#93000a",
+                    "primary-container": "#ef4444",
+                    "on-background": "#e5e2e1",
+                    "error": "#ffb4ab",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "primary-fixed": "#ffdad7",
+                    "surface-container-highest": "#353534",
+                    "on-error": "#690005",
+                    "outline-variant": "#2a2a2a",
+                    "surface-container-low": "#1c1b1b",
+                    "inverse-primary": "#b91a24",
+                    "inverse-on-surface": "#313030",
+                    "surface-variant": "#353534",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-primary-fixed-variant": "#930013",
+                    "tertiary-container": "#24a09d",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#ef4444",
+                    "surface-dim": "#131313",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#393939"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "section-gap": "120px",
+                    "base": "8px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Syne"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-md": ["Syne"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Syne"],
+                    "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "display-lg": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-input {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid #2a2a2a;
+            padding: 12px 0;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-bottom-color: #ef4444;
+            box-shadow: none;
+        }
+        .card-hover:hover {
+            border-color: #ef4444;
+        }
+        .editorial-line {
+            height: 1px;
+            background: #2a2a2a;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-background/95 backdrop-blur-sm border-b border-outline-variant">
+<div class="text-headline-md font-headline-md font-bold tracking-tighter text-on-surface uppercase">
+            SUBA TATTOO
+        </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-200" href="#">Galería</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-200" href="#">Proceso</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-200" href="#">Filosofía</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-200" href="#">Contacto</a>
+<button class="bg-primary text-on-primary px-6 py-2 font-label-sm text-label-sm uppercase tracking-widest active:scale-95 transition-all">Solicitar Valoración</button>
+</nav>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="pt-32 pb-section-gap">
+<!-- Hero Section -->
+<section class="px-margin-desktop mb-24">
+<div class="max-w-4xl">
+<span class="font-label-sm text-label-sm text-primary uppercase block mb-4">RESERVA · 01</span>
+<h1 class="font-headline-lg text-headline-lg md:text-display-lg md:font-display-lg uppercase mb-8 leading-none">Inicia tu<br/>Proyecto</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                    Cada tatuaje es una colaboración técnica y artística. Completa el formulario para enviarnos tu propuesta. Revisamos todas las solicitudes personalmente en un plazo máximo de 48 horas.
+                </p>
+</div>
+</section>
+<!-- Session Type Cards -->
+<section class="px-margin-desktop mb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline">
+<!-- Card 1 -->
+<div class="group p-8 border-b md:border-b-0 md:border-r border-outline card-hover transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest">
+<div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">Fase 01</span>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">Consulta Inicial</h3>
+<p class="text-on-surface-variant text-sm mb-6">Discusión presencial o digital sobre el concepto, dimensiones y ubicación.</p>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-primary">GRATIS</p>
+<p class="font-label-sm text-[10px] uppercase opacity-60">30 MINUTOS</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group p-8 border-b md:border-b-0 md:border-r border-outline border-primary card-hover transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest relative">
+<div class="absolute top-4 right-4">
+<span class="bg-primary text-on-primary text-[10px] font-label-sm px-2 py-1 uppercase">Recomendado</span>
+</div>
+<div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">Fase 02</span>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">Sesión Completa</h3>
+<p class="text-on-surface-variant text-sm mb-6">Para proyectos medianos y grandes. Incluye diseño personalizado y ejecución final.</p>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-primary">DESDE 200€</p>
+<p class="font-label-sm text-[10px] uppercase opacity-60">3-6 HORAS</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group p-8 border-outline card-hover transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest">
+<div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">Mantenimiento</span>
+<h3 class="font-headline-md text-headline-md uppercase mb-2">Touch-up / Pequeño</h3>
+<p class="text-on-surface-variant text-sm mb-6">Repasos de piezas existentes o diseños minimalistas de ejecución rápida.</p>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-sm text-label-sm text-primary">DESDE 80€</p>
+<p class="font-label-sm text-[10px] uppercase opacity-60">1 HORA</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Form -->
+<section class="px-margin-desktop max-w-6xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Form Column -->
+<div class="lg:col-span-8">
+<h2 class="font-headline-md text-headline-md uppercase mb-12 flex items-center gap-4">
+<span class="w-12 h-px bg-primary"></span>
+                        Detalles del Proyecto
+                    </h2>
+<form class="space-y-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Nombre Completo</label>
+<input class="custom-input font-body-md" placeholder="EJ. JULIÁN ALBA" type="text"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Email</label>
+<input class="custom-input font-body-md" placeholder="HELLO@DOMAIN.COM" type="email"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Teléfono / WhatsApp</label>
+<input class="custom-input font-body-md" placeholder="+34 600 000 000" type="tel"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Estilo Deseado</label>
+<select class="custom-input font-body-md appearance-none">
+<option>BLACKWORK / BRUTALISTA</option>
+<option>TRADICIONAL AMERICANO</option>
+<option>FINE LINE</option>
+<option>DOTWORK / GEOMÉTRICO</option>
+<option>OTRO ESTILO</option>
+</select>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Zona del Cuerpo</label>
+<input class="custom-input font-body-md" placeholder="EJ. ANTEBRAZO EXTERIOR" type="text"/>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Tamaño (Aprox. cm)</label>
+<input class="custom-input font-body-md" placeholder="EJ. 15X10 CM" type="text"/>
+</div>
+</div>
+<div class="group">
+<label class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors">Descripción de la Idea</label>
+<textarea class="custom-input font-body-md resize-none" placeholder="CUÉNTANOS TU VISIÓN, REFERENCIAS Y CUALQUIER DETALLE TÉCNICO..." rows="4"></textarea>
+</div>
+<div class="flex flex-col items-center pt-8">
+<button class="bg-primary text-on-primary w-full md:w-auto px-16 py-5 font-headline-md text-2xl uppercase tracking-tighter flex items-center justify-center gap-4 hover:bg-white hover:text-black transition-all duration-300" type="submit">
+                                Enviar Solicitud
+                                <span class="material-symbols-outlined text-4xl">arrow_right_alt</span>
+</button>
+<p class="mt-6 font-label-sm text-[10px] uppercase opacity-40 text-center">Al enviar, aceptas el tratamiento de tus datos para la gestión de la cita.</p>
+</div>
+</form>
+</div>
+<!-- Policy Column -->
+<div class="lg:col-span-4">
+<div class="sticky top-32 p-8 border border-primary/30 bg-surface-container-low">
+<h4 class="font-label-sm text-label-sm text-primary uppercase mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">gavel</span>
+                            Política de Reserva Técnica
+                        </h4>
+<ul class="space-y-6 text-sm text-on-surface-variant">
+<li class="flex gap-4">
+<span class="font-label-sm text-primary">01</span>
+<p><strong class="text-on-surface uppercase block text-[10px] mb-1">Depósito</strong> Se requiere un depósito del 30% del presupuesto para confirmar la fecha y comenzar el diseño.</p>
+</li>
+<li class="flex gap-4">
+<span class="font-label-sm text-primary">02</span>
+<p><strong class="text-on-surface uppercase block text-[10px] mb-1">Cancelaciones</strong> Cambios de fecha permitidos con 72h de antelación. Cancelaciones posteriores implican pérdida del depósito.</p>
+</li>
+<li class="flex gap-4">
+<span class="font-label-sm text-primary">03</span>
+<p><strong class="text-on-surface uppercase block text-[10px] mb-1">Propiedad Intelectual</strong> Los diseños personalizados son propiedad del estudio hasta la ejecución final de la pieza.</p>
+</li>
+</ul>
+<div class="mt-8 pt-8 border-t border-outline-variant">
+<div class="aspect-square bg-surface-container-high relative flex items-center justify-center overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40" data-alt="A cinematic, high-contrast black and white photograph of a professional tattoo artist working in a dark, minimalist studio. The lighting is sharp, highlighting the ink bottles and technical precision of the equipment. The aesthetic is brutalist and sophisticated, emphasizing the underground luxury of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP5iUNQsY_VFyqjmQzrDBQA9TCefEK-UOCVGM_G2oO7SlvkPkRyFemZxEg7P_gXOekogIfkeWK7wRpBokvcutoX8QtRwIdMtv3KU5a6F1snGPZlwPKlW61aXMl0Oo6zpjVVxmkfC_-ICP4r9KkDD5LHVkfqO7CHipaRag8s1qKqGgwYdiUYCjJPnnfL-nKBAryauvT4mEsAt0d0r6MSJZVrpRn-ndLNTNxunOTUe9P0CJRo_Yf5DlI97ZXSSpA1ubbCCPJqNI99HI"/>
+<span class="relative z-10 font-label-sm text-[10px] uppercase tracking-[0.3em] rotate-90">Studio Identity</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full px-margin-desktop py-section-gap flex flex-col md:flex-row justify-between items-start gap-gutter bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col gap-6">
+<div class="text-headline-md font-headline-md text-on-surface uppercase font-bold tracking-tighter">SUBA TATTOO</div>
+<p class="font-label-sm text-label-sm uppercase text-on-surface-variant">© 2024 SUBA TATTOO MADRID. ALL RIGHTS RESERVED.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-2 gap-x-16 gap-y-4">
+<div class="flex flex-col gap-2">
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">WhatsApp</a>
+</div>
+<div class="flex flex-col gap-2">
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Location</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for inputs
+        document.querySelectorAll('.custom-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FAQ & Cuidados | SUBA TATTOO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&family=Syne:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#410004",
+                    "surface-bright": "#393939",
+                    "on-secondary-fixed-variant": "#454747",
+                    "tertiary-container": "#24a09d",
+                    "surface-container-low": "#1c1b1b",
+                    "primary": "#ffb3ad",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-container": "#ff5451",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-secondary-container": "#b4b5b5",
+                    "on-primary-fixed-variant": "#930013",
+                    "outline": "#ab8986",
+                    "error": "#ffb4ab",
+                    "on-surface": "#e5e2e1",
+                    "on-primary": "#68000a",
+                    "error-container": "#93000a",
+                    "surface-tint": "#ffb3ad",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "inverse-on-surface": "#313030",
+                    "secondary-container": "#454747",
+                    "inverse-surface": "#e5e2e1",
+                    "secondary": "#c6c6c7",
+                    "surface-variant": "#353534",
+                    "surface-container-highest": "#353534",
+                    "surface-container": "#201f1f",
+                    "on-surface-variant": "#e4beba",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "background": "#121212",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-tertiary": "#003736",
+                    "surface": "#131313",
+                    "on-tertiary-container": "#00302e",
+                    "on-background": "#e5e2e1",
+                    "tertiary-fixed": "#87f4f0",
+                    "inverse-primary": "#ef4444",
+                    "surface-dim": "#131313",
+                    "surface-container-high": "#2a2a2a",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed": "#ffdad7",
+                    "on-secondary": "#2f3131",
+                    "on-primary-container": "#5c0008",
+                    "on-tertiary-fixed": "#00201f",
+                    "on-error": "#690005",
+                    "tertiary": "#69d8d4",
+                    "outline-variant": "#2a2a2a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "section-gap": "120px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Syne"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Syne"],
+                    "headline-md": ["Syne"],
+                    "headline-lg": ["Syne"]
+            },
+            "fontSize": {
+                    "display-lg": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+        .faq-accordion[open] .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .technical-grid {
+            background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="w-full h-24 bg-background dark:bg-background border-b border-outline-variant fixed top-0 z-50">
+<nav class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-full">
+<div class="font-headline-lg text-headline-lg uppercase tracking-tighter text-on-background">
+                SUBA TATTOO
+            </div>
+<div class="hidden md:flex gap-10 items-center">
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-300" href="#">Artists</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-300" href="#">Portfolio</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-300" href="#">Studio</a>
+<a class="text-inverse-primary font-bold border-b border-inverse-primary pb-1 font-label-sm text-label-sm uppercase" href="#">FAQ</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-label-sm text-label-sm uppercase hover:text-primary transition-colors duration-300" href="#">Aftercare</a>
+</div>
+<button class="bg-inverse-primary text-on-background px-8 py-3 font-label-sm text-label-sm uppercase hover:bg-white hover:text-black transition-all active:scale-95">
+                Book Session
+            </button>
+</nav>
+</header>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="flex flex-col gap-4 max-w-3xl">
+<span class="font-label-sm text-label-sm text-inverse-primary uppercase tracking-widest">INFORMACIÓN</span>
+<h1 class="font-display-lg text-display-lg uppercase">Preguntas Frecuentes</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-4">
+                    Nuestro estudio opera bajo estándares de rigor técnico y excelencia artística. Resolvemos tus dudas sobre el proceso quirúrgico y creativo de tu próxima pieza.
+                </p>
+</div>
+</section>
+<!-- FAQ Accordion Grid -->
+<section class="px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-outline-variant">
+<!-- Q1 - Open by default -->
+<details class="faq-accordion border-r border-b border-outline-variant group" open="">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Cuánto cuesta?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        El costo mínimo por sesión es de $1,500 MXN. El precio final se determina basándonos en la complejidad técnica, el tamaño exacto y la ubicación anatómica del diseño. Realizamos presupuestos personalizados tras la consulta inicial.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Cuánto tarda la cicatrización?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        El proceso de regeneración epidérmica superficial toma de 2 a 3 semanas. Sin embargo, la dermis completa su estabilización interna en aproximadamente 45 a 60 días.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Duele?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        La percepción del dolor es subjetiva y varía según la zona. Utilizamos técnicas de aplicación precisas para minimizar el trauma tisular. Mantenerse hidratado y haber comido bien reduce la sensibilidad.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Aceptan walk-ins?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        Principalmente trabajamos bajo cita para garantizar la preparación del estudio. Ocasionalmente tenemos espacios disponibles para piezas pequeñas; recomendamos llamar antes de asistir o revisar nuestras historias en redes.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Puedo traer mi propio diseño?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        Aceptamos referencias, pero nuestros artistas siempre reinterpretarán la idea bajo su estilo personal y criterios técnicos de durabilidad para asegurar una pieza de calidad superior.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Cómo cuido mi tatuaje nuevo?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        El cuidado es vital. Incluye lavado con jabón neutro, aplicación de pomada específica en capas finas y evitar la exposición solar directa o inmersión en agua (albercas/mar) por 15 días.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Hacen retoques gratis?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        Ofrecemos un retoque de cortesía durante los primeros 2 meses si el artista determina que es necesario, siempre que se hayan seguido rigurosamente las instrucciones de cuidado post-sesión.
+                    </div>
+</details>
+<details class="faq-accordion border-r border-b border-outline-variant group">
+<summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-headline-md uppercase">¿Cuál es la política de cancelación?</span>
+<span class="material-symbols-outlined faq-icon text-inverse-primary">add</span>
+</summary>
+<div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+                        Los depósitos no son reembolsables. Se requiere un aviso de al menos 48 horas para reprogramar una cita sin perder el depósito inicial de reserva.
+                    </div>
+</details>
+</div>
+</section>
+<!-- Cuidados post-sesión -->
+<section class="bg-surface-container-lowest py-section-gap">
+<div class="px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col gap-4 mb-16">
+<span class="font-label-sm text-label-sm text-inverse-primary uppercase">MANTENIMIENTO</span>
+<h2 class="font-headline-lg text-headline-lg uppercase">Cuidados Post-Sesión</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<!-- Card 01 -->
+<div class="relative border border-outline-variant p-8 h-[320px] flex flex-col justify-end group hover:border-inverse-primary transition-all overflow-hidden">
+<div class="absolute -top-4 -right-4 font-display-lg text-[120px] opacity-5 text-on-surface pointer-events-none transition-opacity group-hover:opacity-10">01</div>
+<h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">Limpieza</h3>
+<p class="font-body-md text-on-surface-variant relative z-10">Lavar 3 veces al día con jabón neutro y agua tibia. Secar con toques suaves usando papel desechable.</p>
+</div>
+<!-- Card 02 -->
+<div class="relative border border-outline-variant p-8 h-[320px] flex flex-col justify-end group hover:border-inverse-primary transition-all overflow-hidden">
+<div class="absolute -top-4 -right-4 font-display-lg text-[120px] opacity-5 text-on-surface pointer-events-none transition-opacity group-hover:opacity-10">02</div>
+<h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">Hidratación</h3>
+<p class="font-body-md text-on-surface-variant relative z-10">Aplicar una capa muy delgada de pomada recomendada. La piel debe respirar; evitar el exceso de producto.</p>
+</div>
+<!-- Card 03 -->
+<div class="relative border border-outline-variant p-8 h-[320px] flex flex-col justify-end group hover:border-inverse-primary transition-all overflow-hidden">
+<div class="absolute -top-4 -right-4 font-display-lg text-[120px] opacity-5 text-on-surface pointer-events-none transition-opacity group-hover:opacity-10">03</div>
+<h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">Protección</h3>
+<p class="font-body-md text-on-surface-variant relative z-10">Evitar sol, albercas, gimnasios y ropa ajustada durante los primeros 10 días para prevenir infecciones.</p>
+</div>
+<!-- Card 04 -->
+<div class="relative border border-outline-variant p-8 h-[320px] flex flex-col justify-end group hover:border-inverse-primary transition-all overflow-hidden">
+<div class="absolute -top-4 -right-4 font-display-lg text-[120px] opacity-5 text-on-surface pointer-events-none transition-opacity group-hover:opacity-10">04</div>
+<h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">Seguimiento</h3>
+<p class="font-body-md text-on-surface-variant relative z-10">Cualquier duda técnica después de la sesión debe ser consultada directamente con el estudio vía WhatsApp.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Protocolo de Higiene -->
+<section class="px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="flex flex-col gap-6 p-8 border border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-inverse-primary" style="font-variation-settings: 'FILL' 1;">sanitizer</span>
+<h3 class="font-headline-md text-headline-md uppercase">Esterilización</h3>
+<p class="font-body-md text-on-surface-variant">Uso de autoclave de grado médico y procesos de desinfección química de alto nivel en todas las superficies de contacto.</p>
+</div>
+<div class="flex flex-col gap-6 p-8 border border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-inverse-primary" style="font-variation-settings: 'FILL' 1;">content_paste_off</span>
+<h3 class="font-headline-md text-headline-md uppercase">Material Desechable</h3>
+<p class="font-body-md text-on-surface-variant">Agujas, cartuchos, campos y protecciones son 100% descartables y abiertos frente al cliente en cada sesión.</p>
+</div>
+<div class="flex flex-col gap-6 p-8 border border-outline-variant">
+<span class="material-symbols-outlined text-4xl text-inverse-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+<h3 class="font-headline-md text-headline-md uppercase">Estudio Aséptico</h3>
+<p class="font-body-md text-on-surface-variant">Mantenemos un ambiente controlado bajo normativas sanitarias estrictas, garantizando un espacio libre de contaminantes.</p>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="relative w-full py-section-gap technical-grid border-t border-b border-outline-variant overflow-hidden">
+<div class="px-margin-desktop max-w-container-max mx-auto text-center relative z-10">
+<h2 class="font-display-lg text-display-lg uppercase mb-12">¿Listo para marcar tu piel?</h2>
+<button class="w-full md:w-auto bg-inverse-primary text-on-background px-16 py-8 font-label-sm text-label-sm uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all active:scale-95 text-xl font-bold">
+                    SOLICITAR MI SESIÓN
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-background border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-start px-margin-desktop w-full max-w-container-max mx-auto gap-gutter">
+<div class="flex flex-col gap-8">
+<div class="font-headline-md text-headline-md text-on-background uppercase tracking-tighter">SUBA TATTOO</div>
+<p class="font-label-sm text-label-sm uppercase text-on-surface-variant max-w-xs">ESTUDIO PRIVADO DE ALTO NIVEL TÉCNICO Y DISEÑO DE AUTOR.</p>
+</div>
+<div class="flex flex-col gap-8">
+<div class="flex flex-wrap gap-8">
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-opacity duration-200 active:scale-95" href="#">Instagram</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-opacity duration-200 active:scale-95" href="#">WhatsApp</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-opacity duration-200 active:scale-95" href="#">Legal</a>
+<a class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-opacity duration-200 active:scale-95" href="#">Location</a>
+</div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">© 2024 SUBA TATTOO. ALL RIGHTS RESERVED.</div>
+</div>
+</div>
+</footer>
+<script>
+        // Smooth scroll interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 100);
+            });
+        });
+
+        // Basic accordion control to ensure only one is open if desired, 
+        // but the current grid layout works better with independent toggles.
+    </script>
+</body></html>

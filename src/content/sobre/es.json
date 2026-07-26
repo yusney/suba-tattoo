@@ -1,0 +1,50 @@
+{
+"artist_name": "Joshua Jiménez Buendía",
+  "artist_subtitle": "ARTIST · BARCELONA · 2014 — PRESENTE",
+  "intro_text": "SUBA TATTOO es un estudio de tatuaje underground en Montcada i Reixac (Barcelona), fundado sobre una década de práctica dedicada al estudio de la anatomía humana y la tinta. Cada pieza trasciende lo decorativo para convertirse en arquitectura corporal pura.\n\nPerfeccionado en los rincones más exigentes del underground barcelonés, el enfoque rechaza lo efímero. Cada línea es una declaración de intenciones, diseñada para envejecer con la dignidad de una obra clásica.\n\nEn SUBA TATTOO, el proceso es tan sagrado como el resultado. Trabajamos exclusivamente bajo cita previa en un entorno privado donde la visión del cliente y la maestría técnica convergen en una pieza única e irrepetible.",
+  "stats": [
+    { "number": "10+",  "label": "Años de experiencia" },
+    { "number": "500+", "label": "Piezas únicas" },
+    { "number": "8",    "label": "Estilos dominados" },
+    { "number": "100%", "label": "Estudio privado" }
+  ],
+  "filosofia_text": "Mi enfoque no comienza en la aguja, sino en la observación. Entiendo el cuerpo humano como un volumen tridimensional complejo, una estructura dinámica que exige respeto. No tatuamos sobre piel plana; tatuamos sobre músculo, hueso y movimiento.\n\nEn SUBA TATTOO, la \"Rawness\" artística no es falta de cuidado, es la eliminación de lo innecesario. Buscamos la esencia del diseño, aquella que conecta con la identidad del portador sin necesidad de adornos superfluos. Cada pieza es un diálogo entre mi visión técnica y la anatomía de quien la recibe.",
+  "styles": [
+    {
+      "name": "Blackwork",
+      "description": "Bloques densos de tinta negra, contraste extremo y composición geométrica.",
+      "image": "/images/styles/blackwork.jpg"
+    },
+    {
+      "name": "Realismo",
+      "description": "Hiperrealismo en escala de grises y color. Retratos, anatomía y naturaleza con volumen fotográfico.",
+      "image": "/images/styles/realismo.jpg"
+    },
+    {
+      "name": "Fine Line",
+      "description": "Trazo único, líneas finas que envejecen como ilustración editorial.",
+      "image": "/images/styles/fine-line.jpg"
+    },
+    {
+      "name": "Illustrative Color",
+      "description": "Color saturado con influencias del cómic, el folclore y la ilustración underground.",
+      "image": "/images/styles/illustrative-color.jpg"
+    },
+    {
+      "name": "Dark Art",
+      "description": "Iconografía oscura, simbolismo oculto y composiciones que desafían la mirada.",
+      "image": "/images/styles/dark-art.jpg"
+    },
+    {
+      "name": "Geométrico",
+      "description": "Matemática aplicada a la dermis. Simetría, patrones y precisión milimétrica.",
+      "image": ""
+    }
+  ],
+  "featured_in": [
+    { "publication_name": "INKED MAGAZINE" },
+    { "publication_name": "TATTOO LIFE" },
+    { "publication_name": "VICE ART" },
+    { "publication_name": "MODERN INK" }
+  ]
+}

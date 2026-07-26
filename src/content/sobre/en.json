@@ -1,0 +1,50 @@
+{
+"artist_name": "Joshua Jiménez Buendía",
+  "artist_subtitle": "ARTIST · BARCELONA · 2014 — PRESENT",
+  "intro_text": "SUBA TATTOO is an underground tattoo studio based in Montcada i Reixac (Barcelona), founded on a decade of practice dedicated to the study of human anatomy and ink. Every piece transcends the decorative to become pure body architecture.\n\nRefined in the most demanding corners of Barcelona's underground, the approach rejects the ephemeral. Every line is a declaration of intent, designed to age with the dignity of a classical piece.\n\nAt SUBA TATTOO, the process is as sacred as the result. We work exclusively by appointment in a private setting where the client's vision and technical mastery converge into a single, unrepeatable piece.",
+  "stats": [
+    { "number": "10+",  "label": "Years of experience" },
+    { "number": "500+", "label": "Unique pieces" },
+    { "number": "8",    "label": "Mastered styles" },
+    { "number": "100%", "label": "Private studio" }
+  ],
+  "filosofia_text": "My approach does not start at the needle, it starts with observation. I read the human body as a complex three-dimensional volume, a dynamic structure that demands respect. We don't tattoo on flat skin; we tattoo on muscle, bone and movement.\n\nAt SUBA TATTOO, the artistic \"Rawness\" is not the absence of care — it is the elimination of what is unnecessary. We look for the essence of the design, the one that connects with the wearer's identity without superfluous ornament. Every piece is a dialogue between my technical vision and the anatomy of the person who receives it.",
+  "styles": [
+    {
+      "name": "Blackwork",
+      "description": "Dense blocks of black ink, extreme contrast and geometric composition.",
+      "image": "/images/styles/blackwork.jpg"
+    },
+    {
+      "name": "Realism",
+      "description": "Hyperrealism in greyscale and colour. Portraits, anatomy and nature with photographic volume.",
+      "image": "/images/styles/realismo.jpg"
+    },
+    {
+      "name": "Fine Line",
+      "description": "Single-stroke work, fine lines that age like editorial illustration.",
+      "image": "/images/styles/fine-line.jpg"
+    },
+    {
+      "name": "Illustrative Color",
+      "description": "Saturated colour with influences from comics, folklore and underground illustration.",
+      "image": "/images/styles/illustrative-color.jpg"
+    },
+    {
+      "name": "Dark Art",
+      "description": "Dark iconography, hidden symbolism and compositions that challenge the gaze.",
+      "image": "/images/styles/dark-art.jpg"
+    },
+    {
+      "name": "Geometric",
+      "description": "Mathematics applied to the dermis. Symmetry, patterns and millimetric precision.",
+      "image": ""
+    }
+  ],
+  "featured_in": [
+    { "publication_name": "INKED MAGAZINE" },
+    { "publication_name": "TATTOO LIFE" },
+    { "publication_name": "VICE ART" },
+    { "publication_name": "MODERN INK" }
+  ]
+}

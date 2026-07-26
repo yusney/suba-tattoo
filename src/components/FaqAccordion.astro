@@ -1,0 +1,28 @@
+---
+interface Question {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  questions: Question[];
+}
+
+const { questions } = Astro.props;
+---
+
+<section class="px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-outline-variant">
+    {questions.map((q, index) => (
+      <details class="group border-r border-b border-outline-variant" open={index === 0}>
+        <summary class="flex justify-between items-center p-8 cursor-pointer hover:bg-surface-container transition-colors list-none [&::-webkit-details-marker]:hidden">
+          <span class="font-headline-md text-headline-md uppercase">{q.question}</span>
+          <span class="material-symbols-outlined text-primary transition-transform duration-300 group-open:rotate-45">add</span>
+        </summary>
+        <div class="px-8 pb-8 font-body-md text-on-surface-variant leading-relaxed">
+          {q.answer}
+        </div>
+      </details>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SUBA TATTOO — Madrid Underground Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#1c1b1b",
+                        "primary": "#ef4444", // Scarlet Red Overridden for Suba
+                        "surface-dim": "#131313",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed": "#ffdad7",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#00504e",
+                        "inverse-on-surface": "#313030",
+                        "surface-tint": "#ffb3ad",
+                        "on-background": "#F8FAFC",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#ffb3ad",
+                        "on-primary-fixed": "#410004",
+                        "on-primary-container": "#5c0008",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container": "#201f1f",
+                        "secondary-container": "#454747",
+                        "tertiary-fixed-dim": "#69d8d4",
+                        "surface-container-highest": "#353534",
+                        "on-error": "#690005",
+                        "outline": "#ab8986",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#00201f",
+                        "tertiary-container": "#24a09d",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#ff5451",
+                        "on-secondary": "#2f3131",
+                        "on-primary-fixed-variant": "#930013",
+                        "on-secondary-fixed-variant": "#454747",
+                        "surface-bright": "#393939",
+                        "on-surface": "#F8FAFC",
+                        "background": "#131313",
+                        "outline-variant": "#2a2a2a",
+                        "label-gray": "#94A3B8",
+                        "error": "#ffb4ab",
+                        "tertiary": "#69d8d4",
+                        "secondary": "#c6c6c7",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "section-gap": "80px",
+                        "container-max": "375px",
+                        "margin-mobile": "24px",
+                        "gutter": "16px",
+                        "base": "8px",
+                    },
+                    fontFamily: {
+                        "display-lg": ["Syne"],
+                        "headline-lg": ["Syne"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Syne"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Syne"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "display-lg": ["64px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["40px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                        "headline-md": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["11px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "body-md": ["15px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .text-outline {
+            -webkit-text-stroke: 1px #ef4444;
+            color: transparent;
+        }
+        body {
+            background-color: #131313;
+            color: #F8FAFC;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md bg-background text-on-background max-w-[375px] mx-auto overflow-x-hidden">
+<!-- 1. Top Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 h-16 bg-surface flex items-center justify-between px-margin-mobile max-w-[375px] mx-auto">
+<h1 class="font-headline-md text-[20px] tracking-tighter uppercase">SUBA TATTOO</h1>
+<button class="text-primary p-1">
+<span class="material-symbols-outlined text-[32px]">menu</span>
+</button>
+</header>
+<!-- 2. Hero Section -->
+<section class="min-h-screen pt-24 pb-16 px-margin-mobile flex flex-col justify-end relative">
+<div class="mb-8">
+<p class="font-label-sm text-primary mb-4 uppercase tracking-widest">Madrid · Underground Studio</p>
+<h2 class="font-headline-lg-mobile uppercase mb-6 leading-none">
+                Tatuajes <br/>
+                Personalizados <br/>
+<span class="text-outline">&amp; Arte Único</span>
+</h2>
+<p class="text-label-gray mb-10 max-w-[90%] font-body-md">Realismo, Blackwork, Color y Fine Line. Diseños a medida para cada anatomía.</p>
+<div class="flex flex-col gap-4">
+<a class="bg-primary text-on-background py-5 px-8 font-label-sm text-center uppercase tracking-widest hover:bg-white hover:text-black transition-all" href="#contacto">
+                    Solicitar Valoración
+                </a>
+<a class="border border-on-background text-on-background py-5 px-8 font-label-sm text-center uppercase tracking-widest hover:bg-on-background hover:text-surface transition-all" href="#galeria">
+                    Explorar Portafolio
+                </a>
+</div>
+</div>
+<!-- Background Decor -->
+<div class="absolute top-24 right-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 0;">ink_highlighter</span>
+</div>
+</section>
+<!-- 3. Filosofía -->
+<section class="py-section-gap px-margin-mobile border-t border-outline-variant">
+<h3 class="font-headline-md mb-8 uppercase">El Arte de la Marca Permanente</h3>
+<p class="text-label-gray mb-12 font-body-md">Entendemos el tatuaje como un proceso ritual donde la técnica quirúrgica se funde con la visión artística del cliente.</p>
+<div class="space-y-6">
+<!-- Card 1 -->
+<div class="border border-outline-variant p-8 group hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary mb-6" data-icon="architecture">architecture</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase">Composición y Anatomía</h4>
+<p class="text-label-gray text-sm">Cada trazo está diseñado para fluir con el movimiento natural de tu cuerpo.</p>
+</div>
+<!-- Card 2 -->
+<div class="border border-outline-variant p-8 group hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary mb-6" data-icon="sanitizer">sanitizer</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase">Higiene y Técnica Rigurosa</h4>
+<p class="text-label-gray text-sm">Protocolos hospitalarios para garantizar la seguridad total en cada sesión.</p>
+</div>
+<!-- Card 3 -->
+<div class="border border-outline-variant p-8 group hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary mb-6" data-icon="forum">forum</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase">Asesoramiento Personalizado</h4>
+<p class="text-label-gray text-sm">Trato directo con el artista para pulir cada detalle antes de la aguja.</p>
+</div>
+</div>
+</section>
+<!-- 4. Galería -->
+<section class="py-section-gap bg-surface-container-lowest" id="galeria">
+<div class="px-margin-mobile mb-10">
+<h3 class="font-headline-md uppercase">Archivo de Obras</h3>
+</div>
+<!-- Filter Chips -->
+<div class="flex overflow-x-auto px-margin-mobile gap-3 mb-10 hide-scrollbar">
+<button class="whitespace-nowrap bg-primary text-on-background px-4 py-2 font-label-sm uppercase tracking-tighter">Todos</button>
+<button class="whitespace-nowrap border border-outline-variant text-label-gray px-4 py-2 font-label-sm uppercase tracking-tighter">Illustrative/Color</button>
+<button class="whitespace-nowrap border border-outline-variant text-label-gray px-4 py-2 font-label-sm uppercase tracking-tighter">Blackwork</button>
+<button class="whitespace-nowrap border border-outline-variant text-label-gray px-4 py-2 font-label-sm uppercase tracking-tighter">Fine Line</button>
+</div>
+<!-- Single Column Grid -->
+<div class="space-y-1">
+<div class="relative group aspect-square bg-surface">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="A macro close-up of a vibrant Japanese neo-traditional tattoo featuring a golden dragon and scarlet red lotus flowers, high contrast lighting, deep blacks, sharp lines, underground studio aesthetic, Madrid tattoo culture, professional photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHMzD1_pCuENHFPRAqKx8I1jRtGtWrhCRqjTJoPu_-40_Treloewfju72V1dcE6P7CRJj_dX4wJ8c5jr1Cin1YsgsGBqsO6R9t2Y39befWC0tDhsdxyqR27kb8ImCUGQ5BT2SmEbVy78lXnK6AXYj0cirKTf0n8sIdc068yg--xpVVFeJyF1Dfylgkz7sbOj4jnrhhvCRFfpYcKwvEyY6cV25H-116ZXLb7FM2c7Pno3QrgVUdScacbal_oy1QaG7s1HfINMjxHbI"/>
+<div class="absolute bottom-6 left-6 bg-background/80 backdrop-blur-sm px-3 py-1">
+<span class="font-label-sm text-[10px] uppercase">Illustrative / Color</span>
+</div>
+</div>
+<div class="relative group aspect-square bg-surface">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="A minimalist fine-line tattoo of a geometric skull and botanical elements on a forearm, clean white background, studio lighting, focus on precision and technical detail, dark brutalist style, monochromatic palette, ink on skin." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-eHHBUByxsuqW4zjQG2kdUC_19uKL2-vqzQ4fXERCo6-F8-oR6rdGaFEfaE1FgCkoz3Lt_t3YgRQcsbfKRio3UXDaXO_pzNYcsmTwdYZILGIGueFWLICjsog8m1p1x-T26SPwG7JGW0_LAmezwP7LZ4C2mRFqAjrhNPRtl9pkzWu4yTO-tcgTqA1NYfm4yMaAjhqH0bLs0HH9BDRiscYbDRg-OHDxj8_AOii6EiI8eph2Q0UI-gVnfBFf8kfT9y6XIeZdabUjv7M"/>
+<div class="absolute bottom-6 left-6 bg-background/80 backdrop-blur-sm px-3 py-1">
+<span class="font-label-sm text-[10px] uppercase">Fine Line</span>
+</div>
+</div>
+<div class="relative group aspect-square bg-surface">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="Heavy blackwork tattoo on a shoulder featuring abstract dark patterns and solid black filling, intense texture, dramatic side lighting, underground vibe, artistic expression, raw obsidian and ink aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKXU1V2D1t4ckCmshI2jHAkkZaiMvuYdkTJp7pSd1CRWOR_YzCWcBZO6fNS6R7VRtEGRAoxWQ_b6psWoXL3PqK4uefEMYg60m_h3OwPI84z0LmwKiZHgHOb76dpZu9XJ7fikbxvGbJTZQFtZrvfq14DK23yMVCZIRKPkdg3PPe7kCZkMNTGZ9uafj8rn_3SpQgXOsjY0XMq3BgR9OCF5e93QhzDGLZjLRtHebywfD0KNTHxpQ6124WVofvzOK2HCEX-nIdhiLtfsM"/>
+<div class="absolute bottom-6 left-6 bg-background/80 backdrop-blur-sm px-3 py-1">
+<span class="font-label-sm text-[10px] uppercase">Blackwork</span>
+</div>
+</div>
+<div class="relative group aspect-square bg-surface">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="Portrait tattoo in hyper-realism style on a thigh, depicting a weathered face with intricate wrinkles and glowing eyes, dark cinematic lighting, professional tattoo artist portfolio, obsidian and red tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5AAGXQU8At8KuxI_zZgG8oQm_GWk3u6r3SNqN9R2obsvmgcSYHvcJio-K9oTVw4zdeb_4wFYRzCuLxY4JA8Ov6Dg79sYIa0Omd5VXGA-XK-hdk_dzWJYtzpxE97GIRZJ9SB-QnkXZxaWqso4WSVNC3aEc8VqnDyeppCYmLhDuIOSfBZMgqzaIZ2bAI1wo7V9vwcWB1Ac3ocWkPa7sKdNFJsJ4jCf1nlaUDh9mWE-kVspxbdNaXoa4OiHZj5a0yl83r8kMM12X_dM"/>
+<div class="absolute bottom-6 left-6 bg-background/80 backdrop-blur-sm px-3 py-1">
+<span class="font-label-sm text-[10px] uppercase">Realismo</span>
+</div>
+</div>
+<div class="relative group aspect-square bg-surface">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="A cartoon-style demonic character tattoo with bold scarlet red colors and thick black outlines, playful yet dark underground aesthetic, high resolution skin texture, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4iMVgRFiJ3AnhDRsWbaDLkIC4HgK8Tg-MvOoRrp6K3ilciyBycyVjyr99nqjULLXchwEjjmRA86l73Zhl2ZmT7i-Zmqc_CLMqWZ2H_rpYqZP6yEz5ySuczKTjr9sMYwsw_p9huiY6GiXQbjrbF5fLIsMROqeE1MgErYbx7yUvzgykO7jbDo1K_VAuSDlCotfL3JMa-Rjb8uvSAI6afvSkTT2VmyMSaOCO1GYM1oieCDsQy__AV62sSNiTSxG9hZgOJDDBDTvEH3g"/>
+<div class="absolute bottom-6 left-6 bg-background/80 backdrop-blur-sm px-3 py-1">
+<span class="font-label-sm text-[10px] uppercase">New School</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Proceso -->
+<section class="py-section-gap px-margin-mobile">
+<h3 class="font-headline-md mb-12 uppercase">El Camino de la Tinta</h3>
+<div class="space-y-16">
+<!-- Step 1 -->
+<div class="relative pl-12">
+<span class="absolute left-0 top-0 text-[64px] font-headline-lg text-outline opacity-20 select-none">01</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase relative z-10">Valoración Previa</h4>
+<p class="text-label-gray text-sm">Analizamos tu idea, el tamaño y la ubicación para darte un presupuesto honesto.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative pl-12">
+<span class="absolute left-0 top-0 text-[64px] font-headline-lg text-outline opacity-20 select-none">02</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase relative z-10">Diseño Personalizado</h4>
+<p class="text-label-gray text-sm">Creamos una pieza exclusiva basada en tus referencias y nuestra visión técnica.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative pl-12">
+<span class="absolute left-0 top-0 text-[64px] font-headline-lg text-outline opacity-20 select-none">03</span>
+<h4 class="font-headline-md text-[18px] mb-3 uppercase relative z-10">Sesión &amp; Cuidados</h4>
+<p class="text-label-gray text-sm">El día de la cita. Usamos los mejores materiales y te guiamos en la curación.</p>
+</div>
+</div>
+</section>
+<!-- 6. Contacto -->
+<section class="py-section-gap px-margin-mobile bg-surface-container" id="contacto">
+<h3 class="font-headline-md mb-8 uppercase text-center">Inicia tu Proyecto</h3>
+<form class="space-y-6">
+<div>
+<label class="block font-label-sm uppercase mb-2 text-primary">Nombre</label>
+<input class="w-full bg-transparent border border-outline-variant focus:border-primary focus:ring-0 px-4 py-4 font-body-md" placeholder="Tu nombre" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm uppercase mb-2 text-primary">Email</label>
+<input class="w-full bg-transparent border border-outline-variant focus:border-primary focus:ring-0 px-4 py-4 font-body-md" placeholder="tu@email.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-sm uppercase mb-2 text-primary">Estilo</label>
+<select class="w-full bg-surface border border-outline-variant focus:border-primary focus:ring-0 px-4 py-4 font-body-md appearance-none">
+<option>Seleccionar estilo</option>
+<option>Blackwork</option>
+<option>Fine Line</option>
+<option>Realismo</option>
+<option>Illustrative</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm uppercase mb-2 text-primary">Área / Tamaño</label>
+<input class="w-full bg-transparent border border-outline-variant focus:border-primary focus:ring-0 px-4 py-4 font-body-md" placeholder="Ej: Antebrazo, 15cm" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm uppercase mb-2 text-primary">Tu Idea</label>
+<textarea class="w-full bg-transparent border border-outline-variant focus:border-primary focus:ring-0 px-4 py-4 font-body-md" placeholder="Cuéntanos brevemente tu proyecto..." rows="4"></textarea>
+</div>
+<button class="w-full bg-primary text-on-background py-5 font-label-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all" type="submit">
+                Enviar Solicitud
+            </button>
+</form>
+</section>
+<!-- 7. Footer -->
+<footer class="py-16 px-margin-mobile border-t border-outline-variant">
+<div class="mb-12">
+<h2 class="font-headline-md text-[24px] tracking-tighter uppercase mb-2">SUBA TATTOO</h2>
+<p class="font-label-sm text-label-gray">Madrid Underground Studio</p>
+</div>
+<div class="flex flex-col gap-6 font-label-sm uppercase tracking-widest">
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                Instagram <span class="material-symbols-outlined text-sm">north_east</span>
+</a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                WhatsApp <span class="material-symbols-outlined text-sm">north_east</span>
+</a>
+<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                Ubicación <span class="material-symbols-outlined text-sm">location_on</span>
+</a>
+<a class="text-surface-variant hover:text-primary transition-colors mt-4" href="#">
+                Privacidad
+            </a>
+</div>
+<div class="mt-16 pt-8 border-t border-outline-variant">
+<p class="font-label-sm text-[10px] text-surface-variant">© 2024 SUBA TATTOO STUDIO. Technical Precision. Artistic Rawness.</p>
+</div>
+</footer>
+<!-- 8. Floating WhatsApp -->
+<a class="fixed bottom-6 right-6 z-[100] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform" href="https://wa.me/34000000000" target="_blank">
+<svg class="w-8 h-8 text-white fill-current" viewbox="0 0 24 24">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+</svg>
+</a>
+<script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple scroll reveal for images
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.aspect-square').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-700');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

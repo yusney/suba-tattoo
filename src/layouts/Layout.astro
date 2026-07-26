@@ -1,0 +1,108 @@
+---
+import "../styles/global.css";
+import { useTranslations, getLocaleFromPath, localizePath, LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  canonical?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/images/og/og-default.jpg",
+  ogType = "website",
+  canonical,
+  noindex = false,
+} = Astro.props;
+
+const locale: Locale = (Astro.currentLocale ?? getLocaleFromPath(Astro.url.pathname)) as Locale;
+const safeLocale: Locale = (LOCALES as readonly string[]).includes(locale) ? locale : DEFAULT_LOCALE;
+const t = useTranslations(safeLocale);
+const finalTitle = title ?? t("site_meta.default_title");
+const finalDescription = description ?? t("site_meta.default_description");
+const skipLabel = t("a11y.skip_to_content");
+
+const siteOrigin = Astro.site?.origin ?? "https://subatattoo.com";
+const stripLocalePath = (() => {
+  const segments = Astro.url.pathname.split("/").filter(Boolean);
+  if (segments[0] === "en" || segments[0] === "ca") {
+    return "/" + segments.slice(1).join("/");
+  }
+  return Astro.url.pathname === "/" ? "/" : Astro.url.pathname;
+})();
+
+const finalCanonical =
+  canonical ??
+  (new URL(stripLocalePath, siteOrigin).toString().replace(/\/$/, "") ||
+    new URL("/", siteOrigin).toString());
+
+const ogImageUrl = new URL(ogImage, siteOrigin).toString();
+const ogLocale = t("meta.og.locale_" + safeLocale) || "es_ES";
+const siteName = t("meta.og.site_name");
+
+const hreflangs = LOCALES.map((loc) => {
+  const localizedPath = localizePath(stripLocalePath, loc);
+  return { lang: loc, href: new URL(localizedPath, siteOrigin).toString() };
+});
+const xDefaultHref = hreflangs.find((h) => h.lang === DEFAULT_LOCALE)?.href ?? new URL("/", siteOrigin).toString();
+const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+---
+
+<!doctype html>
+<html class="dark" lang={safeLocale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={finalDescription} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="theme-color" content="#131313" />
+    <meta name="color-scheme" content="dark" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>{finalTitle}</title>
+
+    <link rel="canonical" href={finalCanonical} />
+    {hreflangs.map(({ lang, href }) => (
+      <link rel="alternate" hreflang={lang} href={href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+
+    <meta property="og:title" content={finalTitle} />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:url" content={finalCanonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:site_name" content={siteName} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={finalTitle} />
+    <meta name="twitter:description" content={finalDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-surface text-on-surface font-body-md">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:font-label-sm focus:uppercase focus:tracking-widest"
+    >{skipLabel}</a>
+    <slot />
+  </body>
+</html>

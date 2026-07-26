@@ -1,0 +1,78 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import FaqHero from "../../components/FaqHero.astro";
+import FaqAccordion from "../../components/FaqAccordion.astro";
+import CareSteps from "../../components/CareSteps.astro";
+import HygieneProtocol from "../../components/HygieneProtocol.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+import { getSiteSettings } from "../../lib/site";
+import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+const t = useTranslations(locale);
+
+const faqEntry = await getEntry("faq", locale);
+if (!faqEntry) {
+  throw new Error(`[FaqPage] Missing src/content/faq/${locale}.json`);
+}
+
+const settings = await getSiteSettings(locale);
+const sections = (faqEntry.data as any).sections;
+const info = sections[0];
+const care = sections.find((s: any) => s.care_steps && s.care_steps.length > 0);
+const hygiene = sections.find((s: any) => s.protocol_items && s.protocol_items.length > 0);
+
+const pageTitle = t("meta.faq.title");
+const pageDescription = t("meta.faq.description");
+const ctaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogType="website"
+>
+  <TopBar />
+  <main id="main" class="pt-24 scroll-mt-24">
+    <FaqHero
+      label={info.category_label}
+      title={info.page_title}
+      subtitle={info.page_subtitle}
+    />
+    {info.questions && info.questions.length > 0 && (
+      <FaqAccordion questions={info.questions} />
+    )}
+    {care && care.care_steps && (
+      <CareSteps
+        steps={care.care_steps}
+        label={care.category_label}
+        title={care.page_title}
+      />
+    )}
+    {hygiene && hygiene.protocol_items && (
+      <HygieneProtocol
+        items={hygiene.protocol_items}
+        label={hygiene.category_label}
+        title={hygiene.page_title}
+      />
+    )}
+    <CtaBanner
+      title={t("faq.cta_title")}
+      buttonLabel={t("faq.cta_button")}
+      buttonHref={ctaHref}
+    />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

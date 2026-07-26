@@ -1,0 +1,44 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import ReservaHero from "../../components/ReservaHero.astro";
+import SessionTypeSelector from "../../components/SessionTypeSelector.astro";
+import BookingForm from "../../components/BookingForm.astro";
+import ReservaPolicy from "../../components/ReservaPolicy.astro";
+import { useTranslations } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+const t = useTranslations(locale);
+
+const policyBullets = t.array("reserva.policy_bullets");
+---
+
+<Layout
+  title={t("meta.reserva.title")}
+  description={t("meta.reserva.description")}
+  ogType="website"
+>
+  <TopBar />
+  <main id="main" class="pt-32 pb-section-gap scroll-mt-24">
+    <ReservaHero
+      eyebrow={t("reserva.eyebrow")}
+      title={t("reserva.title")}
+      subtitle={t("reserva.subtitle")}
+    />
+    <SessionTypeSelector />
+    <BookingForm>
+      <ReservaPolicy slot="aside" bullets={policyBullets} />
+    </BookingForm>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

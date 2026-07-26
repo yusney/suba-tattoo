@@ -1,0 +1,60 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+---
+
+<section class="px-margin-desktop mb-section-gap">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline-variant">
+    <div class="group p-8 border-b md:border-b-0 md:border-r border-outline-variant transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest hover:border-primary">
+      <div>
+        <span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">{t("reserva.sessions.phase1_label")}</span>
+        <h3 class="font-headline-md text-headline-md uppercase mb-2">{t("reserva.sessions.phase1_title")}</h3>
+        <p class="text-on-surface-variant text-sm mb-6">{t("reserva.sessions.phase1_body")}</p>
+      </div>
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary">{t("reserva.sessions.phase1_price")}</p>
+          <p class="font-label-sm text-[10px] uppercase opacity-60">{t("reserva.sessions.phase1_duration")}</p>
+        </div>
+        <span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" aria-hidden="true">arrow_forward</span>
+      </div>
+    </div>
+
+    <div class="group p-8 border-b md:border-b-0 md:border-r border-outline-variant transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest hover:border-primary relative border-primary">
+      <div class="absolute top-4 right-4">
+        <span class="bg-primary text-on-primary text-[10px] font-label-sm px-2 py-1 uppercase">{t("reserva.sessions.recommended_badge")}</span>
+      </div>
+      <div>
+        <span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">{t("reserva.sessions.phase2_label")}</span>
+        <h3 class="font-headline-md text-headline-md uppercase mb-2">{t("reserva.sessions.phase2_title")}</h3>
+        <p class="text-on-surface-variant text-sm mb-6">{t("reserva.sessions.phase2_body")}</p>
+      </div>
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary">{t("reserva.sessions.phase2_price")}</p>
+          <p class="font-label-sm text-[10px] uppercase opacity-60">{t("reserva.sessions.phase2_duration")}</p>
+        </div>
+        <span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" aria-hidden="true">arrow_forward</span>
+      </div>
+    </div>
+
+    <div class="group p-8 border-outline-variant transition-colors flex flex-col justify-between min-h-[320px] bg-surface-container-lowest hover:border-primary">
+      <div>
+        <span class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-4 block">{t("reserva.sessions.phase3_label")}</span>
+        <h3 class="font-headline-md text-headline-md uppercase mb-2">{t("reserva.sessions.phase3_title")}</h3>
+        <p class="text-on-surface-variant text-sm mb-6">{t("reserva.sessions.phase3_body")}</p>
+      </div>
+      <div class="flex justify-between items-end">
+        <div>
+          <p class="font-label-sm text-label-sm text-primary">{t("reserva.sessions.phase3_price")}</p>
+          <p class="font-label-sm text-[10px] uppercase opacity-60">{t("reserva.sessions.phase3_duration")}</p>
+        </div>
+        <span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" aria-hidden="true">arrow_forward</span>
+      </div>
+    </div>
+  </div>
+</section>

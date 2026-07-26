@@ -1,0 +1,40 @@
+---
+import { getSiteSettings } from "../lib/site";
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const settings = await getSiteSettings(locale);
+---
+
+<section class="relative mx-auto flex min-h-[90vh] max-w-container-max flex-col justify-center overflow-hidden bg-surface px-margin-mobile py-16 pt-24 md:px-margin-desktop md:py-section-gap">
+  <div class="pointer-events-none absolute inset-0 z-0">
+<div
+      class="animate-hero-zoom absolute inset-0 bg-no-repeat bg-cover bg-center opacity-50 md:opacity-65"
+      style="background-image: url('/images/hero/tattoo-session.jpg'); background-position: center 30%;"
+      aria-hidden="true"
+    ></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-surface via-surface/85 to-surface/50 md:bg-gradient-to-r md:from-surface md:via-surface/90 md:to-transparent"></div>
+    <div class="pointer-events-none absolute inset-0 overflow-hidden opacity-15">
+      <svg class="absolute left-10 top-10 h-32 w-32 text-primary/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
+      <svg class="absolute bottom-20 right-20 h-48 w-48 text-primary/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 12 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15 12L10 15V9L15 12Z" /></svg>
+      <svg class="absolute left-1/4 top-1/2 h-40 w-40 text-primary/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" /></svg>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface"></div>
+  </div>
+  <a id="about" class="absolute top-0" aria-hidden="true"></a>
+  <div class="relative z-10 max-w-md md:max-w-4xl">
+    <span class="mb-6 block text-label-sm font-label-sm uppercase tracking-[0.3em] text-primary animate-hero-enter [animation-delay:0ms]">{t("hero.tagline")}</span>
+    <h1 class="mb-6 text-5xl font-display-lg uppercase leading-[1.05] md:mb-8 md:text-display-lg animate-hero-enter [animation-delay:200ms]">{t("hero.title_line1")} <span class="text-stroke">{t("hero.title_line2")}</span></h1>
+    <p class="mb-10 max-w-md text-body-md font-body-md text-on-surface-variant md:mb-12 md:max-w-2xl md:text-body-lg animate-hero-enter [animation-delay:450ms]">{t("hero.subtitle")}</p>
+    <div class="flex flex-col gap-4 sm:flex-row md:gap-6">
+      <a class="border border-primary bg-primary px-8 py-4 text-center text-label-sm font-label-sm font-bold uppercase tracking-[0.2em] text-on-primary transition-[background-color,color] hover:bg-transparent hover:text-primary animate-hero-enter [animation-delay:650ms] touch-manipulation md:px-10 md:py-5" href="#contact">{t("hero.cta_primary")}</a>
+      <a class="border border-outline-variant px-8 py-4 text-center text-label-sm font-label-sm uppercase tracking-[0.2em] text-on-surface transition-[background-color,color] hover:bg-surface-container-high animate-hero-enter [animation-delay:750ms] touch-manipulation md:px-10 md:py-5" href="#gallery">{t("hero.cta_secondary")}</a>
+    </div>
+  </div>
+  <div class="absolute bottom-12 right-margin-desktop hidden lg:block" data-reveal>
+    <div class="flex flex-col items-end gap-2 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant opacity-60"><span>{t("hero.scroll")}</span><span class="material-symbols-outlined animate-bounce text-primary" aria-hidden="true">arrow_downward</span></div>
+  </div>
+</section>

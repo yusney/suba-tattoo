@@ -1,0 +1,58 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  filosofiaText: string;
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { filosofiaText } = Astro.props;
+---
+
+<section class="py-section-gap">
+  <div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <div class="md:col-span-1 flex justify-center">
+      <span class="vertical-text font-label-sm text-label-sm tracking-[0.5em] text-primary font-bold border-r border-outline-variant pr-4">
+        {t("sobre.filosofia_tab")}
+      </span>
+    </div>
+    <div class="md:col-span-11 pl-0 md:pl-12">
+      <h2 class="font-headline-lg text-headline-lg uppercase mb-12" data-reveal>
+        {t("sobre.filosofia_section_title")}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16" data-reveal>
+        <div class="space-y-8">
+          {filosofiaText.split(/\n\n+/).map((p) => (
+            <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              {p}
+            </p>
+          ))}
+        </div>
+        <div class="space-y-8">
+          <div class="border border-outline-variant p-8 bg-surface-container">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size: 32px;">architecture</span>
+            <h3 class="font-label-sm text-label-sm text-on-surface uppercase mb-4 tracking-wider">
+              {t("sobre.filosofia_card1_title")}
+            </h3>
+            <p class="text-sm text-on-surface-variant">
+              {t("sobre.filosofia_card1_body")}
+            </p>
+          </div>
+          <div class="border border-outline-variant p-8 bg-surface-container">
+            <span class="material-symbols-outlined text-primary mb-4" style="font-size: 32px;">history_edu</span>
+            <h3 class="font-label-sm text-label-sm text-on-surface uppercase mb-4 tracking-wider">
+              {t("sobre.filosofia_card2_title")}
+            </h3>
+            <p class="text-sm text-on-surface-variant">
+              {t("sobre.filosofia_card2_body")}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

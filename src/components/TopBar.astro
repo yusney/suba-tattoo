@@ -1,0 +1,138 @@
+---
+import { getSiteSettings } from "../lib/site";
+import { useTranslations, getLocaleFromPath, localizePath, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const settings = await getSiteSettings();
+const rawLocale = Astro.currentLocale ?? getLocaleFromPath(Astro.url.pathname);
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale as Locale)
+  ? (rawLocale as Locale)
+  : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isLanding = pathname === "/" || pathname === "/en" || pathname === "/ca";
+const isSobre = pathname.endsWith("/sobre");
+const isReserva = pathname.endsWith("/reserva");
+const isDetalle = pathname.includes("/detalle");
+
+const linkClass = (active: boolean) =>
+  active
+    ? "text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold border-b-2 border-primary pb-2"
+    : "text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors";
+
+const galleryHref = isLanding
+  ? (locale === DEFAULT_LOCALE ? "#gallery" : `/${locale}#gallery`)
+  : (locale === DEFAULT_LOCALE ? "/#gallery" : `/${locale}/#gallery`);
+const processHref = isLanding
+  ? (locale === DEFAULT_LOCALE ? "#process" : `/${locale}#process`)
+  : (locale === DEFAULT_LOCALE ? "/#process" : `/${locale}/#process`);
+
+const filosofiaHref = locale === DEFAULT_LOCALE ? "/sobre" : `/${locale}/sobre`;
+const contactoHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+const ctaHref = contactoHref;
+const brandHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}`;
+
+// Language switcher URLs — keep the current page, just swap the prefix.
+const switchLocale = (target: Locale): string => localizePath(pathname, target);
+
+const galleryActive = isLanding || isDetalle;
+const processActive = false;
+const filosofiaActive = isSobre;
+const contactoActive = isReserva;
+
+const localeLabels: Record<Locale, { code: string; name: string }> = {
+  es: { code: "ES", name: t("switcher.es") },
+  en: { code: "EN", name: t("switcher.en") },
+  ca: { code: "CA", name: t("switcher.ca") },
+};
+---
+
+<header class="fixed top-0 left-0 z-50 h-24 w-full border-b border-outline-variant bg-surface/90 backdrop-blur-sm">
+  <div class="mx-auto flex h-24 w-full max-w-container-max items-center justify-between px-margin-desktop">
+    <a class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface" href={brandHref}>{settings.brand_name}</a>
+    <nav class="hidden items-center space-x-8 md:flex">
+      <a class={linkClass(galleryActive)} href={galleryHref} data-spy="gallery">{t("nav.gallery")}</a>
+      <a class={linkClass(processActive)} href={processHref} data-spy="process">{t("nav.process")}</a>
+      <a class={linkClass(filosofiaActive)} href={filosofiaHref}>{t("nav.about")}</a>
+      <a class={linkClass(contactoActive)} href={contactoHref}>{t("nav.contact")}</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <div class="relative group">
+        <button
+          type="button"
+          aria-label={t("switcher.label")}
+          aria-haspopup="true"
+          aria-expanded="false"
+          class="flex h-12 items-center justify-center gap-2 border border-outline-variant px-4 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors touch-manipulation"
+        >
+          <span class="font-bold">{localeLabels[locale].code}</span>
+          <span class="material-symbols-outlined text-base" aria-hidden="true">expand_more</span>
+        </button>
+        <div class="invisible absolute right-0 top-full z-50 mt-1 w-44 border border-outline-variant bg-surface opacity-0 transition-[opacity,visibility] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+          {(["es", "en", "ca"] as Locale[]).map((target) => (
+            <a
+              href={switchLocale(target)}
+              class:list={[
+                "flex items-center justify-between px-4 py-3 font-label-sm text-label-sm uppercase tracking-widest transition-colors",
+                target === locale
+                  ? "text-primary"
+                  : "text-on-surface-variant hover:bg-surface-container-high hover:text-primary",
+              ]}
+              aria-current={target === locale ? "true" : undefined}
+            >
+              <span>{localeLabels[target].name}</span>
+              <span class="opacity-60">{localeLabels[target].code}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <a class="hidden h-12 items-center justify-center border border-transparent bg-primary px-6 font-label-sm text-label-sm uppercase tracking-widest text-on-primary transition-[background-color,color] hover:bg-on-background hover:text-surface md:inline-flex" href={ctaHref}>{t("nav.cta")}</a>
+    </div>
+  </div>
+</header>
+
+{isLanding && (
+  <script>
+    // Scroll-spy: swap the active nav link based on which section is in view.
+    // Only runs on the landing page (where #gallery and #process exist).
+    const ACTIVE = "text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold border-b-2 border-primary pb-2";
+    const INACTIVE = "text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors";
+
+    const spyIds = ["gallery", "process"];
+    const sections = spyIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("header nav a[data-spy]")
+    );
+
+    function setActive(activeId: string) {
+      links.forEach((link) => {
+        const target = link.getAttribute("data-spy");
+        link.className = target === activeId ? ACTIVE : INACTIVE;
+      });
+    }
+
+    if (sections.length > 0 && links.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+      sections.forEach((section) => observer.observe(section));
+    }
+
+    // Initial state from URL hash (e.g. landing on /#process directly).
+    const hash = window.location.hash.slice(1);
+    if (hash && spyIds.includes(hash)) {
+      requestAnimationFrame(() => setActive(hash));
+    }
+  </script>
+)}

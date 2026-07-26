@@ -1,0 +1,51 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import SobreHero from "../../components/SobreHero.astro";
+import StatsStrip from "../../components/StatsStrip.astro";
+import FilosofiaText from "../../components/FilosofiaText.astro";
+import StylesGrid from "../../components/StylesGrid.astro";
+import FeaturedIn from "../../components/FeaturedIn.astro";
+import { getSiteSettings } from "../../lib/site";
+import { useTranslations } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+
+const sobreEntry = await getEntry("sobre", locale);
+if (!sobreEntry) {
+  throw new Error(`[SobrePage] Missing src/content/sobre/${locale}.json`);
+}
+const sobre = sobreEntry.data as any;
+
+const t = useTranslations(locale);
+const settings = await getSiteSettings(locale);
+const pageTitle = t("meta.sobre.title");
+const pageDescription = (sobre.intro_text ?? "").split(/\n\n+/)[0] ?? settings.about_short;
+---
+
+<Layout title={pageTitle} description={pageDescription} ogType="website">
+  <TopBar />
+  <main id="main" class="pt-24 overflow-x-hidden scroll-mt-24">
+    <SobreHero
+      artistName={sobre.artist_name}
+      artistSubtitle={sobre.artist_subtitle}
+      introText={sobre.intro_text}
+    />
+    <StatsStrip stats={sobre.stats} />
+    <FilosofiaText filosofiaText={sobre.filosofia_text} />
+    <StylesGrid styles={sobre.styles} />
+    <FeaturedIn items={sobre.featured_in} />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

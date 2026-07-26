@@ -1,0 +1,60 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const styles = t.array("marquee.styles");
+if (styles.length === 0) {
+  throw new Error("marquee.styles translation missing for locale " + locale);
+}
+
+const track1Class = "mx-8 inline-flex items-center gap-8 text-on-surface";
+const track2Class = "mx-8 inline-flex items-center gap-8 text-on-surface-variant";
+---
+
+<section class="border-y border-outline-variant bg-surface" aria-label={t("nav.gallery")}>
+  <div class="overflow-hidden py-6">
+    <div class="flex w-max whitespace-nowrap animate-marquee-left will-change-transform">
+      <div class="flex">
+        {styles.map((label) => (
+          <span class={track1Class}>
+            <span>{label}</span>
+            <span class="text-primary" aria-hidden="true">●</span>
+          </span>
+        ))}
+      </div>
+      <div class="flex" aria-hidden="true">
+        {styles.map((label) => (
+          <span class={track1Class}>
+            <span>{label}</span>
+            <span class="text-primary" aria-hidden="true">●</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-primary/30"></div>
+  <div class="overflow-hidden py-6">
+    <div class="flex w-max whitespace-nowrap animate-marquee-right will-change-transform">
+      <div class="flex">
+        {styles.map((label) => (
+          <span class={track2Class}>
+            <span>{label}</span>
+            <span class="text-primary" aria-hidden="true">●</span>
+          </span>
+        ))}
+      </div>
+      <div class="flex" aria-hidden="true">
+        {styles.map((label) => (
+          <span class={track2Class}>
+            <span>{label}</span>
+            <span class="text-primary" aria-hidden="true">●</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

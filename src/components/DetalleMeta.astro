@@ -1,0 +1,51 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Tattoo {
+  slug: string;
+  title: string;
+  style: string;
+  year: number;
+  href: string;
+}
+
+interface Props {
+  pieceNumber: string;
+  style: string;
+  year: number;
+  prev: Tattoo | null;
+  next: Tattoo | null;
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { pieceNumber, style, year, prev, next } = Astro.props;
+const meta = `${pieceNumber} · ${style.toUpperCase()} · ${year}`;
+---
+
+<div class="w-full border-b border-outline-variant bg-surface">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">
+      {meta}
+    </div>
+    <div class="flex gap-12">
+      {prev ? (
+        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors uppercase" href={prev.href}>
+          ← {t("detalle.prev")}
+        </a>
+      ) : (
+        <span class="font-label-sm text-label-sm text-on-surface-variant/40 uppercase cursor-not-allowed">← {t("detalle.prev")}</span>
+      )}
+      {next ? (
+        <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors uppercase" href={next.href}>
+          {t("detalle.next")} →
+        </a>
+      ) : (
+        <span class="font-label-sm text-label-sm text-on-surface-variant/40 uppercase cursor-not-allowed">{t("detalle.next")} →</span>
+      )}
+    </div>
+  </div>
+</div>

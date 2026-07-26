@@ -1,0 +1,351 @@
+<!DOCTYPE html><html class="dark" lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">SUBA TATTOO | Technical Precision. Artistic Rawness.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-tertiary": "#003736",
+                "tertiary-fixed": "#87f4f0",
+                "surface-container-lowest": "#0e0e0e",
+                "outline": "#ab8986",
+                "surface": "#131313",
+                "surface-container-low": "#1c1b1b",
+                "inverse-surface": "#e5e2e1",
+                "on-surface-variant": "#e4beba",
+                "surface-bright": "#393939",
+                "on-secondary-fixed": "#1a1c1c",
+                "on-secondary-fixed-variant": "#454747",
+                "surface-container-high": "#2a2a2a",
+                "on-error": "#690005",
+                "surface-tint": "#ffb3ad",
+                "primary-container": "#ff5451",
+                "on-secondary-container": "#b4b5b5",
+                "on-background": "#e5e2e1",
+                "error": "#ffb4ab",
+                "tertiary-container": "#24a09d",
+                "on-error-container": "#ffdad6",
+                "error-container": "#93000a",
+                "surface-variant": "#353534",
+                "secondary-fixed": "#e2e2e2",
+                "primary": "#ffb3ad",
+                "primary-fixed": "#ffdad7",
+                "secondary-fixed-dim": "#c6c6c7",
+                "primary-fixed-dim": "#ffb3ad",
+                "on-primary-fixed": "#410004",
+                "inverse-primary": "#b91a24",
+                "surface-container-highest": "#353534",
+                "on-primary-container": "#5c0008",
+                "tertiary-fixed-dim": "#69d8d4",
+                "surface-container": "#201f1f",
+                "on-tertiary-fixed": "#00201f",
+                "outline-variant": "#5b403e",
+                "on-primary-fixed-variant": "#930013",
+                "on-tertiary-container": "#00302e",
+                "on-surface": "#e5e2e1",
+                "background": "#131313",
+                "tertiary": "#69d8d4",
+                "on-tertiary-fixed-variant": "#00504e",
+                "on-primary": "#68000a",
+                "on-secondary": "#2f3131",
+                "surface-dim": "#131313",
+                "secondary-container": "#454747",
+                "secondary": "#c6c6c7",
+                "inverse-on-surface": "#313030"
+            },
+            "borderRadius": {
+                "DEFAULT": "0px",
+                "lg": "0px",
+                "xl": "0px",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-max": "1440px",
+                "section-gap": "120px",
+                "margin-desktop": "64px",
+                "base": "8px",
+                "gutter": "24px",
+                "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                "body-md": ["Plus Jakarta Sans"],
+                "headline-lg": ["Syne"],
+                "headline-lg-mobile": ["Syne"],
+                "body-lg": ["Plus Jakarta Sans"],
+                "label-sm": ["JetBrains Mono"],
+                "headline-md": ["Syne"],
+                "display-lg": ["Syne"]
+            },
+            "fontSize": {
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-lg": ["48px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "display-lg": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #5b403e; }
+        .text-stroke { -webkit-text-stroke: 1px #ffb3ad; color: transparent; }
+        .grid-editorial { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-sm border-b border-outline-variant h-24">
+<div class="flex justify-between items-center w-full px-margin-desktop h-24 max-w-container-max mx-auto">
+<a class="text-headline-md font-headline-md font-bold tracking-tighter text-on-surface" href="#">SUBA TATTOO</a>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold border-b-2 border-primary pb-2" href="#gallery">Galería</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#process">Proceso</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#about">Filosofía</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#contact">Contacto</a>
+</nav>
+<button class="bg-primary text-on-primary px-6 py-3 font-label-sm uppercase tracking-widest hover:bg-on-background hover:text-surface transition-all duration-200">
+                Solicitar Valoración
+            </button>
+</div>
+</header>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex flex-col justify-center px-margin-desktop max-w-container-max mx-auto border-x border-outline-variant overflow-hidden bg-surface">
+<div class="absolute inset-0 z-0 opacity-40 pointer-events-none transition-all duration-1000 opacity-100 translate-y-0"><div class="absolute inset-0 bg-[#121212]"></div><div class="absolute inset-0 opacity-15 pointer-events-none overflow-hidden"><svg class="absolute top-10 left-10 w-32 h-32 text-primary/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z"></path></svg><svg class="absolute bottom-20 right-20 w-48 h-48 text-primary/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM15 12L10 15V9L15 12Z"></path></svg><svg class="absolute top-1/2 left-1/4 w-40 h-40 text-primary/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"></path></svg></div><div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#131313]"></div></div>
+<div class="relative z-10 max-w-4xl transition-all duration-1000 opacity-100 translate-y-0">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-[0.3em] mb-6 block">Madrid · Underground Studio</span>
+<h1 class="text-display-lg font-display-lg mb-8 uppercase">Tatuajes Personalizados <span class="text-stroke">&amp; Arte Único</span></h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl mb-12">
+                    Realismo, Blackwork, Color y Fine Line. Diseños concebidos a medida para cada anatomía. Fusionamos la precisión técnica con la crudeza artística.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6">
+<a class="bg-primary text-on-primary px-10 py-5 text-label-sm font-label-sm uppercase tracking-[0.2em] font-bold text-center border border-primary hover:bg-transparent hover:text-primary transition-all duration-300" href="#contact">
+                        Solicitar Valoración
+                    </a>
+<a class="px-10 py-5 text-label-sm font-label-sm uppercase tracking-[0.2em] border border-outline-variant text-on-surface text-center hover:bg-surface-container-high transition-all duration-300" href="#gallery">
+                        Explorar Portafolio
+                    </a>
+</div>
+</div>
+<div class="absolute bottom-12 right-margin-desktop hidden lg:block transition-all duration-1000 opacity-100 translate-y-0">
+<div class="flex flex-col items-end gap-2 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-widest opacity-60">
+<span class="">Scroll to explore</span>
+<span class="material-symbols-outlined text-primary animate-bounce">arrow_downward</span>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-section-gap px-margin-desktop max-w-container-max mx-auto border-x border-outline-variant" id="about">
+<div class="grid lg:grid-cols-12 gap-gutter items-start transition-all duration-1000 opacity-100 translate-y-0">
+<div class="lg:col-span-5">
+<h2 class="text-headline-lg font-headline-lg mb-8 uppercase">El Arte de la Marca Permanente</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant mb-12">
+                        Trabajo diferentes estilos como realismo, blackwork, color y fine line. Mi filosofía se basa en que el tatuaje no es solo una imagen, sino una pieza de arquitectura corporal que debe fluir con el movimiento y la esencia de quien la porta.
+                    </p>
+</div>
+<div class="lg:col-span-7 grid md:grid-cols-3 gap-6">
+<div class="p-8 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors group">
+<span class="material-symbols-outlined text-primary mb-6 text-4xl" data-icon="architecture">architecture</span>
+<h3 class="text-label-sm font-label-sm font-bold uppercase mb-4">Composición y Anatomía</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Análisis del flujo muscular para que el diseño se adapte orgánicamente.</p>
+</div>
+<div class="p-8 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors group">
+<span class="material-symbols-outlined text-primary mb-6 text-4xl" data-icon="sanitizer">sanitizer</span>
+<h3 class="text-label-sm font-label-sm font-bold uppercase mb-4">Higiene y Técnica Rigurosa</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Estándares quirúrgicos y materiales de la más alta gama para tu seguridad.</p>
+</div>
+<div class="p-8 border border-outline-variant bg-surface-container-low hover:border-primary transition-colors group">
+<span class="material-symbols-outlined text-primary mb-6 text-4xl" data-icon="forum">forum</span>
+<h3 class="text-label-sm font-label-sm font-bold uppercase mb-4">Asesoramiento Personalizado</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Consultoría profunda para transformar tu idea en una obra imperecedera.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Gallery Section -->
+<section class="py-section-gap px-margin-desktop max-w-container-max mx-auto border-x border-outline-variant bg-surface-container-lowest" id="gallery">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 transition-all duration-1000 opacity-100 translate-y-0">
+<div>
+<h2 class="text-headline-lg font-headline-lg uppercase mb-2">Archivo de Obras</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-widest">Selección curada de proyectos recientes</p>
+</div>
+<div class="flex flex-wrap gap-4 border-b border-outline-variant pb-2">
+<button class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 text-primary border-b-2 border-primary">Todos</button>
+<button class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Illustrative / Color</button>
+<button class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Blackwork &amp; Dark</button>
+<button class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Fine Line &amp; Minimal</button>
+<button class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Realismo &amp; Detalle</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-1000 opacity-100 translate-y-0">
+<!-- Large Feature -->
+<div class="md:col-span-2 group relative aspect-[16/10] overflow-hidden border border-outline-variant bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" data-alt="A cinematic, high-contrast photograph of a detailed blackwork tattoo on a muscular forearm. The lighting is dramatic and moody, highlighting the intricate linework and deep black shading. The background is a dark, industrial tattoo studio with hints of scarlet red neon. The aesthetic is editorial and sophisticated, capturing the raw texture of the skin and the precision of the art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgYeEaaWslybw3hvGVRSyh6vUdBfZex2Kn-Nk67fs0NCuSPZgF0Md1JalSXBFL3J9p-LdI88VG_O0jRPMCSuumIEBOjPvui7caeo3LXIJOMS05DRDF4b-9kSrlLfy87Jl_vZGa48ZN1Q7kATf4k4v0enxLUd_OnUeKn5nEUWdBsVL9xWB_mmvYAunEHOUp5IFK-y3AcEMHXNhH1V9iNd-8h7PadnA8KOXhFNw5XCS2XyI2eJ4hViPsqMZ0zgxIsO_rT8D2nOZuKFA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="absolute bottom-8 left-8">
+<span class="text-label-sm font-label-sm text-primary uppercase mb-2 block tracking-widest">Blackwork / Dark Art</span>
+<h4 class="text-headline-md font-headline-md uppercase">Ouroboros Descent</h4>
+</div>
+</div>
+<!-- Small items -->
+<div class="group relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" data-alt="A close-up shot of a fine line tattoo featuring delicate botanical elements on a wrist. The photography style is high-key and minimalist, with a soft grey background that emphasizes the sharp, thin black ink. The lighting is clean and professional, showcasing the technical precision of the artist. The overall mood is elegant and understated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD6SF7zKwKc7rWRHrzNGIlF_bQpqBNL_TNs38VBtlvbPWixHl5VMwwok_CNJcgsytQAS33AYZmj38nLVLpD2zXiO3oTfbP_g4uBUZjmmM72S4ddc9eK-D8ugzI3SdXz0y1ZtOGCFcfrM6aVgN353dxYt6Fl5Mv5Z_0J55FPlx5le-75psLOQ8xkBz4fqvB2dNE9wSDLUD7c7MTPBmrT-Qx4Cbztn8GvsUDoFTdUM9pr76b0l6mpJbqWXQEuR1y5hRN4fi-yaezQJc">
+<div class="absolute inset-0 bg-surface/20 group-hover:bg-transparent transition-colors"></div>
+<div class="absolute bottom-6 left-6">
+<span class="text-label-sm font-label-sm text-primary uppercase mb-1 block tracking-widest">Fine Line</span>
+</div>
+</div>
+<div class="group relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" data-alt="A vibrant, colorful tattoo piece on a leg, inspired by traditional Japanese folklore but with a modern illustrative twist. Bold lines and saturated reds and oranges dominate the composition against a dark skin tone. The image is shot in a professional studio setting with sharp focus and high contrast. The mood is powerful and culturally rich." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJPXRS2eOj5z7eglJln7CZUFBuRu_FoIQT-GQasj3EDsEWagaa4eySqaJywRkqf8SYhmd3NImwo8Y2F4q-wvNGM3TWcj6-9g7jkKTh4sIBvSQNVKuc8P1sczgBObilTVPfq5SxjchFZm4cBxQY84B5D7mKoKEQlrewwtxyt6E181VebaOp6o_zqjAt6v6Yy14Ok7R6va32xiwKq4pMJkcUl3zRVIIz31ZQVNRJHsFR_D2aemQ390kEKQTv5mUHygJHEiLtE1GE_yw">
+<div class="absolute bottom-6 left-6">
+<span class="text-label-sm font-label-sm text-primary uppercase mb-1 block tracking-widest">Illustrative Color</span>
+</div>
+</div>
+<div class="group relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" data-alt="A highly detailed hyper-realistic eye tattoo on a shoulder blade. Every reflection in the iris and texture of the eyelashes is visible, showcasing extreme technical skill. The photography uses a shallow depth of field to keep the focus purely on the artwork. The lighting is soft but directional, creating a sense of depth and life within the ink." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmocmSFQNlvq6qWbLtlnD1TtVBs6JRkPJTpeTlJHJSB9Hvhd8MpxREP6h1UOAOJbAh5KLHXtDZDWaxsnw-1fVEC2cWsuUptvlUiM9-AmyCnh_BxPWJKfSyxvz9LGp0kIwYjGHtviZRCw9zcnC92ZveL72pA59XG5JrdGI1n-KnOlOgEk0WeQ9zs5g0DeHCH_Ml9Y6iYxQxue4R5JuZ4oQujS2s27YyFxNt53aiqHRhBONg4IU6deinpeW-f9aYsYjWpVX2mr-qdwE">
+<div class="absolute bottom-6 left-6">
+<span class="text-label-sm font-label-sm text-primary uppercase mb-1 block tracking-widest">Realismo Detalle</span>
+</div>
+</div>
+<div class="group relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-110" data-alt="A bold, geometric blackwork tattoo wrapping around a bicep, featuring sharp angles and solid black fills. The composition is asymmetrical and modern, mimicking architectural blueprints. The photograph is shot from a low angle to emphasize the strength of the body and the tattoo. The aesthetic is brutalist and minimalist, with high-contrast black and white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgmXbuP0-5xi37R7as3vojMjt197jePhzb1jKEvjDNwrXQNayZPXONlgo3D-5P0HQOlXxzPgZIrbPAIiXtNuZb9wL3dV83dhbowcO5x143VQNWYVlh72NYHmeGmiT8pF7SylaBUi_zg1FNLW3SD50zoIc_KyAH9lUT07btmF0Us1sP4lS6CBXLnr8qFNUUUr2dmn-vOv2IueIV1vWx6_-6ofjHHHJHeonemIp0VM9hkJdxFaMSPnkqozNo3ULM6nyrdtlLRNRJWOc">
+<div class="absolute bottom-6 left-6">
+<span class="text-label-sm font-label-sm text-primary uppercase mb-1 block tracking-widest">Blackwork Geometric</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Section -->
+<section class="py-section-gap px-margin-desktop max-w-container-max mx-auto border-x border-outline-variant" id="process">
+<h2 class="text-headline-lg font-headline-lg uppercase mb-16 text-center">El Camino de la Tinta</h2>
+<div class="grid md:grid-cols-3 gap-12 transition-all duration-1000 opacity-100 translate-y-0">
+<div class="relative group">
+<span class="text-[120px] font-headline-lg text-outline-variant/30 absolute -top-20 -left-4 z-0 group-hover:text-primary/20 transition-colors">01</span>
+<div class="relative z-10 pt-12">
+<h3 class="text-headline-md font-headline-md uppercase mb-4">Valoración Previa</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Entrevista inicial para entender tu visión, anatomía y expectativas. Definimos estilo, tamaño y ubicación técnica.</p>
+</div>
+</div>
+<div class="relative group">
+<span class="text-[120px] font-headline-lg text-outline-variant/30 absolute -top-20 -left-4 z-0 group-hover:text-primary/20 transition-colors">02</span>
+<div class="relative z-10 pt-12">
+<h3 class="text-headline-md font-headline-md uppercase mb-4">Diseño Personalizado</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Creación de la pieza exclusiva. Ajustamos cada trazo digitalmente sobre tu anatomía real para un encaje perfecto.</p>
+</div>
+</div>
+<div class="relative group">
+<span class="text-[120px] font-headline-lg text-outline-variant/30 absolute -top-20 -left-4 z-0 group-hover:text-primary/20 transition-colors">03</span>
+<div class="relative z-10 pt-12">
+<h3 class="text-headline-md font-headline-md uppercase mb-4">Sesión &amp; Cuidados</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Ejecución con precisión técnica en un entorno aséptico. Te guiamos en el protocolo de curación post-sesión.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-section-gap px-margin-desktop max-w-container-max mx-auto border-x border-outline-variant bg-surface-container-low" id="contact">
+<div class="max-w-4xl mx-auto transition-all duration-1000 opacity-100 translate-y-0">
+<div class="text-center mb-16">
+<h2 class="text-headline-lg font-headline-lg uppercase mb-4">Inicia tu Proyecto</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Cuéntanos tu idea. Te responderemos para agendar una consultoría técnica.</p>
+</div>
+<form class="grid md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Nombre Completo</label>
+<input class="w-full bg-surface border border-outline-variant p-4 text-on-surface focus:border-primary focus:ring-0 transition-colors font-label-sm" type="text">
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Email de Contacto</label>
+<input class="w-full bg-surface border border-outline-variant p-4 text-on-surface focus:border-primary focus:ring-0 transition-colors font-label-sm" type="email">
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Estilo Deseado</label>
+<select class="w-full bg-surface border border-outline-variant p-4 text-on-surface focus:border-primary focus:ring-0 transition-colors font-label-sm appearance-none">
+<option>Realismo</option>
+<option>Blackwork / Dark Art</option>
+<option>Fine Line / Minimal</option>
+<option>Color / Ilustrativo</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Zona del Cuerpo &amp; Tamaño aprox.</label>
+<input class="w-full bg-surface border border-outline-variant p-4 text-on-surface focus:border-primary focus:ring-0 transition-colors font-label-sm" placeholder="Ej: Antebrazo externo, 15cm" type="text">
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">Descripción de la Idea</label>
+<textarea class="w-full bg-surface border border-outline-variant p-4 text-on-surface focus:border-primary focus:ring-0 transition-colors font-label-sm" rows="4"></textarea>
+</div>
+<div class="md:col-span-2 flex justify-center mt-8">
+<button class="bg-primary text-on-primary px-16 py-5 text-label-sm font-label-sm uppercase tracking-[0.3em] font-bold border border-primary hover:bg-transparent hover:text-primary transition-all duration-300" type="submit">
+                            Enviar Solicitud
+                        </button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-12 gap-8 max-w-container-max mx-auto">
+<div class="flex flex-col items-center md:items-start">
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface mb-2 uppercase tracking-tighter">SUBA TATTOO STUDIO</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-60">Technical Precision. Artistic Rawness.</p>
+</div>
+<nav class="flex gap-8">
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="https://instagram.com/subatattoo">Instagram</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="https://wa.me/34000000000">WhatsApp</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Ubicación</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+</nav>
+<p class="text-label-sm font-label-sm text-on-surface-variant text-center md:text-right">© 2024 SUBA TATTOO STUDIO.</p>
+</div>
+</footer>
+<!-- Floating WhatsApp Button -->
+<a class="fixed bottom-8 right-8 z-[100] bg-primary text-on-primary p-4 shadow-xl hover:scale-110 transition-transform active:scale-95 group" href="https://wa.me/yourphonenumber" target="_blank">
+<div class="relative flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap font-label-sm uppercase tracking-widest">WhatsApp</span>
+</div>
+</a>
+<script>
+        // Simple scroll reveal interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section > div').forEach(el => {
+                el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+
+
+</body></html>

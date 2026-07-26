@@ -1,0 +1,18 @@
+---
+import { getSiteSettings, whatsappLink } from "../lib/site";
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const settings = await getSiteSettings(locale);
+const waHref = whatsappLink(settings.whatsapp_number);
+---
+
+<a class="group fixed bottom-8 right-8 z-[100] bg-primary p-4 text-on-primary shadow-xl transition-transform hover:scale-110 active:scale-95 touch-manipulation" href={waHref} target="_blank" rel="noreferrer" aria-label={t("footer.whatsapp")}>
+  <span class="flex items-center gap-3" aria-hidden="true">
+    <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">chat_bubble</span>
+    <span class="max-w-0 overflow-hidden whitespace-nowrap font-label-sm uppercase tracking-widest transition-[max-width] duration-500 group-hover:max-w-xs">{t("footer.whatsapp")}</span>
+  </span>
+</a>

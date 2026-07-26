@@ -1,0 +1,25 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  description?: string;
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { description } = Astro.props;
+---
+
+{description && (
+  <div class="space-y-8 max-w-3xl" data-reveal>
+    <div>
+      <h2 class="font-headline-md text-headline-md mb-4 text-on-surface">{t("detalle.notes_title")}</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        {description}
+      </p>
+    </div>
+  </div>
+)}

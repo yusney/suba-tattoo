@@ -1,0 +1,92 @@
+{
+  "sections": [
+    {
+      "category_label": "INFORMACIÓN",
+      "page_title": "Preguntas Frecuentes",
+      "page_subtitle": "Nuestro estudio opera bajo estándares de rigor técnico y excelencia artística. Resolvemos tus dudas sobre el proceso quirúrgico y creativo de tu próxima pieza.",
+      "questions": [
+        {
+          "question": "¿Cuánto cuesta?",
+          "answer": "El costo mínimo por sesión es de 150€. El precio final se determina basándonos en la complejidad técnica, el tamaño exacto y la ubicación anatómica del diseño. Realizamos presupuestos personalizados tras la consulta inicial."
+        },
+        {
+          "question": "¿Cuánto tarda la cicatrización?",
+          "answer": "El proceso de regeneración epidérmica superficial toma de 2 a 3 semanas. Sin embargo, la dermis completa su estabilización interna en aproximadamente 45 a 60 días."
+        },
+        {
+          "question": "¿Duele?",
+          "answer": "La percepción del dolor es subjetiva y varía según la zona. Utilizamos técnicas de aplicación precisas para minimizar el trauma tisular. Mantenerse hidratado y haber comido bien reduce la sensibilidad."
+        },
+        {
+          "question": "¿Aceptan walk-ins?",
+          "answer": "Principalmente trabajamos bajo cita para garantizar la preparación del estudio. Ocasionalmente tenemos espacios disponibles para piezas pequeñas; recomendamos llamar antes de asistir o revisar nuestras historias en redes."
+        },
+        {
+          "question": "¿Puedo traer mi propio diseño?",
+          "answer": "Aceptamos referencias, pero nuestros artistas siempre reinterpretarán la idea bajo su estilo personal y criterios técnicos de durabilidad para asegurar una pieza de calidad superior."
+        },
+        {
+          "question": "¿Cómo cuido mi tatuaje nuevo?",
+          "answer": "El cuidado es vital. Incluye lavado con jabón neutro, aplicación de pomada específica en capas finas y evitar la exposición solar directa o inmersión en agua (albercas/mar) por 15 días."
+        },
+        {
+          "question": "¿Hacen retoques gratis?",
+          "answer": "Ofrecemos un retoque de cortesía durante los primeros 2 meses si el artista determina que es necesario, siempre que se hayan seguido rigurosamente las instrucciones de cuidado post-sesión."
+        },
+        {
+          "question": "¿Cuál es la política de cancelación?",
+          "answer": "Los depósitos no son reembolsables. Se requiere un aviso de al menos 48 horas para reprogramar una cita sin perder el depósito inicial de reserva."
+        }
+      ]
+    },
+    {
+      "category_label": "MANTENIMIENTO",
+      "page_title": "Cuidados Post-Sesión",
+      "page_subtitle": "El cuidado posterior determina cómo envejecerá tu tatuaje. Sigue este protocolo al pie de la letra durante las primeras semanas.",
+      "care_steps": [
+        {
+          "step_number": 1,
+          "title": "Limpieza",
+          "description": "Lavar 3 veces al día con jabón neutro y agua tibia. Secar con toques suaves usando papel desechable."
+        },
+        {
+          "step_number": 2,
+          "title": "Hidratación",
+          "description": "Aplicar una capa muy delgada de pomada recomendada. La piel debe respirar; evitar el exceso de producto."
+        },
+        {
+          "step_number": 3,
+          "title": "Protección",
+          "description": "Evitar sol, albercas, gimnasios y ropa ajustada durante los primeros 10 días para prevenir infecciones."
+        },
+        {
+          "step_number": 4,
+          "title": "Seguimiento",
+          "description": "Cualquier duda técnica después de la sesión debe ser consultada directamente con el estudio vía WhatsApp."
+        }
+      ]
+    },
+    {
+      "category_label": "HIGIENE",
+      "page_title": "Protocolo de Esterilización",
+      "page_subtitle": "La seguridad del cliente no es negociable. Estos son los estándares quirúrgicos que aplicamos en cada sesión.",
+      "protocol_items": [
+        {
+          "icon": "sanitizer",
+          "title": "Esterilización",
+          "description": "Uso de autoclave de grado médico y procesos de desinfección química de alto nivel en todas las superficies de contacto."
+        },
+        {
+          "icon": "medical_services",
+          "title": "Material Desechable",
+          "description": "Agujas, cartuchos, campos y protecciones son 100% descartables y abiertos frente al cliente en cada sesión."
+        },
+        {
+          "icon": "shield",
+          "title": "Estudio Aséptico",
+          "description": "Mantenemos un ambiente controlado bajo normativas sanitarias estrictas, garantizando un espacio libre de contaminantes."
+        }
+      ]
+    }
+  ]
+}

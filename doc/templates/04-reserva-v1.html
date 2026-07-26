@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reserva tu Sesión | ARTEMISA TATTOO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ef4444;
+        }
+        input, select, textarea {
+            border-radius: 0 !important;
+        }
+    </style>
+<!-- THEME CONFIGURATION -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#353534",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-secondary": "#2f3131",
+                    "secondary": "#c6c6c7",
+                    "primary-container": "#ff5451",
+                    "surface-bright": "#393939",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-tertiary-container": "#00302e",
+                    "inverse-surface": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "error": "#ffb4ab",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "surface-dim": "#131313",
+                    "tertiary-container": "#24a09d",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#68000a",
+                    "on-primary-container": "#5c0008",
+                    "on-primary-fixed-variant": "#930013",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "on-secondary-container": "#b4b5b5",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "inverse-primary": "#b91a24",
+                    "surface-variant": "#353534",
+                    "secondary-fixed": "#e2e2e2",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "primary": "#ef4444", /* Adjusted to Scarlet Red for Brand Consistency */
+                    "tertiary": "#69d8d4",
+                    "on-tertiary-fixed": "#00201f",
+                    "on-surface-variant": "#e4beba",
+                    "background": "#131313",
+                    "error-container": "#93000a",
+                    "surface-tint": "#ef4444",
+                    "primary-fixed": "#ffdad7",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "tertiary-fixed": "#87f4f0",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary": "#003736",
+                    "secondary-container": "#454747",
+                    "on-surface": "#e5e2e1",
+                    "on-background": "#e5e2e1",
+                    "surface-container-low": "#1c1b1b",
+                    "on-primary-fixed": "#410004",
+                    "outline-variant": "#2a2a2a",
+                    "surface-container": "#201f1f",
+                    "surface": "#131313",
+                    "outline": "#ab8986"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "base": "8px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "section-gap": "120px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Syne"],
+                    "display-lg": ["Syne"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                    "display-lg": ["80px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary selection:text-white">
+<!-- HEADER: TopAppBar (Shared Component logic) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant h-24 flex items-center">
+<div class="max-w-container-max mx-auto w-full px-margin-desktop flex justify-between items-center">
+<a class="text-headline-md font-headline-md font-bold tracking-tighter text-on-surface uppercase" href="#">ARTEMISA TATTOO</a>
+<nav class="hidden md:flex gap-12 items-center">
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Galería</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Proceso</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Filosofía</a>
+<a class="text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold border-b-2 border-primary pb-2" href="#">Contacto</a>
+</nav>
+<button class="bg-primary text-on-surface px-6 py-3 text-label-sm font-label-sm uppercase tracking-widest hover:bg-white hover:text-surface transition-all duration-200">
+                Solicitar Valoración
+            </button>
+</div>
+</header>
+<main class="pt-40 pb-section-gap">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<!-- HERO SECTION -->
+<section class="mb-section-gap">
+<p class="font-label-sm text-label-sm text-primary mb-4">RESERVA · 01</p>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+<div class="md:col-span-8">
+<h1 class="font-headline-lg text-headline-lg md:text-display-lg uppercase mb-6">Inicia tu Proyecto</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                            Cuéntanos tu idea y te contactaremos en menos de 48 horas para coordinar la consulta técnica. Nuestra obsesión es la precisión y la pureza del estilo.
+                        </p>
+</div>
+<div class="md:col-span-4 hidden md:block">
+<div class="border-l border-outline-variant pl-8 py-4">
+<span class="material-symbols-outlined text-primary text-4xl block mb-4">ink_pen</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-tighter">Underground Standards<br/>High-End Precision</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SESSION TYPE SELECTOR -->
+<section class="mb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+<!-- Card 1: Selected -->
+<div class="p-8 border-2 border-primary bg-surface-container-low flex flex-col justify-between min-h-[320px] relative">
+<div>
+<div class="flex justify-between items-start mb-12">
+<h3 class="font-headline-md text-headline-md uppercase leading-none">Consulta<br/>Inicial</h3>
+<span class="bg-primary text-surface text-[10px] px-2 py-1 font-label-sm font-bold uppercase">Seleccionado</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2">DURACIÓN: 30 MIN</p>
+<p class="font-label-sm text-label-sm text-primary">GRATIS</p>
+</div>
+<div class="mt-8">
+<p class="font-body-md text-body-md text-on-surface-variant">Ideal para discutir diseños complejos, ubicación y presupuesto inicial.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-8 border border-outline-variant hover:border-on-surface transition-colors duration-300 flex flex-col justify-between min-h-[320px] group cursor-pointer">
+<div>
+<div class="flex justify-between items-start mb-12">
+<h3 class="font-headline-md text-headline-md uppercase leading-none">Sesión<br/>Completa</h3>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2">DURACIÓN: 3-6 H</p>
+<p class="font-label-sm text-label-sm text-on-surface">DESDE 200€</p>
+</div>
+<div class="mt-8">
+<p class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Para proyectos definidos que requieren una jornada técnica intensa.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-8 border border-outline-variant hover:border-on-surface transition-colors duration-300 flex flex-col justify-between min-h-[320px] group cursor-pointer">
+<div>
+<div class="flex justify-between items-start mb-12">
+<h3 class="font-headline-md text-headline-md uppercase leading-none">Touch-up /<br/>Pequeño</h3>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2">DURACIÓN: 1 H</p>
+<p class="font-label-sm text-label-sm text-on-surface">DESDE 80€</p>
+</div>
+<div class="mt-8">
+<p class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Retoques de piezas existentes o tatuajes minimalistas de alta precisión.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- FORM SECTION -->
+<section class="mb-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4">
+<h2 class="font-headline-md text-headline-md uppercase sticky top-32">Detalles del<br/>Proyecto</h2>
+<div class="mt-8 flex flex-col gap-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="text-label-sm font-label-sm uppercase">Datos Encriptados</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="text-label-sm font-label-sm uppercase">Revisión Artística</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-8">
+<form class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+<!-- Input Field -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Nombre Completo</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 placeholder:text-surface-container-highest transition-colors" placeholder="Escribe tu nombre..." type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Email de Contacto</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 placeholder:text-surface-container-highest transition-colors" placeholder="tu@email.com" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Teléfono / WhatsApp</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 placeholder:text-surface-container-highest transition-colors" placeholder="+34 000 000 000" type="tel"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Estilo Deseado</label>
+<select class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 transition-colors appearance-none">
+<option class="bg-surface">Blackwork Técnico</option>
+<option class="bg-surface">Realismo Brutalista</option>
+<option class="bg-surface">Fine Line / Minimal</option>
+<option class="bg-surface">Cyber Sigilism</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Zona del Cuerpo</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 placeholder:text-surface-container-highest transition-colors" placeholder="Ej: Antebrazo interior" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Tamaño Aproximado (cm)</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 placeholder:text-surface-container-highest transition-colors" placeholder="Ej: 15x10cm" type="text"/>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Fecha Preferida</label>
+<input class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-label-sm p-3 transition-colors" type="date"/>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant">Descripción de la Idea</label>
+<textarea class="bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-on-surface font-body-md p-3 placeholder:text-surface-container-highest transition-colors resize-none" placeholder="Cuéntanos el concepto, simbolismo o referencias visuales..." rows="4"></textarea>
+</div>
+</form>
+</div>
+</div>
+</section>
+<!-- CALLOUT & BUTTON -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-start-5 md:col-span-8">
+<!-- Policy Box -->
+<div class="border border-outline-variant p-8 mb-12 bg-surface-container-lowest">
+<h4 class="font-label-sm text-label-sm uppercase text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span> Política de Reserva Técnica
+                        </h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-on-surface-variant text-label-sm font-label-sm uppercase leading-relaxed">
+<p>· Se requiere un depósito del 30% para confirmar sesiones completas una vez aprobada la valoración.</p>
+<p>· Cancelaciones con menos de 72h implican la pérdida íntegra del depósito.</p>
+<p>· La consulta inicial no garantiza la ejecución del proyecto si el artista considera que el estilo no encaja con el estudio.</p>
+<p>· Todos los diseños son propiedad intelectual de Artemisa Tattoo Studio.</p>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary text-on-surface py-6 font-headline-md text-headline-md uppercase tracking-widest hover:bg-white hover:text-surface transition-all duration-300 group flex items-center justify-center gap-4">
+                        Enviar Solicitud
+                        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</button>
+<p class="mt-6 text-center text-label-sm font-label-sm text-surface-container-highest uppercase tracking-widest">
+                        Al enviar este formulario, aceptas nuestra política de privacidad y términos de servicio técnico.
+                    </p>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER (Shared Component logic) -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant py-12">
+<div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2 items-center md:items-start">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface uppercase tracking-tighter">ARTEMISA TATTOO STUDIO</h3>
+<p class="text-label-sm font-label-sm text-on-surface-variant">TECHNICAL PRECISION. ARTISTIC RAWNESS.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 uppercase tracking-widest" href="#">Instagram</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 uppercase tracking-widest" href="#">WhatsApp</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 uppercase tracking-widest" href="#">Ubicación</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-200 uppercase tracking-widest" href="#">Privacidad</a>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-50 uppercase">© 2024 ARTEMISA TATTOO STUDIO.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for form focus and selection
+        const cards = document.querySelectorAll('.group.cursor-pointer');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove selected states from others
+                document.querySelectorAll('.border-primary').forEach(c => {
+                    c.classList.remove('border-primary', 'border-2', 'bg-surface-container-low');
+                    c.classList.add('border-outline-variant', 'border');
+                    const badge = c.querySelector('.bg-primary');
+                    if(badge) badge.remove();
+                });
+                
+                // Add selected state
+                card.classList.remove('border-outline-variant', 'border');
+                card.classList.add('border-primary', 'border-2', 'bg-surface-container-low');
+                
+                // Add badge
+                const header = card.querySelector('div > div');
+                const badge = document.createElement('span');
+                badge.className = "bg-primary text-surface text-[10px] px-2 py-1 font-label-sm font-bold uppercase";
+                badge.innerText = "Seleccionado";
+                header.appendChild(badge);
+            });
+        });
+
+        // Smooth reveal on scroll for sections
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-8');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

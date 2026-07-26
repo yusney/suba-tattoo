@@ -1,0 +1,29 @@
+---
+import { getSiteSettings, whatsappLink } from "../lib/site";
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const settings = await getSiteSettings(locale);
+const year = new Date().getFullYear();
+const igHref = settings.instagram_url || "#";
+const waHref = whatsappLink(settings.whatsapp_number);
+const ubicacionHref = locale === DEFAULT_LOCALE ? "/#contact" : `/${locale}/#contact`;
+---
+<footer class="border-t border-outline-variant bg-surface-container-lowest">
+  <div class="mx-auto flex w-full max-w-container-max flex-col items-center justify-between gap-8 px-margin-desktop py-12 md:flex-row">
+    <div class="flex flex-col items-center md:items-start">
+      <span class="mb-2 font-headline-md text-headline-md font-bold uppercase tracking-tighter">{settings.brand_name}{t("footer.studio_suffix")}</span>
+      <p class="text-label-sm font-label-sm text-on-surface-variant opacity-60">{settings.tagline}</p>
+    </div>
+    <nav class="flex flex-wrap justify-center gap-8">
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={igHref} target="_blank" rel="noreferrer">{t("footer.instagram")}</a>
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={waHref} target="_blank" rel="noreferrer">{t("footer.whatsapp")}</a>
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={ubicacionHref}>{t("footer.ubicacion")}</a>
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href="#">{t("footer.privacidad")}</a>
+    </nav>
+    <p class="text-center text-label-sm font-label-sm text-on-surface-variant md:text-right">{t("footer.copyright_prefix")}{year} {settings.brand_name}{t("footer.studio_suffix")}.</p>
+  </div>
+</footer>

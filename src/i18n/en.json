@@ -1,0 +1,234 @@
+{
+  "nav": {
+    "gallery": "Gallery",
+    "process": "Process",
+    "about": "Philosophy",
+    "contact": "Contact",
+    "cta": "Request Consultation"
+  },
+  "switcher": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English",
+    "ca": "Català"
+  },
+  "hero": {
+    "tagline": "Barcelona · Underground Studio",
+    "title_line1": "Custom Tattoos",
+    "title_line2": "& Unique Art",
+    "subtitle": "Realism, Blackwork, Color, and Fine Line. Designs shaped to every anatomy, fusing technical precision with artistic rawness.",
+    "cta_primary": "Request Consultation",
+    "cta_secondary": "Explore Portfolio",
+    "scroll": "Scroll to explore"
+  },
+  "filosofia": {
+    "title": "The Art of the Permanent Mark",
+    "body": "I work across realism, blackwork, color and fine line. My philosophy rests on one principle: a tattoo is not a static image, but a piece of body architecture that has to live with the movement and essence of whoever carries it.",
+    "card1_title": "Composition & Anatomy",
+    "card1_body": "Reading muscular flow so the design settles into the body organically.",
+    "card2_title": "Rigorous Hygiene & Technique",
+    "card2_body": "Surgical-grade standards and top-tier materials for your safety.",
+    "card3_title": "Personal Consultation",
+    "card3_body": "A deep discovery process that turns your idea into a timeless piece."
+  },
+  "gallery": {
+    "title": "Archive of Works",
+    "subtitle": "A curated selection of recent projects",
+    "filter_all": "All"
+  },
+  "process": {
+    "title": "The Path of the Ink",
+    "step1_number": "01",
+    "step1_title": "Initial Assessment",
+    "step1_body": "An opening conversation to understand your vision, anatomy and expectations. We define style, scale and technical placement together.",
+    "step2_number": "02",
+    "step2_title": "Bespoke Design",
+    "step2_body": "The piece is created exclusively for you. Every line is adjusted digitally over your real anatomy for a perfect fit.",
+    "step3_number": "03",
+    "step3_title": "Session & Aftercare",
+    "step3_body": "Execution with technical precision in a clinical-grade studio, with full guidance through the post-session healing protocol."
+  },
+  "contact": {
+    "title": "Start Your Project",
+    "subtitle": "Tell us your idea. We'll get back to you to schedule a technical consultation.",
+    "label_name": "Full Name",
+    "label_email": "Contact Email",
+    "label_body": "Body Area & Approximate Size",
+    "label_style": "Desired Style",
+    "label_description": "Idea Description",
+    "style_option_realismo": "Realism",
+    "style_option_blackwork": "Blackwork / Dark Art",
+    "style_option_fineline": "Fine Line / Minimal",
+    "style_option_color": "Color / Illustrative",
+    "submit": "Send Request"
+  },
+  "marquee": {
+    "styles": ["BLACKWORK", "REALISMO", "FINE LINE", "COLOR", "GEOMETRIC", "DARK ART"]
+  },
+  "footer": {
+    "studio_suffix": " STUDIO",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "ubicacion": "Location",
+    "privacidad": "Privacy",
+    "copyright_prefix": "© "
+  },
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading…"
+  },
+  "a11y": {
+    "skip_to_content": "Skip to main content",
+    "section_marker_format": "{current} / {total}"
+  },
+  "site_meta": {
+    "default_title": "SUBA TATTOO | Technical Precision. Artistic Rawness.",
+    "default_description": "Barcelona underground tattoo studio. Realism, Blackwork, Color and Fine Line. Bespoke designs shaped with technical precision and artistic rawness."
+  },
+  "meta": {
+    "og": {
+      "site_name": "SUBA TATTOO",
+      "locale_es": "es_ES",
+      "locale_en": "en_US",
+      "locale_ca": "ca_ES"
+    },
+    "home": {
+      "title": "SUBA TATTOO — Custom Tattoos Barcelona",
+      "description": "Realism, Blackwork, Color and Fine Line. Designs shaped to every anatomy. Barcelona studio."
+    },
+    "sobre": {
+      "title": "About the Studio — SUBA TATTOO Barcelona",
+      "description": "10+ years of professional tattoo experience. Realism, blackwork, fine line and color."
+    },
+    "reserva": {
+      "title": "Book Your Session — SUBA TATTOO Barcelona",
+      "description": "Request a consultation for your next tattoo. Free initial consultation, full session or touch-up."
+    },
+    "faq": {
+      "title": "FAQ & Aftercare — SUBA TATTOO Barcelona",
+      "description": "Frequently asked questions about tattoos, post-session care, hygiene protocol and bookings."
+    },
+    "detalle": {
+      "title_suffix": " — SUBA TATTOO Barcelona"
+    }
+  },
+  "sobre": {
+    "page_title_suffix": " · About the Studio | ",
+    "filosofia_tab": "PHILOSOPHY",
+    "filosofia_section_title": "The Architecture of the Body",
+    "filosofia_card1_title": "Structural Design",
+    "filosofia_card1_body": "Every design is created to follow the curvature and muscular flow of the chosen area, keeping distortion to a minimum as the body ages.",
+    "filosofia_card2_title": "Technical Longevity",
+    "filosofia_card2_body": "We use medical-grade pigments and injection techniques that prioritise long-term tattoo stability, avoiding premature blur.",
+    "styles_portfolio_label": "PORTFOLIO",
+    "styles_title": "Mastered Styles",
+    "styles_subtitle": "Specialised technical command of contemporary and classical currents of underground tattooing.",
+    "featured_in_label": "Featured In / Press"
+  },
+  "reserva": {
+    "page_title": "Book your Session | ",
+    "page_description": "Request a technical consultation for your next piece. Full sessions, initial consultations and touch-ups at the SUBA TATTOO Barcelona studio.",
+    "eyebrow": "BOOKING · 01",
+    "title": "Start Your Project",
+    "subtitle": "Every tattoo is a technical and artistic collaboration. Complete the form to send us your proposal — we review every request personally within 48 hours.",
+    "policy_title": "Technical Booking Policy",
+    "policy_bullets": [
+      {
+        "number": "01",
+        "title": "Deposit",
+        "body": "A 30% deposit of the quote is required to confirm the date and begin the design."
+      },
+      {
+        "number": "02",
+        "title": "Cancellations",
+        "body": "Date changes are allowed with at least 72h notice. Cancellations after that window forfeit the booking deposit."
+      },
+      {
+        "number": "03",
+        "title": "Intellectual Property",
+        "body": "Custom designs remain studio property until the piece is fully executed."
+      }
+    ],
+    "form": {
+      "title": "Project Details",
+      "label_name": "Full Name",
+      "placeholder_name": "E.G. JULIAN ALBA",
+      "label_email": "Email",
+      "placeholder_email": "HELLO@DOMAIN.COM",
+      "label_phone": "Phone / WhatsApp",
+      "placeholder_phone": "+44 7700 000 000",
+      "label_style": "Desired Style",
+      "style_options": [
+        "BLACKWORK / BRUTALIST",
+        "AMERICAN TRADITIONAL",
+        "FINE LINE",
+        "DOTWORK / GEOMETRIC",
+        "OTHER STYLE"
+      ],
+      "label_zone": "Body Area",
+      "placeholder_zone": "E.G. OUTER FOREARM",
+      "label_size": "Approx. Size (cm)",
+      "placeholder_size": "E.G. 15X10 CM",
+      "label_date": "Preferred Date",
+      "label_description": "Idea Description",
+      "placeholder_description": "TELL US YOUR VISION, REFERENCES AND ANY TECHNICAL DETAIL...",
+      "submit": "Send Request",
+      "legal": "By submitting you accept that your data will be processed to manage the appointment."
+    },
+    "sessions": {
+      "phase1_label": "Phase 01",
+      "phase1_title": "Initial Consultation",
+      "phase1_body": "In-person or video discussion to nail down the concept, dimensions and placement.",
+      "phase1_price": "FREE",
+      "phase1_duration": "30 MINUTES",
+      "recommended_badge": "Recommended",
+      "phase2_label": "Phase 02",
+      "phase2_title": "Full Session",
+      "phase2_body": "For medium and large projects. Includes the custom design and the final execution.",
+      "phase2_price": "FROM €200",
+      "phase2_duration": "3-6 HOURS",
+      "phase3_label": "Maintenance",
+      "phase3_title": "Touch-up / Small",
+      "phase3_body": "Refresh sessions on existing pieces or quick, minimalist designs.",
+      "phase3_price": "FROM €80",
+      "phase3_duration": "1 HOUR"
+    },
+    "image_alt": "Private tattoo studio, dark atmosphere and professional tools against exposed concrete",
+    "studio_identity": "Studio Identity"
+  },
+  "faq": {
+    "page_title_suffix": " | ",
+    "care_label_default": "AFTERCARE",
+    "care_title_default": "Post-Session Care",
+    "hygiene_label_default": "HYGIENE",
+    "hygiene_title_default": "Sterilisation Protocol",
+    "cta_title": "Ready to mark your skin?",
+    "cta_button": "Request my Session"
+  },
+  "detalle": {
+    "prev": "Previous",
+    "next": "Next",
+    "piece_label": "Piece ",
+    "editorial_label": "Editorial Piece",
+    "notes_title": "Artist Notes",
+    "related_title": "Related Pieces",
+    "view_all": "View Full Archive",
+    "field_needles": "Needles",
+    "field_duration": "Duration",
+    "field_sessions": "Sessions",
+    "field_body_part": "Body area",
+    "field_size": "Size",
+    "field_style": "Style",
+    "field_year": "Year",
+    "field_status": "Status",
+    "status_value": "Completed",
+    "hours_suffix": " Hours",
+    "size_suffix": " cm",
+    "client_suffix": " / Client",
+    "bottom_title": "Got a project in mind?",
+    "bottom_body": "Currently accepting requests for custom sessions. Tell us your vision and we'll turn it into body architecture.",
+    "bottom_cta": "Request a Similar Piece"
+  }
+}

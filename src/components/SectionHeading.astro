@@ -1,0 +1,10 @@
+---
+interface Props { label?: string; title: string; subtitle?: string; }
+const { label, title, subtitle } = Astro.props;
+---
+<div class="mb-16" data-reveal>
+  {label && <span class="mb-3 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{label}</span>}
+  <h2 class="mb-4 text-headline-lg font-headline-lg uppercase">{title}</h2>
+  {subtitle && <p class="text-body-lg font-body-lg text-on-surface-variant">{subtitle}</p>}
+  <slot />
+</div>

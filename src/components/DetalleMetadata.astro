@@ -1,0 +1,67 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  needles?: string;
+  durationHours?: number;
+  sessions: number;
+  bodyPart?: string;
+  sizeCm?: string;
+  style: string;
+  year: number;
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const {
+  needles,
+  durationHours,
+  sessions,
+  bodyPart,
+  sizeCm,
+  style,
+  year,
+} = Astro.props;
+
+const duration = durationHours ? `${durationHours}${t("detalle.hours_suffix")}` : "—";
+
+interface Cell {
+  label: string;
+  value: string;
+  accent?: boolean;
+}
+
+const cells: Cell[] = [
+  { label: t("detalle.field_needles"), value: needles ?? "—" },
+  { label: t("detalle.field_duration"), value: duration },
+  { label: t("detalle.field_sessions"), value: String(sessions).padStart(2, "0") },
+  { label: t("detalle.field_body_part"), value: bodyPart ?? "—" },
+  { label: t("detalle.field_size"), value: sizeCm ? `${sizeCm}${t("detalle.size_suffix")}` : "—" },
+  { label: t("detalle.field_style"), value: style },
+  { label: t("detalle.field_year"), value: String(year) },
+  { label: t("detalle.field_status"), value: t("detalle.status_value"), accent: true },
+];
+
+const rows: Cell[][] = [];
+for (let i = 0; i < cells.length; i += 2) {
+  rows.push(cells.slice(i, i + 2));
+}
+---
+
+<div class="border border-outline-variant divide-y divide-outline-variant">
+  {rows.map((row) => (
+    <div class="grid grid-cols-2 divide-x divide-outline-variant">
+      {row.map((cell) => (
+        <div class="p-6">
+          <p class="font-label-sm text-[10px] text-on-surface-variant uppercase mb-2">{cell.label}</p>
+          <p class:list={["font-label-sm text-label-sm", cell.accent ? "text-primary" : "text-on-surface"]}>
+            {cell.value}
+          </p>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>

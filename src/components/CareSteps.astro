@@ -1,0 +1,43 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Step {
+  step_number: number;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  label?: string;
+  title?: string;
+  steps: Step[];
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { label = t("faq.care_label_default"), title = t("faq.care_title_default"), steps } = Astro.props;
+const ordered = [...steps].sort((a, b) => a.step_number - b.step_number);
+---
+
+<section class="bg-surface-container-lowest py-section-gap">
+  <div class="px-margin-desktop max-w-container-max mx-auto">
+    <div class="flex flex-col gap-4 mb-16" data-reveal>
+      <span class="font-label-sm text-label-sm text-primary uppercase">{label}</span>
+      <h2 class="font-headline-lg text-headline-lg uppercase">{title}</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      {ordered.map((step) => (
+        <div class="relative border border-outline-variant p-8 h-[320px] flex flex-col justify-end group hover:border-primary transition-[border-color,opacity] overflow-hidden">
+          <div class="absolute -top-4 -right-4 font-display-lg text-[120px] opacity-5 text-on-surface pointer-events-none transition-opacity group-hover:opacity-10">
+            {String(step.step_number).padStart(2, "0")}
+          </div>
+          <h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">{step.title}</h3>
+          <p class="font-body-md text-on-surface-variant relative z-10">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

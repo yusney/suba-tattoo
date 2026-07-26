@@ -1,0 +1,362 @@
+@import "tailwindcss";
+
+@theme {
+  /* ========== Colors — Obsidian & Ink ========== */
+  --color-on-tertiary: #003736;
+  --color-tertiary-fixed: #87f4f0;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-outline: #ab8986;
+  --color-surface: #131313;
+  --color-surface-container-low: #1c1b1b;
+  --color-inverse-surface: #e5e2e1;
+  --color-on-surface-variant: #e4beba;
+  --color-surface-bright: #393939;
+  --color-on-secondary-fixed: #1a1c1c;
+  --color-on-secondary-fixed-variant: #454747;
+  --color-surface-container-high: #2a2a2a;
+  --color-on-error: #690005;
+  --color-surface-tint: #ffb3ad;
+  --color-primary-container: #ff5451;
+  --color-on-secondary-container: #b4b5b5;
+  --color-on-background: #e5e2e1;
+  --color-error: #ffb4ab;
+  --color-tertiary-container: #24a09d;
+  --color-on-error-container: #ffdad6;
+  --color-error-container: #93000a;
+  --color-surface-variant: #353534;
+  --color-secondary-fixed: #e2e2e2;
+  --color-primary: #ffb3ad;
+  --color-primary-fixed: #ffdad7;
+  --color-secondary-fixed-dim: #c6c6c7;
+  --color-primary-fixed-dim: #ffb3ad;
+  --color-on-primary-fixed: #410004;
+  --color-inverse-primary: #b91a24;
+  --color-surface-container-highest: #353534;
+  --color-on-primary-container: #5c0008;
+  --color-tertiary-fixed-dim: #69d8d4;
+  --color-surface-container: #201f1f;
+  --color-on-tertiary-fixed: #00201f;
+  --color-outline-variant: #5b403e;
+  --color-on-primary-fixed-variant: #930013;
+  --color-on-tertiary-container: #00302e;
+  --color-on-surface: #e5e2e1;
+  --color-background: #131313;
+  --color-tertiary: #69d8d4;
+  --color-on-tertiary-fixed-variant: #00504e;
+  --color-on-primary: #68000a;
+  --color-on-secondary: #2f3131;
+  --color-surface-dim: #131313;
+  --color-secondary-container: #454747;
+  --color-secondary: #c6c6c7;
+  --color-inverse-on-surface: #313030;
+
+  /* ========== Border Radius — brutalist 0px ========== */
+  --radius: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 9999px;
+
+  /* ========== Spacing tokens ========== */
+  --spacing-container-max: 1440px;
+  --spacing-section-gap: 120px;
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 16px;
+  --spacing-gutter: 24px;
+  --spacing-base: 8px;
+
+  /* ========== Font Families ========== */
+  --font-body-md: "Plus Jakarta Sans", sans-serif;
+  --font-headline-lg: "Syne", sans-serif;
+  --font-headline-lg-mobile: "Syne", sans-serif;
+  --font-body-lg: "Plus Jakarta Sans", sans-serif;
+  --font-label-sm: "JetBrains Mono", monospace;
+  --font-headline-md: "Syne", sans-serif;
+  --font-display-lg: "Syne", sans-serif;
+
+  /* ========== Typography scale ========== */
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-headline-lg: 48px;
+  --text-headline-lg--line-height: 1.1;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.1;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 1.0;
+  --text-label-sm--letter-spacing: 0.1em;
+  --text-label-sm--font-weight: 500;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 1.2;
+  --text-headline-md--font-weight: 600;
+
+  --text-display-lg: 80px;
+  --text-display-lg--line-height: 1.0;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-lg--font-weight: 800;
+
+  /* ========== Motion — Obsidian & Ink ========== */
+  --animate-hero-enter: heroEnter 600ms ease-out both;
+  --animate-marquee-left: marqueeLeft 30s linear infinite;
+  --animate-marquee-right: marqueeRight 40s linear infinite;
+}
+
+/* ========== Base layer ========== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-body-md);
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-body-md);
+    font-size: var(--text-body-md);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+}
+
+/* ========== Icon font helpers ========== */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #131313;
+}
+::-webkit-scrollbar-thumb {
+  background: #5b403e;
+}
+
+/* ========== Custom utilities ========== */
+.text-stroke {
+  -webkit-text-stroke: 1px var(--color-primary);
+  color: transparent;
+}
+
+.grid-editorial {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+/* ========== Motion keyframes & utilities ========== */
+@keyframes heroEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.gallery-card {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 800ms ease-out;
+}
+
+.gallery-card.is-revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none !important;
+    transform: none !important;
+  }
+  .animate-hero-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .gallery-card {
+    clip-path: none !important;
+    transition: none !important;
+  }
+}
+
+/* ========== Scroll-pinned cards reveal ========== */
+[data-reveal-card] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+[data-reveal-card].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-card] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ========== Accessibility & interaction ========== */
+
+/* Global visible focus ring — every interactive element gets a clear outline
+   when navigated via keyboard. Individual components that already provide a
+   visual focus treatment (e.g. underline + color shift) keep their styling;
+   this rule only kicks in where no other focus indicator exists.
+   `!important` overrides Tailwind's `focus:outline-none` on form fields. */
+*:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px;
+}
+
+/* Disable the focus ring on click-only controls but keep it on keyboard nav */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Tabular numerals for number columns (stats, metadata, year counters)
+   — prevents layout shift as digits change. */
+.tabular-nums,
+.font-headline-lg,
+.font-label-sm {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Heading balance: avoid orphans/widows in display copy. Applied at the
+   element level so opt-in markup stays clean. */
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+/* Native <select> in dark surfaces (Windows dark mode otherwise renders
+   white dropdowns) — explicit colors on all our selects. */
+select {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+/* Disable double-tap zoom on interactive controls where it gets in the way
+   (forms, primary CTAs). Keeps fast tap response on mobile. */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Scroll-reveal baseline (paired with the JS observer in ScrollReveal.astro) */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ========== Grain overlay ==========
+   A procedural SVG noise pattern applied as a fixed overlay. Gives the whole
+   site a subtle "underground print magazine" texture. Pure CSS — no asset. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@media (prefers-contrast: more) {
+  body::after { opacity: 0.02; }
+}
+
+/* ========== Editorial section markers ==========
+   "01 / 05" style counters at the top-left of major sections. JetBrains Mono,
+   widely tracked, low contrast — sits in the background of the layout. */
+.section-marker {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 1;
+  font-family: var(--font-label-sm);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  opacity: 0.55;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .section-marker { top: 2rem; left: 2rem; }
+}
+
+/* ========== Stats counter ==========
+   Width-stable numeral slot for the animated stats. */
+.stat-counter {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  display: inline-block;
+}
+
+/* ========== Hero Ken Burns ==========
+   Slow, cinematic zoom on the hero background image. The image scales from
+   1 to 1.08 over 25s, alternating direction so it eases in and out. Combined
+   with `background-position: center 30%` this gives the koi tattoo a subtle
+   breathing motion without competing with the text. */
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+.animate-hero-zoom {
+  animation: heroZoom 25s ease-in-out infinite alternate;
+  transform-origin: center 35%;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-zoom {
+    animation: none !important;
+    transform: none !important;
+  }
+}

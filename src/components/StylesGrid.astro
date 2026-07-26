@@ -1,0 +1,70 @@
+---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Style {
+  name: string;
+  description: string;
+  image?: string;
+}
+
+interface Props {
+  styles: Style[];
+}
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { styles } = Astro.props;
+---
+
+<section class="py-section-gap bg-surface-container-low border-y border-outline-variant">
+  <div class="max-w-container-max mx-auto px-margin-desktop">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8" data-reveal>
+      <div>
+        <span class="font-label-sm text-label-sm text-primary mb-4 block">{t("sobre.styles_portfolio_label")}</span>
+        <h2 class="font-headline-lg text-headline-lg uppercase">{t("sobre.styles_title")}</h2>
+      </div>
+      <p class="font-body-md text-on-surface-variant max-w-md text-right">
+        {t("sobre.styles_subtitle")}
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-outline-variant">
+      {styles.map((style, index) => {
+        const number = String(index + 1).padStart(2, "0");
+        const hasImage = style.image && style.image.length > 0;
+        return (
+          <div class="group border-r border-b border-outline-variant relative overflow-hidden h-96 hover:border-primary transition-colors duration-300">
+            {hasImage ? (
+              <>
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-[background-color] duration-500 z-10"></div>
+                <img
+                  alt={`Estilo ${style.name}`}
+                  class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter,transform] duration-700 scale-100 group-hover:scale-105"
+                  src={style.image}
+                  width="800"
+                  height="640"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black/80 to-transparent">
+                  <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
+                  <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>
+                </div>
+              </>
+            ) : (
+              <div class="absolute inset-0 flex items-center justify-center bg-[#1a1a1a] p-12">
+                <div class="text-center">
+                  <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
+                  <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>
+                  <p class="text-label-sm text-on-surface-variant mt-4 max-w-xs">{style.description}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
