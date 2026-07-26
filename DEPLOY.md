@@ -2,11 +2,19 @@
 
 Guia paso a paso para desplegar en Dokploy (VPS con Docker).
 
+## Entornos
+
+| Entorno | URL | Notas |
+|---|---|---|
+| **Pre-producción / staging** | `https://suba.donduque.dev` | Subdominio temporal del dev (`donduque.dev`) — para que el artista revise el sitio mientras se construye. |
+| **Producción** | TBD | Dominio propio del artista (ej: `subatattoo.com`). Se configura igual en Dokploy cuando esté disponible. |
+
+> La diferencia entre los dos entornos es **solo el dominio**: el código, el Dockerfile, el pipeline de Dokploy, y el repo de GitHub son los mismos. Cambiar de staging a producción es swap de DNS + actualizacion de 3 archivos (`astro.config.mjs`, `robots.txt`, `Decap config.yml`).
+
 ## Estado actual
 
 - **Repo GitHub**: `yusney/suba-tattoo` (configurado en `public/admin/config.yml`)
-- **Dominio (staging/preview)**: `https://suba.donduque.dev` (subdomain de `donduque.dev`)
-- **Cuando consigan dominio final**: cambiar `site` en `astro.config.mjs` + sitemap + Decap `base_url`
+- **Entorno activo**: pre-producción en `https://suba.donduque.dev`
 
 ## Pre-requisitos
 
@@ -133,17 +141,20 @@ El artista necesita tener acceso de escritura al repo de GitHub. Opciones:
 - Agregarlo como **collaborator** del repo (Settings → Collaborators)
 - O usar una **GitHub Organization** donde ambos sean miembros
 
-## Cuando consigan el dominio final
+## Cuando consigan el dominio final (cutover pre-prod → producción)
 
-1. Comprar el dominio (ej: `subatattoo.com`)
+1. Comprar el dominio definitivo (ej: `subatattoo.com`)
 2. Configurar DNS A record → IP del VPS
-3. En Dokploy, agregar el dominio final al service (mantener el subdominio también para preview si querés)
-4. Actualizar en el código:
-   - `astro.config.mjs` → `site: 'https://subatattoo.com'`
+3. En Dokploy, agregar el dominio final al service (mantener `suba.donduque.dev` también para preview si querés, o removerlo)
+4. Actualizar en el código (solo 3 archivos):
+   - `astro.config.mjs` → `site: 'https://[dominio-final]'`
    - `public/robots.txt` → URL del sitemap
    - `public/admin/config.yml` → `base_url`
-5. En GitHub OAuth App, agregar el nuevo callback URL (podés tener varios)
-6. Rebuild y verificar
+5. En GitHub OAuth App, agregar el nuevo callback URL (podés tener varios callbacks en una misma OAuth App)
+6. `git commit -m "Switch to production domain" && git push` — Dokploy redespliega automáticamente
+7. Verificar con `curl -sI https://[dominio-final]`
+
+> **Tip de roll-back rápido:** como Dokploy mantiene el `suba.donduque.dev` mientras siga configurado, si algo falla en producción podés volver a staging cambiando los 3 archivos al revés. El historial de git lo deja documentado.
 
 ## Mantenimiento
 

@@ -4,9 +4,12 @@
 
 Underground tattoo studio portfolio & booking site for **Joshua Jiménez Buendía**, based in Montcada i Reixac (Barcelona). Realism, Blackwork, Color and Fine Line.
 
-- **Production**: [https://suba.donduque.dev](https://suba.donduque.dev) (staging subdomain)
-- **Admin panel** (content manager): [https://suba.donduque.dev/admin/](https://suba.donduque.dev/admin/)
+- **Pre-production / staging** (current): [https://suba.donduque.dev](https://suba.donduque.dev)
+- **Admin panel**: [https://suba.donduque.dev/admin/](https://suba.donduque.dev/admin/)
+- **Production**: TBD — when the client purchases their own domain, the same Dokploy pipeline serves it.
 - **Repository**: [github.com/yusney/suba-tattoo](https://github.com/yusney/suba-tattoo)
+
+> **Note on environments.** `suba.donduque.dev` is a subdomain of the developer's main domain (`donduque.dev`) used as a **pre-production preview** for the artist to review work in progress. The final production domain will be different (the artist's own domain, e.g. `subatattoo.com` or similar) and will be configured at the same Dokploy pipeline when available. All config files (`astro.config.mjs`, `public/robots.txt`, `public/admin/config.yml`) currently point to the staging URL — they are swapped to the production URL when ready, no code changes required.
 
 ---
 
