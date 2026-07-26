@@ -1,0 +1,475 @@
+---
+import { useTranslations, getLocaleFromPath, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+const rawLocale = (Astro.currentLocale ?? getLocaleFromPath(Astro.url.pathname)) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const title = t("cookie_banner.title");
+const message = t("cookie_banner.message");
+const acceptLabel = t("cookie_banner.accept");
+const rejectLabel = t("cookie_banner.reject");
+const configureLabel = t("cookie_banner.configure");
+const saveLabel = t("cookie_banner.save");
+const closeLabel = t("cookie_banner.close");
+const modalTitle = t("cookie_banner.modal_title");
+const modalSubtitle = t("cookie_banner.modal_subtitle");
+const necessaryTitle = t("cookie_banner.category_necessary_title");
+const necessaryDesc = t("cookie_banner.category_necessary_desc");
+const analyticsTitle = t("cookie_banner.category_analytics_title");
+const analyticsDesc = t("cookie_banner.category_analytics_desc");
+const marketingTitle = t("cookie_banner.category_marketing_title");
+const marketingDesc = t("cookie_banner.category_marketing_desc");
+const alwaysActive = t("cookie_banner.always_active");
+---
+
+<div
+  id="cookie-banner-root"
+  class="cookie-banner-root pointer-events-none fixed inset-x-0 bottom-0 z-[9000] flex justify-center px-margin-mobile pb-4 md:px-margin-desktop md:pb-6"
+  aria-hidden="true"
+>
+  <div
+    id="cookie-banner"
+    role="dialog"
+    aria-modal="false"
+    aria-labelledby="cookie-banner-title"
+    class="cookie-banner pointer-events-auto hidden w-full max-w-3xl translate-y-full border border-outline-variant bg-surface-container-lowest opacity-0 shadow-2xl transition-[transform,opacity] duration-300 ease-out md:bottom-0"
+    data-cookie-banner
+  >
+    <div class="flex flex-col gap-5 p-5 md:p-7">
+      <div class="flex flex-col gap-2">
+        <h2
+          id="cookie-banner-title"
+          class="font-headline-md text-lg font-bold uppercase tracking-tighter text-on-surface md:text-xl"
+        >
+          {title}
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant text-justify leading-relaxed md:text-left">
+          {message}
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3 md:flex-row md:flex-wrap md:justify-end">
+        <button
+          type="button"
+          data-cookie-action="configure"
+          class="order-3 border border-outline-variant px-5 py-3 text-center font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant transition-colors hover:border-primary hover:text-primary md:order-1"
+        >
+          {configureLabel}
+        </button>
+        <button
+          type="button"
+          data-cookie-action="reject"
+          class="order-2 border border-outline-variant px-5 py-3 text-center font-label-sm text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-high md:order-2"
+        >
+          {rejectLabel}
+        </button>
+        <button
+          type="button"
+          data-cookie-action="accept"
+          class="order-1 border border-primary bg-primary px-5 py-3 text-center font-label-sm text-label-sm font-bold uppercase tracking-widest text-on-primary transition-colors hover:bg-transparent hover:text-primary md:order-3"
+        >
+          {acceptLabel}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="cookie-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cookie-modal-title"
+    class="cookie-modal pointer-events-auto fixed inset-0 z-[9100] hidden items-center justify-center bg-surface/80 p-4 backdrop-blur-sm"
+    data-cookie-modal
+  >
+    <div class="cookie-modal-panel w-full max-w-2xl border border-outline-variant bg-surface-container-lowest opacity-0 translate-y-4 transition-[opacity,transform] duration-200 ease-out">
+      <div class="flex items-start justify-between gap-4 border-b border-outline-variant p-5 md:p-7">
+        <div class="flex flex-col gap-2">
+          <h3
+            id="cookie-modal-title"
+            class="font-headline-md text-xl font-bold uppercase tracking-tighter text-on-surface md:text-2xl"
+          >
+            {modalTitle}
+          </h3>
+          <p class="font-body-md text-body-md text-on-surface-variant text-justify leading-relaxed md:text-left">
+            {modalSubtitle}
+          </p>
+        </div>
+        <button
+          type="button"
+          data-cookie-action="close-modal"
+          aria-label={closeLabel}
+          class="material-symbols-outlined text-on-surface-variant transition-colors hover:text-primary"
+        >
+          close
+        </button>
+      </div>
+
+      <div class="flex flex-col divide-y divide-outline-variant">
+        <div class="flex items-start justify-between gap-6 p-5 md:p-7">
+          <div class="flex flex-col gap-1">
+            <span class="font-headline-md text-base font-bold uppercase tracking-tight text-on-surface md:text-lg">
+              {necessaryTitle}
+            </span>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              {necessaryDesc}
+            </p>
+          </div>
+          <div class="flex shrink-0 flex-col items-end gap-1">
+            <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">
+              {alwaysActive}
+            </span>
+            <div class="cookie-toggle cookie-toggle--on cookie-toggle--disabled" aria-hidden="true">
+              <span class="cookie-toggle-knob cookie-toggle-knob--on"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start justify-between gap-6 p-5 md:p-7">
+          <div class="flex flex-col gap-1">
+            <span class="font-headline-md text-base font-bold uppercase tracking-tight text-on-surface md:text-lg">
+              {analyticsTitle}
+            </span>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              {analyticsDesc}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            aria-label={analyticsTitle}
+            class="cookie-toggle"
+            data-cookie-toggle="analytics"
+          >
+            <span class="cookie-toggle-knob"></span>
+          </button>
+        </div>
+
+        <div class="flex items-start justify-between gap-6 p-5 md:p-7">
+          <div class="flex flex-col gap-1">
+            <span class="font-headline-md text-base font-bold uppercase tracking-tight text-on-surface md:text-lg">
+              {marketingTitle}
+            </span>
+            <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              {marketingDesc}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            aria-label={marketingTitle}
+            class="cookie-toggle"
+            data-cookie-toggle="marketing"
+          >
+            <span class="cookie-toggle-knob"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 border-t border-outline-variant p-5 md:flex-row md:justify-end md:p-7">
+        <button
+          type="button"
+          data-cookie-action="reject"
+          class="order-2 border border-outline-variant px-5 py-3 text-center font-label-sm text-label-sm uppercase tracking-widest text-on-surface transition-colors hover:bg-surface-container-high md:order-1"
+        >
+          {rejectLabel}
+        </button>
+        <button
+          type="button"
+          data-cookie-action="save"
+          class="order-1 border border-primary bg-primary px-5 py-3 text-center font-label-sm text-label-sm font-bold uppercase tracking-widest text-on-primary transition-colors hover:bg-transparent hover:text-primary md:order-2"
+        >
+          {saveLabel}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .cookie-banner.is-visible {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .cookie-banner-root[aria-hidden="false"] {
+    pointer-events: auto;
+  }
+
+  .cookie-modal.is-visible {
+    display: flex;
+  }
+  .cookie-modal.is-visible .cookie-modal-panel {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cookie-toggle {
+    position: relative;
+    display: inline-flex;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    border: 1px solid var(--color-outline-variant);
+    background-color: var(--color-surface-container-high);
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 200ms ease, border-color 200ms ease;
+    border-radius: 9999px;
+  }
+  .cookie-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  .cookie-toggle[aria-checked="true"] {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .cookie-toggle--on.cookie-toggle--disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+  }
+  .cookie-toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-on-surface);
+    transition: transform 200ms ease, background-color 200ms ease;
+    border-radius: 9999px;
+  }
+  .cookie-toggle[aria-checked="true"] .cookie-toggle-knob,
+  .cookie-toggle--on .cookie-toggle-knob {
+    transform: translateX(20px);
+    background-color: var(--color-on-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cookie-banner,
+    .cookie-modal-panel,
+    .cookie-toggle,
+    .cookie-toggle-knob {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const STORAGE_KEY = "cookie-consent";
+    const banner = document.querySelector<HTMLElement>("[data-cookie-banner]");
+    const root = document.getElementById("cookie-banner-root");
+    const modal = document.querySelector<HTMLElement>("[data-cookie-modal]");
+    if (!banner || !root || !modal) return;
+
+    const reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    type Consent = {
+      necessary: boolean;
+      analytics: boolean;
+      marketing: boolean;
+      timestamp: number;
+    };
+
+    const readConsent = (): Consent | null => {
+      try {
+        const raw = window.localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") return null;
+        return parsed as Consent;
+      } catch {
+        return null;
+      }
+    };
+
+    const writeConsent = (consent: Consent): void => {
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
+      } catch {
+        // localStorage unavailable (private mode, blocked, etc.). Silently no-op.
+      }
+    };
+
+    const setBannerVisible = (visible: boolean): void => {
+      if (visible) {
+        banner.classList.remove("hidden");
+        // Force a reflow before applying the visible class so the transition runs.
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        banner.offsetWidth;
+        banner.classList.add("is-visible");
+        root.setAttribute("aria-hidden", "false");
+      } else {
+        banner.classList.remove("is-visible");
+        root.setAttribute("aria-hidden", "true");
+        if (!reduceMotion) {
+          window.setTimeout(() => {
+            if (!banner.classList.contains("is-visible")) {
+              banner.classList.add("hidden");
+            }
+          }, 320);
+        } else {
+          banner.classList.add("hidden");
+        }
+      }
+    };
+
+    const setModalVisible = (visible: boolean): void => {
+      if (visible) {
+        modal.classList.add("is-visible");
+        modal.removeAttribute("aria-hidden");
+        // Trap scroll while open.
+        document.documentElement.style.overflow = "hidden";
+      } else {
+        modal.classList.remove("is-visible");
+        document.documentElement.style.overflow = "";
+      }
+    };
+
+    const setToggle = (
+      button: HTMLButtonElement,
+      on: boolean,
+    ): void => {
+      button.setAttribute("aria-checked", on ? "true" : "false");
+    };
+
+    const readToggles = (): { analytics: boolean; marketing: boolean } => {
+      const analyticsButton = modal.querySelector<HTMLButtonElement>(
+        '[data-cookie-toggle="analytics"]',
+      );
+      const marketingButton = modal.querySelector<HTMLButtonElement>(
+        '[data-cookie-toggle="marketing"]',
+      );
+      return {
+        analytics: analyticsButton?.getAttribute("aria-checked") === "true",
+        marketing: marketingButton?.getAttribute("aria-checked") === "true",
+      };
+    };
+
+    const applyConsent = (
+      preferences: { analytics: boolean; marketing: boolean },
+    ): void => {
+      const consent: Consent = {
+        necessary: true,
+        analytics: preferences.analytics,
+        marketing: preferences.marketing,
+        timestamp: Date.now(),
+      };
+      writeConsent(consent);
+      // Dispatch a custom event so other code can react to consent changes.
+      window.dispatchEvent(new CustomEvent("cookieconsent:change", { detail: consent }));
+    };
+
+    const onAction = (event: Event): void => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      const action = target.getAttribute("data-cookie-action");
+      if (!action) return;
+
+      switch (action) {
+        case "accept":
+          applyConsent({ analytics: true, marketing: true });
+          setModalVisible(false);
+          setBannerVisible(false);
+          break;
+        case "reject":
+          applyConsent({ analytics: false, marketing: false });
+          setModalVisible(false);
+          setBannerVisible(false);
+          break;
+        case "configure":
+          setModalVisible(true);
+          break;
+        case "save": {
+          const prefs = readToggles();
+          applyConsent(prefs);
+          setModalVisible(false);
+          setBannerVisible(false);
+          break;
+        }
+        case "close-modal":
+          setModalVisible(false);
+          break;
+      }
+    };
+
+    const onToggleClick = (event: Event): void => {
+      const target = event.currentTarget as HTMLButtonElement | null;
+      if (!target) return;
+      const isOn = target.getAttribute("aria-checked") === "true";
+      setToggle(target, !isOn);
+    };
+
+    const onModalBackdrop = (event: Event): void => {
+      if (event.target === modal) {
+        setModalVisible(false);
+      }
+    };
+
+    const onKeydown = (event: KeyboardEvent): void => {
+      if (event.key === "Escape" && modal.classList.contains("is-visible")) {
+        setModalVisible(false);
+      }
+    };
+
+    // Wire up handlers.
+    document.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      if (target.closest("[data-cookie-action]")) {
+        onAction(event);
+      } else if (target.closest("[data-cookie-toggle]")) {
+        const toggle = target.closest<HTMLButtonElement>("[data-cookie-toggle]");
+        if (toggle) {
+          const isOn = toggle.getAttribute("aria-checked") === "true";
+          setToggle(toggle, !isOn);
+        }
+      }
+    });
+    modal.addEventListener("click", onModalBackdrop);
+    document.addEventListener("keydown", onKeydown);
+
+    // Public API for "reopen settings" links (e.g. footer).
+    const openSettings = (): void => {
+      // Reset toggles to the current stored consent so the modal reflects state.
+      const existing = readConsent();
+      const analyticsButton = modal.querySelector<HTMLButtonElement>(
+        '[data-cookie-toggle="analytics"]',
+      );
+      const marketingButton = modal.querySelector<HTMLButtonElement>(
+        '[data-cookie-toggle="marketing"]',
+      );
+      if (analyticsButton) setToggle(analyticsButton, !!existing?.analytics);
+      if (marketingButton) setToggle(marketingButton, !!existing?.marketing);
+      setModalVisible(true);
+    };
+    document.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("[data-cookie-open]")) {
+        event.preventDefault();
+        openSettings();
+      }
+    });
+    window.addEventListener("cookiebanner:open", openSettings);
+
+    // Decide whether to show the banner on first load.
+    const existing = readConsent();
+    if (!existing) {
+      // Slight delay so the page settles before the banner slides in.
+      const delay = reduceMotion ? 0 : 250;
+      window.setTimeout(() => setBannerVisible(true), delay);
+    } else {
+      // Already consented — keep it hidden.
+      banner.classList.add("hidden");
+      root.setAttribute("aria-hidden", "true");
+    }
+  })();
+</script>

@@ -1,0 +1,114 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import LegalHero from "../../components/LegalHero.astro";
+import LegalBody from "../../components/LegalBody.astro";
+import CookieTable from "../../components/CookieTable.astro";
+import { useTranslations } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props as Props;
+
+const t = useTranslations(locale);
+
+const pageTitle = t("meta.cookies.title");
+const pageDescription = t("meta.cookies.description");
+
+const tableLabels = {
+  type: t("cookies.table_col_type"),
+  name: t("cookies.table_col_name"),
+  provider: t("cookies.table_col_provider"),
+  purpose: t("cookies.table_col_purpose"),
+  duration: t("cookies.table_col_duration"),
+};
+
+const tableRows = [
+  {
+    type: t("cookies.row_necessary_type"),
+    name: t("cookies.row_necessary_name"),
+    provider: t("cookies.row_necessary_provider"),
+    purpose: t("cookies.row_necessary_purpose"),
+    duration: t("cookies.row_necessary_duration"),
+  },
+  {
+    type: t("cookies.row_preferences_type"),
+    name: t("cookies.row_preferences_name"),
+    provider: t("cookies.row_preferences_provider"),
+    purpose: t("cookies.row_preferences_purpose"),
+    duration: t("cookies.row_preferences_duration"),
+  },
+];
+
+// Section 2 is special: the body is followed by the table
+const introSections = [
+  { title: t("cookies.s1_title"), body: t("cookies.s1_body") },
+];
+
+const afterTableSections = [
+  { title: t("cookies.s3_title"), body: t("cookies.s3_body") },
+  { title: t("cookies.s4_title"), body: t("cookies.s4_body") },
+  { title: t("cookies.s5_title"), body: t("cookies.s5_body") },
+];
+
+const s2Title = t("cookies.s2_title");
+const s2Body = t("cookies.s2_body");
+---
+
+<Layout title={pageTitle} description={pageDescription} ogType="website">
+  <TopBar />
+  <main id="main" class="pt-24 overflow-x-hidden scroll-mt-24">
+    <LegalHero
+      eyebrow={t("cookies.eyebrow")}
+      title={t("cookies.title")}
+      subtitle={t("cookies.subtitle")}
+      lastUpdated={t("cookies.last_updated")}
+    />
+
+    <div class="mx-auto w-full max-w-container-max px-margin-mobile pb-section-gap md:px-margin-desktop">
+      <div class="grid grid-cols-12 gap-gutter">
+        <div class="col-span-12 md:col-start-2 md:col-span-10 max-w-3xl">
+          {introSections.map((section) => (
+            <article class="mb-12 border-t border-outline-variant pt-8 md:mb-16 md:pt-10">
+              <h2 class="font-headline-md mb-6 text-2xl uppercase leading-tight tracking-tighter md:text-headline-md">
+                {section.title}
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant text-justify leading-relaxed md:text-left">
+                {section.body}
+              </p>
+            </article>
+          ))}
+
+          <article class="mb-12 border-t border-outline-variant pt-8 md:mb-16 md:pt-10">
+            <h2 class="font-headline-md mb-6 text-2xl uppercase leading-tight tracking-tighter md:text-headline-md">
+              {s2Title}
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-6 text-justify leading-relaxed md:text-left">
+              {s2Body}
+            </p>
+            <CookieTable tableLabels={tableLabels} rows={tableRows} />
+          </article>
+
+          {afterTableSections.map((section) => (
+            <article class="mb-12 last:mb-0 border-t border-outline-variant pt-8 md:mb-16 md:pt-10">
+              <h2 class="font-headline-md mb-6 text-2xl uppercase leading-tight tracking-tighter md:text-headline-md">
+                {section.title}
+              </h2>
+              <p class="font-body-md text-body-md text-on-surface-variant text-justify leading-relaxed md:text-left">
+                {section.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

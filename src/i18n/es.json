@@ -71,6 +71,7 @@
     "whatsapp": "WhatsApp",
     "ubicacion": "Ubicación",
     "privacidad": "Privacidad",
+    "cookies": "Cookies",
     "copyright_prefix": "© "
   },
   "common": {
@@ -112,6 +113,14 @@
     },
     "detalle": {
       "title_suffix": " — SUBA TATTOO Barcelona"
+    },
+    "privacidad": {
+      "title": "Política de Privacidad — SUBA TATTOO Barcelona",
+      "description": "Cómo tratamos tus datos personales en SUBA TATTOO según el RGPD y la LOPDGDD. Identidad del responsable, finalidad, base legal y derechos."
+    },
+    "cookies": {
+      "title": "Política de Cookies — SUBA TATTOO Barcelona",
+      "description": "Tipos de cookies que utilizamos en el sitio web de SUBA TATTOO, cómo gestionarlas y cómo ejercer tu control sobre ellas."
     }
   },
   "sobre": {
@@ -230,5 +239,79 @@
     "bottom_title": "¿Tienes un proyecto en mente?",
     "bottom_body": "Actualmente aceptando solicitudes para sesiones personalizadas. Cuéntanos tu visión y la haremos arquitectura corporal.",
     "bottom_cta": "Solicitar una Pieza Similar"
+  },
+  "privacidad": {
+    "eyebrow": "LEGAL · RGPD",
+    "title": "Política de Privacidad",
+    "subtitle": "Cómo tratamos tus datos personales en SUBA TATTOO, en cumplimiento del Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018, de Protección de Datos y Garantía de los Derechos Digitales (LOPDGDD).",
+    "last_updated": "Última actualización: 26 de julio de 2026",
+    "s1_title": "1. Identidad del responsable del tratamiento",
+    "s1_body": "El responsable del tratamiento de tus datos personales es SUBA TATTOO, estudio de tatuaje artístico con sede en Montcada i Reixac (Barcelona), España. Para cualquier comunicación relativa a la protección de tus datos puedes escribirnos a {email} o acudir presencialmente al estudio previa cita.",
+    "s2_title": "2. ¿Qué datos personales recopilamos?",
+    "s2_body": "Recopilamos las siguientes categorías de datos personales: datos identificativos y de contacto facilitados a través del formulario de reserva o por correo electrónico (nombre completo, dirección de correo electrónico, número de teléfono o WhatsApp, y, opcionalmente, zona del cuerpo y descripción del proyecto); datos técnicos de navegación recogidos por el sitio web (dirección IP, tipo de navegador, sistema operativo, páginas visitadas y duración de la visita); y datos derivados de la relación contractual una vez confirmada la reserva.",
+    "s3_title": "3. ¿Con qué finalidad tratamos tus datos?",
+    "s3_body": "Tratamos tus datos personales para las siguientes finalidades: gestionar las solicitudes de reserva y valoración de proyectos de tatuaje; responder a consultas enviadas a través del formulario de contacto o por correo electrónico; mantener la relación contractual y precontractual durante el ciclo de vida del proyecto; cumplir con las obligaciones legales, contables y fiscales aplicables; y, en su caso, enviar comunicaciones comerciales únicamente si has prestado tu consentimiento expreso.",
+    "s4_title": "4. Base legal del tratamiento",
+    "s4_body": "Las bases jurídicas que legitiman el tratamiento de tus datos son: el consentimiento del interesado, que se solicita de forma expresa al enviar el formulario de reserva; la ejecución de un contrato de prestación de servicios artísticos o precontractuales a petición del interesado; el cumplimiento de obligaciones legales (fiscales, contables y de protección de datos); y, cuando proceda, el interés legítimo del responsable en garantizar la seguridad de la información y la prevención del fraude.",
+    "s5_title": "5. ¿Durante cuánto tiempo conservamos tus datos?",
+    "s5_body": "Conservamos tus datos personales mientras se mantenga la relación comercial o contractual y, una vez finalizada, durante el plazo estrictamente necesario para cumplir con las obligaciones legales aplicables. En particular, la documentación contable y fiscal se conserva durante un plazo mínimo de seis (6) años conforme a la normativa española. Los datos utilizados para el envío de comunicaciones comerciales se conservan hasta que retires tu consentimiento.",
+    "s6_title": "6. ¿A qué destinatarios se comunicarán tus datos?",
+    "s6_body": "No cedemos tus datos personales a terceros, salvo cuando sea estrictamente necesario para la ejecución del servicio o por obligación legal. En concreto, tus datos pueden ser tratados por proveedores de servicios que actúan como encargados del tratamiento, tales como proveedores de hosting y servicios de correo electrónico, todos ellos ubicados en el Espacio Económico Unido o en terceros países con garantías adecuadas conforme al RGPD. No realizamos transferencias internacionales ni cesiones con fines comerciales.",
+    "s7_title": "7. ¿Cuáles son tus derechos?",
+    "s7_body": "Como titular de los datos, puedes ejercer en cualquier momento los derechos de acceso, rectificación, supresión (derecho al olvido), oposición, limitación del tratamiento, portabilidad de los datos y a no ser objeto de decisiones automatizadas con efectos jurídicos. Para ejercerlos, escribe a {email} acreditando tu identidad. Si consideras que tus derechos no han sido debidamente atendidos, puedes presentar una reclamación ante la Agencia Española de Protección de Datos (AEPD) en www.aepd.es.",
+    "s8_title": "8. Seguridad de los datos",
+    "s8_body": "SUBA TATTOO aplica las medidas técnicas y organizativas apropiadas para proteger tus datos personales frente a accesos no autorizados, pérdida accidental, destrucción o daño. Entre ellas se encuentran el cifrado de las comunicaciones, el control de acceso a la información, la minimización de los datos tratados y la suscripción de contratos de encargo de tratamiento con todos los proveedores que pudieran tener acceso a datos personales.",
+    "s9_title": "9. Modificaciones de esta política",
+    "s9_body": "Nos reservamos el derecho de modificar esta política de privacidad para adaptarla a novedades legislativas o jurisprudenciales. Cualquier cambio será publicado en esta misma página y, si procede, comunicado por correo electrónico a los usuarios afectados. Te recomendamos revisar esta política periódicamente."
+  },
+  "cookies": {
+    "eyebrow": "LEGAL · COOKIES",
+    "title": "Política de Cookies",
+    "subtitle": "Información detallada sobre las cookies que utiliza este sitio web y cómo puedes gestionarlas, en cumplimiento del RGPD, la LOPDGDD y la Ley de Servicios de la Sociedad de la Información (LSSI).",
+    "last_updated": "Última actualización: 26 de julio de 2026",
+    "s1_title": "1. ¿Qué son las cookies?",
+    "s1_body": "Las cookies son pequeños archivos de texto que un sitio web almacena en tu dispositivo (ordenador, teléfono o tablet) cuando lo visitas. Permiten al sitio recordar tus acciones y preferencias durante un periodo determinado, para que no tengas que reintroducirlos cada vez que vuelves al sitio o navegas entre páginas.",
+    "s2_title": "2. ¿Qué cookies utilizamos?",
+    "s2_body": "Actualmente este sitio web utiliza exclusivamente cookies técnicas necesarias para su funcionamiento, y cookies de preferencias para recordar tu selección de idioma. No utilizamos cookies de análisis ni cookies de marketing/publicidad, aunque dejamos estas categorías documentadas por si se incorporaran en el futuro.",
+    "table_col_type": "Tipo",
+    "table_col_name": "Nombre",
+    "table_col_provider": "Proveedor",
+    "table_col_purpose": "Finalidad",
+    "table_col_duration": "Duración",
+    "row_necessary_type": "Técnica",
+    "row_necessary_name": "decap-cms-session",
+    "row_necessary_provider": "SUBA TATTOO / Decap CMS",
+    "row_necessary_purpose": "Mantener la sesión iniciada en el panel de administración del CMS.",
+    "row_necessary_duration": "Sesión",
+    "row_preferences_type": "Preferencias",
+    "row_preferences_name": "suba-locale",
+    "row_preferences_provider": "SUBA TATTOO",
+    "row_preferences_purpose": "Recordar el idioma seleccionado por el usuario (es, en, ca).",
+    "row_preferences_duration": "1 año",
+    "s3_title": "3. Cookies de terceros",
+    "s3_body": "Este sitio web no utiliza cookies de terceros con fines publicitarios, de seguimiento ni de análisis. Cualquier cookie procedente de un dominio externo será siempre con fines estrictamente técnicos y, en tal caso, será identificada en la tabla anterior con su proveedor correspondiente.",
+    "s4_title": "4. ¿Cómo gestionar las cookies?",
+    "s4_body": "Puedes aceptar, rechazar o configurar el uso de cookies en cualquier momento a través del banner de consentimiento que aparece en tu primera visita, o reabriéndolo desde el pie de página. También puedes configurar tu navegador para bloquear o eliminar las cookies instaladas. Ten en cuenta que bloquear las cookies técnicas puede impedir el correcto funcionamiento del sitio.",
+    "s5_title": "5. Actualizaciones",
+    "s5_body": "Nos reservamos el derecho de modificar esta política de cookies para reflejar cambios en el sitio web o en la normativa aplicable. Cualquier modificación será publicada en esta misma página."
+  },
+  "cookie_banner": {
+    "title": "Tu privacidad importa",
+    "message": "Utilizamos cookies técnicas necesarias para que el sitio funcione y, opcionalmente, cookies de análisis para mejorar tu experiencia. Puedes aceptar, rechazar o configurar su uso.",
+    "accept": "Aceptar todas",
+    "reject": "Rechazar todas",
+    "configure": "Configurar",
+    "save": "Guardar preferencias",
+    "close": "Cerrar",
+    "modal_title": "Configurar cookies",
+    "modal_subtitle": "Selecciona qué categorías de cookies permites. Las cookies técnicas son necesarias para el funcionamiento del sitio y no pueden desactivarse.",
+    "category_necessary_title": "Técnicas (necesarias)",
+    "category_necessary_desc": "Imprescindibles para el funcionamiento básico del sitio web. No se pueden desactivar.",
+    "category_analytics_title": "Análisis",
+    "category_analytics_desc": "Nos ayudan a entender cómo usas el sitio para poder mejorarlo. Actualmente no se utilizan.",
+    "category_marketing_title": "Marketing",
+    "category_marketing_desc": "Utilizadas para mostrarte anuncios personalizados. Actualmente no se utilizan.",
+    "always_active": "Siempre activas",
+    "open_settings": "Configurar cookies"
   }
 }

@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import LegalHero from "../../components/LegalHero.astro";
+import LegalBody from "../../components/LegalBody.astro";
+import { useTranslations } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+import { getSiteSettings } from "../../lib/site";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props as Props;
+
+const t = useTranslations(locale);
+const settings = await getSiteSettings(locale);
+const email = settings.contact_email;
+
+const pageTitle = t("meta.privacidad.title");
+const pageDescription = t("meta.privacidad.description");
+
+const sections = [
+  { title: t("privacidad.s1_title"), body: t("privacidad.s1_body").replace("{email}", email) },
+  { title: t("privacidad.s2_title"), body: t("privacidad.s2_body") },
+  { title: t("privacidad.s3_title"), body: t("privacidad.s3_body") },
+  { title: t("privacidad.s4_title"), body: t("privacidad.s4_body") },
+  { title: t("privacidad.s5_title"), body: t("privacidad.s5_body") },
+  { title: t("privacidad.s6_title"), body: t("privacidad.s6_body") },
+  { title: t("privacidad.s7_title"), body: t("privacidad.s7_body").replace("{email}", email) },
+  { title: t("privacidad.s8_title"), body: t("privacidad.s8_body") },
+  { title: t("privacidad.s9_title"), body: t("privacidad.s9_body") },
+];
+---
+
+<Layout title={pageTitle} description={pageDescription} ogType="website">
+  <TopBar />
+  <main id="main" class="pt-24 overflow-x-hidden scroll-mt-24">
+    <LegalHero
+      eyebrow={t("privacidad.eyebrow")}
+      title={t("privacidad.title")}
+      subtitle={t("privacidad.subtitle")}
+      lastUpdated={t("privacidad.last_updated")}
+    />
+    <LegalBody sections={sections} />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>

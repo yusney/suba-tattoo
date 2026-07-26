@@ -1,6 +1,6 @@
 ---
 import { getSiteSettings, whatsappLink } from "../lib/site";
-import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import { useTranslations, DEFAULT_LOCALE, localizePath } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 
 const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
@@ -15,6 +15,10 @@ const igHandle = (settings.instagram_url || "").split("/").filter(Boolean).pop()
 const igLineHandle = (settings.instagram_url_secondary || "").split("/").filter(Boolean).pop() || "suba_line";
 const waHref = whatsappLink(settings.whatsapp_number);
 const ubicacionHref = locale === DEFAULT_LOCALE ? "/#contact" : `/${locale}/#contact`;
+
+// Per-locale legal URLs.
+const privacidadHref = locale === "en" ? localizePath("/privacy", "en") : locale === "ca" ? localizePath("/privacitat", "ca") : localizePath("/privacidad", DEFAULT_LOCALE);
+const cookiesHref = locale === "en" ? localizePath("/cookies", "en") : locale === "ca" ? localizePath("/cookies", "ca") : localizePath("/cookies", DEFAULT_LOCALE);
 ---
 <footer class="border-t border-outline-variant bg-surface-container-lowest">
   <div class="mx-auto flex w-full max-w-container-max flex-col items-center justify-between gap-8 px-margin-mobile py-12 md:flex-row md:px-margin-desktop">
@@ -27,7 +31,8 @@ const ubicacionHref = locale === DEFAULT_LOCALE ? "/#contact" : `/${locale}/#con
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={igLineHref} target="_blank" rel="noreferrer" aria-label={`Instagram @${igLineHandle}`}>@{igLineHandle}</a>
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={waHref} target="_blank" rel="noreferrer">{t("footer.whatsapp")}</a>
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={ubicacionHref}>{t("footer.ubicacion")}</a>
-      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href="#">{t("footer.privacidad")}</a>
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={privacidadHref}>{t("footer.privacidad")}</a>
+      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={cookiesHref}>{t("footer.cookies")}</a>
     </nav>
     <p class="text-center text-label-sm font-label-sm text-on-surface-variant md:text-right">{t("footer.copyright_prefix")}{year} {settings.brand_name}{t("footer.studio_suffix")}.</p>
   </div>

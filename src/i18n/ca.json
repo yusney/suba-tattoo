@@ -71,6 +71,7 @@
     "whatsapp": "WhatsApp",
     "ubicacion": "Ubicació",
     "privacidad": "Privacitat",
+    "cookies": "Cookies",
     "copyright_prefix": "© "
   },
   "common": {
@@ -112,6 +113,14 @@
     },
     "detalle": {
       "title_suffix": " — SUBA TATTOO Barcelona"
+    },
+    "privacidad": {
+      "title": "Política de Privacitat — SUBA TATTOO Barcelona",
+      "description": "Com tractem les teves dades personals a SUBA TATTOO segons el RGPD i la LOPDGDD. Identitat del responsable, finalitat, base legal i drets."
+    },
+    "cookies": {
+      "title": "Política de Cookies — SUBA TATTOO Barcelona",
+      "description": "Tipus de cookies que utilitzem al lloc web de SUBA TATTOO, com gestionar-les i com mantenir el control sobre les teves preferències."
     }
   },
   "sobre": {
@@ -230,5 +239,79 @@
     "bottom_title": "Tens un projecte al cap?",
     "bottom_body": "Acceptem sol·licituds per a sessions personalitzades. Explica'ns la teva visió i la convertirem en arquitectura corporal.",
     "bottom_cta": "Sol·licitar una Peça Similar"
+  },
+  "privacidad": {
+    "eyebrow": "LEGAL · RGPD",
+    "title": "Política de Privacitat",
+    "subtitle": "Com tractem les teves dades personals a SUBA TATTOO, en compliment del Reglament (UE) 2016/679 (RGPD) i la Llei Orgànica 3/2018, de Protecció de Dades i Garantia dels Drets Digitals (LOPDGDD).",
+    "last_updated": "Última actualització: 26 de juliol de 2026",
+    "s1_title": "1. Identitat del responsable del tractament",
+    "s1_body": "El responsable del tractament de les teves dades personals és SUBA TATTOO, estudi de tatuatge artístic amb seu a Montcada i Reixac (Barcelona), Espanya. Per a qualsevol comunicació relativa a la protecció de les teves dades pots escriure'ns a {email} o acudir presencialment a l'estudi amb cita prèvia.",
+    "s2_title": "2. Quines dades personals recopilem?",
+    "s2_body": "Recopilem les categories següents de dades personals: dades identificatives i de contacte facilitades a través del formulari de reserva o per correu electrònic (nom complet, adreça de correu electrònic, número de telèfon o WhatsApp, i, opcionalment, zona del cos i descripció del projecte); dades tècniques de navegació recollides pel lloc web (adreça IP, tipus de navegador, sistema operatiu, pàgines visitades i durada de la visita); i dades derivades de la relació contractual un cop confirmada la reserva.",
+    "s3_title": "3. Amb quina finalitat tractem les teves dades?",
+    "s3_body": "Tractem les teves dades personals per a les finalitats següents: gestionar les sol·licituds de reserva i valoració de projectes de tatuatge; respondre consultes enviades a través del formulari de contacte o per correu electrònic; mantenir la relació contractual i precontractual durant el cicle de vida del projecte; complir amb les obligacions legals, comptables i fiscals aplicables; i, si escau, enviar comunicacions comercials únicament si has prestat el teu consentiment exprés.",
+    "s4_title": "4. Base legal del tractament",
+    "s4_body": "Les bases jurídiques que legitimen el tractament de les teves dades són: el consentiment de l'interessat, que se sol·licita de manera expressa en enviar el formulari de reserva; l'execució d'un contracte de prestació de serveis artístics o precontractuals a petició de l'interessat; el compliment d'obligacions legals (fiscals, comptables i de protecció de dades); i, quan escaigui, l'interès legítim del responsable a garantir la seguretat de la informació i la prevenció del frau.",
+    "s5_title": "5. Durant quant de temps conservem les teves dades?",
+    "s5_body": "Conservem les teves dades personals mentre es mantingui la relació comercial o contractual i, un cop finalitzada, durant el termini estrictament necessari per complir amb les obligacions legals aplicables. En particular, la documentació comptable i fiscal es conserva durant un termini mínim de sis (6) anys d'acord amb la normativa espanyola. Les dades utilitzades per a l'enviament de comunicacions comercials es conserven fins que retiris el teu consentiment.",
+    "s6_title": "6. A quins destinataris es comunicaran les teves dades?",
+    "s6_body": "No cedim les teves dades personals a tercers, llevat que sigui estrictament necessari per a l'execució del servei o per obligació legal. En concret, les teves dades poden ser tractades per proveïdors de serveis que actuen com a encarregats del tractament, com ara proveïdors de hosting i serveis de correu electrònic, tots ells ubicats a l'Espai Econòmic Unit o a tercers països amb garanties adequades d'acord amb el RGPD. No fem transferències internacionals ni cessions amb fins comercials.",
+    "s7_title": "7. Quins són els teus drets?",
+    "s7_body": "Com a titular de les dades, pots exercir en qualsevol moment els drets d'accés, rectificació, supressió (dret a l'oblit), oposició, limitació del tractament, portabilitat de les dades i a no ser objecte de decisions automatitzades amb efectes jurídics. Per exercir-los, escriu a {email} acreditant la teva identitat. Si consideres que els teus drets no han estat atesos degudament, pots presentar una reclamació davant l'Agència Espanyola de Protecció de Dades (AEPD) a www.aepd.es.",
+    "s8_title": "8. Seguretat de les dades",
+    "s8_body": "SUBA TATTOO aplica les mesures tècniques i organitzatives apropiades per protegir les teves dades personals davant accessos no autoritzats, pèrdua accidental, destrucció o dany. Entre elles hi ha el xifrat de les comunicacions, el control d'accés a la informació, la minimització de les dades tractades i la subscripció de contractes d'encàrrec de tractament amb tots els proveïdors que puguin tenir accés a dades personals.",
+    "s9_title": "9. Modificacions d'aquesta política",
+    "s9_body": "Ens reservem el dret de modificar aquesta política de privacitat per adaptar-la a novetats legislatives o jurisprudencials. Qualsevol canvi serà publicat en aquesta mateixa pàgina i, si escau, comunicat per correu electrònic als usuaris afectats. Et recomanem revisar aquesta política periòdicament."
+  },
+  "cookies": {
+    "eyebrow": "LEGAL · COOKIES",
+    "title": "Política de Cookies",
+    "subtitle": "Informació detallada sobre les cookies que utilitza aquest lloc web i com pots gestionar-les, en compliment del RGPD, la LOPDGDD i la Llei de Serveis de la Societat de la Informació (LSSI).",
+    "last_updated": "Última actualització: 26 de juliol de 2026",
+    "s1_title": "1. Què són les cookies?",
+    "s1_body": "Les cookies són petits arxius de text que un lloc web emmagatzema al teu dispositiu (ordinador, telèfon o tauleta) quan el visites. Permeten al lloc recordar les teves accions i preferències durant un període determinat, perquè no hagis de reintroduir-les cada vegada que tornes al lloc o navegues entre pàgines.",
+    "s2_title": "2. Quines cookies utilitzem?",
+    "s2_body": "Actualament aquest lloc web utilitza exclusivament cookies tècniques necessàries per al seu funcionament, i cookies de preferències per recordar la teva selecció d'idioma. No utilitzem cookies d'anàlisi ni cookies de màrqueting/publicitat, tot i que deixem aquestes categories documentades per si s'incorporessin en el futur.",
+    "table_col_type": "Tipus",
+    "table_col_name": "Nom",
+    "table_col_provider": "Proveïdor",
+    "table_col_purpose": "Finalitat",
+    "table_col_duration": "Durada",
+    "row_necessary_type": "Tècnica",
+    "row_necessary_name": "decap-cms-session",
+    "row_necessary_provider": "SUBA TATTOO / Decap CMS",
+    "row_necessary_purpose": "Mantenir la sessió iniciada al panell d'administració del CMS.",
+    "row_necessary_duration": "Sessió",
+    "row_preferences_type": "Preferències",
+    "row_preferences_name": "suba-locale",
+    "row_preferences_provider": "SUBA TATTOO",
+    "row_preferences_purpose": "Recordar l'idioma seleccionat per l'usuari (es, en, ca).",
+    "row_preferences_duration": "1 any",
+    "s3_title": "3. Cookies de tercers",
+    "s3_body": "Aquest lloc web no utilitza cookies de tercers amb fins publicitaris, de seguiment ni d'anàlisi. Qualsevol cookie procedent d'un domini extern serà sempre amb fins estrictament tècnics i, en aquest cas, serà identificada a la taula anterior amb el seu proveïdor corresponent.",
+    "s4_title": "4. Com gestionar les cookies?",
+    "s4_body": "Pots acceptar, rebutjar o configurar l'ús de cookies en qualsevol moment a través del bàner de consentiment que apareix a la teva primera visita, o reobrint-lo des del peu de pàgina. També pots configurar el teu navegador per bloquejar o eliminar les cookies instal·lades. Tingues en compte que bloquejar les cookies tècniques pot impedir el correcte funcionament del lloc.",
+    "s5_title": "5. Actualitzacions",
+    "s5_body": "Ens reservem el dret de modificar aquesta política de cookies per reflectir canvis al lloc web o a la normativa aplicable. Qualsevol modificació serà publicada en aquesta mateixa pàgina."
+  },
+  "cookie_banner": {
+    "title": "La teva privacitat importa",
+    "message": "Utilitzem cookies tècniques necessàries perquè el lloc funcioni i, opcionalment, cookies d'anàlisi per millorar la teva experiència. Pots acceptar, rebutjar o configurar-ne l'ús.",
+    "accept": "Acceptar totes",
+    "reject": "Rebutjar totes",
+    "configure": "Configurar",
+    "save": "Desar preferències",
+    "close": "Tancar",
+    "modal_title": "Configurar cookies",
+    "modal_subtitle": "Selecciona quines categories de cookies permetes. Les cookies tècniques són necessàries per al funcionament del lloc i no es poden desactivar.",
+    "category_necessary_title": "Tècniques (necessàries)",
+    "category_necessary_desc": "Imprescindibles per al funcionament bàsic del lloc web. No es poden desactivar.",
+    "category_analytics_title": "Anàlisi",
+    "category_analytics_desc": "Ens ajuden a entendre com fas servir el lloc per poder millorar-lo. Actualment no s'utilitzen.",
+    "category_marketing_title": "Màrqueting",
+    "category_marketing_desc": "Utilitzades per mostrar-te anuncis personalitzats. Actualment no s'utilitzen.",
+    "always_active": "Sempre actives",
+    "open_settings": "Configurar cookies"
   }
 }

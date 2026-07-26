@@ -1,0 +1,28 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  lastUpdated: string;
+}
+const { eyebrow, title, subtitle, lastUpdated } = Astro.props;
+---
+
+<section class="mx-auto w-full max-w-container-max px-margin-mobile py-12 md:px-margin-desktop md:py-section-gap">
+  <div class="flex flex-col gap-4 max-w-4xl" data-reveal>
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-[0.3em]">
+      {eyebrow}
+    </span>
+    <h1 class="font-display-lg text-4xl mb-2 uppercase leading-[1.05] tracking-tighter break-words text-balance [hyphens:auto] md:mb-4 md:text-7xl md:leading-[0.95]">
+      {title}
+    </h1>
+    {subtitle && (
+      <p class="font-body-lg text-body-lg text-on-surface-variant mt-2 text-justify leading-relaxed md:text-left">
+        {subtitle}
+      </p>
+    )}
+    <p class="font-label-sm text-label-sm text-on-surface-variant opacity-60 mt-4 uppercase tracking-widest">
+      {lastUpdated}
+    </p>
+  </div>
+</section>

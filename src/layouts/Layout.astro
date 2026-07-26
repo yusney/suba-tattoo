@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { useTranslations, getLocaleFromPath, localizePath, LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
+import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title?: string;
@@ -104,5 +105,6 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10000] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:font-label-sm focus:uppercase focus:tracking-widest"
     >{skipLabel}</a>
     <slot />
+    <CookieBanner />
   </body>
 </html>

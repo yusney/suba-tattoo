@@ -1,0 +1,27 @@
+---
+interface Section {
+  title: string;
+  body: string;
+}
+interface Props {
+  sections: Section[];
+}
+const { sections } = Astro.props;
+---
+
+<div class="mx-auto w-full max-w-container-max px-margin-mobile pb-section-gap md:px-margin-desktop">
+  <div class="grid grid-cols-12 gap-gutter">
+    <div class="col-span-12 md:col-start-2 md:col-span-10 max-w-3xl">
+      {sections.map((section) => (
+        <article class="mb-12 last:mb-0 border-t border-outline-variant pt-8 md:mb-16 md:pt-10">
+          <h2 class="font-headline-md mb-6 text-2xl uppercase leading-tight tracking-tighter md:text-headline-md">
+            {section.title}
+          </h2>
+          <p class="font-body-md text-body-md text-on-surface-variant text-justify leading-relaxed md:text-left">
+            {section.body}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</div>

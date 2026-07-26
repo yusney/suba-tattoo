@@ -71,6 +71,7 @@
     "whatsapp": "WhatsApp",
     "ubicacion": "Location",
     "privacidad": "Privacy",
+    "cookies": "Cookies",
     "copyright_prefix": "© "
   },
   "common": {
@@ -112,6 +113,14 @@
     },
     "detalle": {
       "title_suffix": " — SUBA TATTOO Barcelona"
+    },
+    "privacidad": {
+      "title": "Privacy Policy — SUBA TATTOO Barcelona",
+      "description": "How SUBA TATTOO processes your personal data under GDPR and the Spanish LOPDGDD. Controller identity, purpose, legal basis and your rights."
+    },
+    "cookies": {
+      "title": "Cookies Policy — SUBA TATTOO Barcelona",
+      "description": "Types of cookies used on the SUBA TATTOO website, how to manage them and how to keep control over your preferences."
     }
   },
   "sobre": {
@@ -230,5 +239,79 @@
     "bottom_title": "Got a project in mind?",
     "bottom_body": "Currently accepting requests for custom sessions. Tell us your vision and we'll turn it into body architecture.",
     "bottom_cta": "Request a Similar Piece"
+  },
+  "privacidad": {
+    "eyebrow": "LEGAL · GDPR",
+    "title": "Privacy Policy",
+    "subtitle": "How SUBA TATTOO processes your personal data in compliance with Regulation (EU) 2016/679 (GDPR) and Spanish Organic Law 3/2018 on Data Protection and the Guarantee of Digital Rights (LOPDGDD).",
+    "last_updated": "Last updated: 26 July 2026",
+    "s1_title": "1. Identity of the data controller",
+    "s1_body": "The data controller for your personal data is SUBA TATTOO, an artistic tattoo studio based in Montcada i Reixac (Barcelona), Spain. For any communication regarding the protection of your data you can write to us at {email} or visit the studio by appointment.",
+    "s2_title": "2. What personal data do we collect?",
+    "s2_body": "We collect the following categories of personal data: identification and contact details provided through the booking form or by email (full name, email address, phone or WhatsApp number, and, optionally, body area and project description); technical browsing data collected by the website (IP address, browser type, operating system, pages visited and visit duration); and data derived from the contractual relationship once the booking is confirmed.",
+    "s3_title": "3. What do we use your data for?",
+    "s3_body": "We process your personal data for the following purposes: to manage booking requests and project assessments; to respond to enquiries sent through the contact form or by email; to maintain the contractual and pre-contractual relationship throughout the project lifecycle; to comply with applicable legal, accounting and tax obligations; and, where applicable, to send commercial communications only if you have given your express consent.",
+    "s4_title": "4. Legal basis for processing",
+    "s4_body": "The legal bases that legitimise the processing of your data are: the data subject's consent, which is requested expressly when you submit the booking form; the performance of a contract for artistic services or pre-contractual measures taken at the data subject's request; compliance with legal obligations (tax, accounting and data protection); and, where applicable, the legitimate interest of the controller in ensuring information security and fraud prevention.",
+    "s5_title": "5. How long do we keep your data?",
+    "s5_body": "We keep your personal data for as long as the commercial or contractual relationship lasts and, once it ends, for the time strictly necessary to comply with applicable legal obligations. Specifically, accounting and tax documentation is kept for a minimum of six (6) years under Spanish law. Data used to send commercial communications is kept until you withdraw your consent.",
+    "s6_title": "6. Who do we share your data with?",
+    "s6_body": "We do not disclose your personal data to third parties, except where strictly necessary for the execution of the service or under a legal obligation. In particular, your data may be processed by service providers acting as data processors, such as hosting providers and email services, all located in the European Economic Area or in third countries with adequate safeguards under the GDPR. We do not carry out international transfers or commercial disclosures.",
+    "s7_title": "7. What are your rights?",
+    "s7_body": "As a data subject, you may exercise at any time the rights of access, rectification, erasure (right to be forgotten), objection, restriction of processing, data portability and the right not to be subject to automated individual decisions with legal effects. To exercise them, write to {email} proving your identity. If you consider that your rights have not been duly addressed, you may lodge a complaint with the Spanish Data Protection Agency (AEPD) at www.aepd.es.",
+    "s8_title": "8. Data security",
+    "s8_body": "SUBA TATTOO applies appropriate technical and organisational measures to protect your personal data against unauthorised access, accidental loss, destruction or damage. These include encrypted communications, access controls, data minimisation and data processing agreements with every provider that may have access to personal data.",
+    "s9_title": "9. Changes to this policy",
+    "s9_body": "We reserve the right to modify this privacy policy to adapt it to legislative or case-law developments. Any change will be published on this same page and, where appropriate, communicated by email to affected users. We recommend reviewing this policy periodically."
+  },
+  "cookies": {
+    "eyebrow": "LEGAL · COOKIES",
+    "title": "Cookies Policy",
+    "subtitle": "Detailed information about the cookies used by this website and how you can manage them, in compliance with the GDPR, the LOPDGDD and the Spanish Law on Information Society Services (LSSI).",
+    "last_updated": "Last updated: 26 July 2026",
+    "s1_title": "1. What are cookies?",
+    "s1_body": "Cookies are small text files that a website stores on your device (computer, phone or tablet) when you visit it. They allow the site to remember your actions and preferences for a defined period, so you don't have to re-enter them every time you return to the site or browse between pages.",
+    "s2_title": "2. What cookies do we use?",
+    "s2_body": "Currently this website uses exclusively technical cookies required for its operation, and preference cookies to remember your language selection. We do not use analytics or marketing/advertising cookies, although we document these categories in case they are added in the future.",
+    "table_col_type": "Type",
+    "table_col_name": "Name",
+    "table_col_provider": "Provider",
+    "table_col_purpose": "Purpose",
+    "table_col_duration": "Duration",
+    "row_necessary_type": "Technical",
+    "row_necessary_name": "decap-cms-session",
+    "row_necessary_provider": "SUBA TATTOO / Decap CMS",
+    "row_necessary_purpose": "Maintain the session of the CMS admin panel.",
+    "row_necessary_duration": "Session",
+    "row_preferences_type": "Preferences",
+    "row_preferences_name": "suba-locale",
+    "row_preferences_provider": "SUBA TATTOO",
+    "row_preferences_purpose": "Remember the language selected by the user (es, en, ca).",
+    "row_preferences_duration": "1 year",
+    "s3_title": "3. Third-party cookies",
+    "s3_body": "This website does not use third-party cookies for advertising, tracking or analytics purposes. Any cookie coming from an external domain will always be for strictly technical purposes and, in that case, will be identified in the table above with its corresponding provider.",
+    "s4_title": "4. How to manage cookies",
+    "s4_body": "You can accept, reject or configure the use of cookies at any time through the consent banner that appears on your first visit, or by reopening it from the page footer. You can also configure your browser to block or delete installed cookies. Note that blocking technical cookies may prevent the site from functioning correctly.",
+    "s5_title": "5. Updates",
+    "s5_body": "We reserve the right to modify this cookies policy to reflect changes on the website or in applicable regulations. Any modification will be published on this same page."
+  },
+  "cookie_banner": {
+    "title": "Your privacy matters",
+    "message": "We use technical cookies required for the site to work and, optionally, analytics cookies to improve your experience. You can accept, reject or configure their use.",
+    "accept": "Accept all",
+    "reject": "Reject all",
+    "configure": "Configure",
+    "save": "Save preferences",
+    "close": "Close",
+    "modal_title": "Configure cookies",
+    "modal_subtitle": "Select which categories of cookies you allow. Technical cookies are required for the site to work and cannot be disabled.",
+    "category_necessary_title": "Technical (required)",
+    "category_necessary_desc": "Essential for the basic operation of the website. They cannot be disabled.",
+    "category_analytics_title": "Analytics",
+    "category_analytics_desc": "Help us understand how you use the site so we can improve it. Currently not in use.",
+    "category_marketing_title": "Marketing",
+    "category_marketing_desc": "Used to show you personalised ads. Currently not in use.",
+    "always_active": "Always active",
+    "open_settings": "Configure cookies"
   }
 }

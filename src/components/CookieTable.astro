@@ -1,0 +1,44 @@
+---
+interface Props {
+  tableLabels: {
+    type: string;
+    name: string;
+    provider: string;
+    purpose: string;
+    duration: string;
+  };
+  rows: Array<{
+    type: string;
+    name: string;
+    provider: string;
+    purpose: string;
+    duration: string;
+  }>;
+}
+const { tableLabels, rows } = Astro.props;
+---
+
+<div class="mt-6 mb-8 overflow-x-auto border border-outline-variant">
+  <table class="w-full min-w-[640px] border-collapse font-label-sm text-label-sm uppercase tracking-widest">
+    <thead>
+      <tr class="bg-surface-container-low">
+        <th class="border-b border-outline-variant px-4 py-3 text-left text-primary">{tableLabels.type}</th>
+        <th class="border-b border-outline-variant px-4 py-3 text-left text-primary">{tableLabels.name}</th>
+        <th class="border-b border-outline-variant px-4 py-3 text-left text-primary">{tableLabels.provider}</th>
+        <th class="border-b border-outline-variant px-4 py-3 text-left text-primary">{tableLabels.purpose}</th>
+        <th class="border-b border-outline-variant px-4 py-3 text-left text-primary">{tableLabels.duration}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr class="align-top">
+          <td class="border-b border-outline-variant px-4 py-4 text-on-surface">{row.type}</td>
+          <td class="border-b border-outline-variant px-4 py-4 text-on-surface font-mono normal-case tracking-normal">{row.name}</td>
+          <td class="border-b border-outline-variant px-4 py-4 text-on-surface-variant">{row.provider}</td>
+          <td class="border-b border-outline-variant px-4 py-4 font-body-md text-body-md text-on-surface-variant normal-case tracking-normal leading-relaxed">{row.purpose}</td>
+          <td class="border-b border-outline-variant px-4 py-4 text-on-surface">{row.duration}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
