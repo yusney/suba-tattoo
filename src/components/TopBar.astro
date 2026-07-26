@@ -64,7 +64,7 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
           aria-label={t("switcher.label")}
           aria-haspopup="true"
           aria-expanded="false"
-          class="flex h-12 items-center justify-center gap-2 border border-outline-variant px-4 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors touch-manipulation"
+          class="flex h-12 items-center justify-center gap-2 border border-outline-variant px-4 font-label-sm text-label-sm uppercase tracking-wide md:tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors touch-manipulation"
         >
           <span class="font-bold">{localeLabels[locale].code}</span>
           <span class="material-symbols-outlined text-base" aria-hidden="true">expand_more</span>
@@ -87,7 +87,7 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
           ))}
         </div>
       </div>
-      <a class="hidden h-12 items-center justify-center border border-transparent bg-primary px-6 font-label-sm text-label-sm uppercase tracking-widest text-on-primary transition-[background-color,color] hover:bg-on-background hover:text-surface md:inline-flex" href={ctaHref}>{t("nav.cta")}</a>
+      <a class="hidden h-12 items-center justify-center border border-transparent bg-primary px-5 font-label-sm text-label-sm uppercase tracking-wide md:tracking-widest text-on-primary transition-[background-color,color] hover:bg-on-background hover:text-surface md:inline-flex" href={ctaHref}>{t("nav.cta")}</a>
     </div>
   </div>
 </header>
