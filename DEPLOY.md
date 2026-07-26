@@ -83,32 +83,46 @@ git push
 1. Login en Dokploy (ej: `https://dokploy.donduque.dev` o donde lo tengas)
 2. Click **Create Project** → nombre: `suba-tattoo`
 3. Dentro del proyecto, click **Create Service** → **Application**
-4. Tipo: **Dockerfile** (no Docker Compose, no Build Pack)
-5. Conectar el repo de GitHub (`yusney/suba-tattoo`)
-6. Branch: `main`
-7. Configurar:
-   - **Port**: `80`
-   - **Healthcheck path**: `/`
-   - **Domain**: agregar `suba.donduque.dev`
-8. Click **Deploy**
+4. **Source**: GitHub → seleccionar repo `yusney/suba-tattoo`, branch `main`
+5. **Build type**: **Dockerfile** (no Docker Compose, no Build Pack, no Nixpacks — nosotros tenemos un Dockerfile multi-stage custom)
+6. Click **Deploy**
 
 Dokploy va a:
 - Clonar el repo
 - Construir la imagen Docker (multi-stage, ~2-3 min la primera vez)
-- Levantar el container
-- Configurar Traefik para SSL automático con Let's Encrypt
+- Levantar el container exponiendo el puerto 80 (que es el `EXPOSE` de nuestro Dockerfile)
+- Configurar Traefik como reverse proxy
 
-## Paso 5 — Webhook para auto-deploy
+## Paso 5 — Configurar dominio
 
-Después del primer deploy, Dokploy te da una URL de webhook. La agregás en GitHub:
+1. En el service recién creado, ir al tab **Domains**
+2. Click **Add Domain**
+3. Llenar:
+   - **Host**: `suba.donduque.dev`
+   - **Path**: `/` (dejar vacío o `/`)
+   - **Container Port**: `80` (porque nginx escucha en 80 dentro del container)
+   - **HTTPS**: **activado** (toggle on)
+   - **Certificate**: `letsencrypt` (default)
+4. Click **Save**
 
-1. Repo → Settings → Webhooks → **Add webhook**
-2. **Payload URL**: la URL que te dio Dokploy (formato `https://dokploy.donduque.dev/api/webhook/...`)
-3. **Content type**: `application/json`
-4. **Trigger**: "Just the push event"
-5. Click **Add webhook**
+Dokploy automáticamente:
+- Genera el archivo de config de Traefik para este dominio
+- Solicita el certificado SSL a Let's Encrypt (puede tardar 1-2 min)
+- Configura el routing del dominio al container
 
-Ahora cada `git push` a `main` redespliega automáticamente.
+**No requiere redeploy** — los cambios de dominio en Dokploy se aplican via hot reload de Traefik.
+
+**Importante**: el DNS A record de `suba.donduque.dev` tiene que apuntar a la IP del VPS **antes** de configurar el dominio en Dokploy, si no Let's Encrypt no va a poder validar el certificado.
+
+## Paso 6 — Habilitar auto-deploy
+
+1. En el service, ir al tab **General**
+2. Toggle **Auto Deploy** → ON
+3. Eso es todo. Dokploy usa GitHub App internamente, no necesitás configurar webhooks manualmente.
+
+**Para GitHub específicamente:** Dokploy detecta pushes a la rama configurada (en nuestro caso `main`) y dispara un redeploy automático. Si usáramos GitLab / Bitbucket / Gitea, ahí sí habría que copiar el webhook URL manualmente desde el tab Deployments.
+
+**Branch matching**: asegurate de que la rama configurada en Dokploy coincida con la rama a la que pusheás (debe ser `main`). Si hay mismatch, vas a ver "Branch Not Match" en los logs.
 
 ## Paso 6 — Verificar
 
