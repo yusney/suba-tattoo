@@ -196,8 +196,15 @@ const alwaysActive = t("cookie_banner.always_active");
     transform: translateY(0);
     opacity: 1;
   }
-  .cookie-banner-root[aria-hidden="false"] {
+  /* Only the inner banner box captures clicks when visible, so the surrounding
+     area (which sits over the footer) doesn't block clicks. The outer root
+     always has pointer-events: none. */
+  #cookie-banner {
     pointer-events: auto;
+  }
+  #cookie-banner.hidden,
+  #cookie-banner:not(.is-visible) {
+    pointer-events: none;
   }
 
   .cookie-modal.is-visible {
