@@ -10,12 +10,12 @@ const paragraphs = introText.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
 ---
 
 <section class="border-b border-outline-variant">
-  <div class="grid w-full max-w-container-max grid-cols-12 mx-auto px-margin-mobile md:px-margin-desktop min-h-[calc(100vh-96px)]">
-    <div class="col-span-12 md:col-span-5 flex flex-col justify-center py-12 md:py-24 pr-0 md:pr-16">
+  <div class="grid grid-cols-12 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop min-h-[calc(100vh-96px)]">
+    <div class="col-span-12 md:col-span-6 flex flex-col justify-center py-12 md:py-24 pr-0 md:pr-16">
       <span class="font-label-sm text-label-sm text-primary tracking-[0.2em] mb-4 block" data-reveal>
         {artistSubtitle}
       </span>
-      <h1 class="font-display-lg text-5xl mb-6 uppercase leading-[1.05] md:mb-8 md:text-display-lg md:leading-none" data-reveal>
+      <h1 class="font-display-lg text-5xl mb-6 uppercase leading-[1.05] tracking-tighter break-words text-balance [hyphens:auto] md:mb-8 md:text-7xl md:leading-[0.95] md:tracking-[-0.04em] md:break-normal" data-reveal>
         {artistName}
       </h1>
       <div class="space-y-6 text-justify text-on-surface-variant max-w-lg leading-relaxed md:text-left" data-reveal>
@@ -26,13 +26,13 @@ const paragraphs = introText.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
         ))}
       </div>
     </div>
-    <div class="col-span-12 md:col-span-7 relative h-[60vh] md:h-auto">
+    <div class="col-span-12 md:col-span-6 relative h-[60vh] md:h-auto md:min-h-[calc(100vh-96px)]">
       <img
-        class="w-full h-full object-cover filter grayscale contrast-125"
+        class="absolute inset-0 h-full w-full object-cover object-[center_30%] filter grayscale contrast-125"
         alt="Retrato editorial en blanco y negro de un artista tatuador trabajando en el estudio, iluminación dramática y estética underground"
         src="/images/sobre/artist-portrait.jpg"
-        width="512"
-        height="279"
+        width="848"
+        height="1264"
       />
     </div>
   </div>
