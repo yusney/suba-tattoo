@@ -9,7 +9,7 @@ const t = useTranslations(locale);
 const settings = await getSiteSettings(locale);
 ---
 
-<section class="relative mx-auto flex min-h-[90vh] max-w-container-max flex-col justify-center overflow-hidden bg-surface px-margin-mobile py-16 pt-24 md:px-margin-desktop md:py-section-gap">
+<section class="relative mx-auto flex min-h-[90vh] max-w-container-max flex-col justify-center overflow-hidden bg-surface px-margin-mobile py-20 pt-24 md:px-margin-desktop md:py-section-gap">
   <div class="pointer-events-none absolute inset-0 z-0">
 <div
       class="animate-hero-zoom absolute inset-0 bg-no-repeat bg-cover bg-center opacity-50 md:opacity-65"
@@ -27,8 +27,8 @@ const settings = await getSiteSettings(locale);
   <a id="about" class="absolute top-0" aria-hidden="true"></a>
   <div class="relative z-10 max-w-md md:max-w-4xl">
     <span class="mb-6 block text-label-sm font-label-sm uppercase tracking-[0.3em] text-primary animate-hero-enter [animation-delay:0ms]">{t("hero.tagline")}</span>
-    <h1 class="mb-6 text-5xl font-display-lg uppercase leading-[1.05] md:mb-8 md:text-display-lg animate-hero-enter [animation-delay:200ms]">{t("hero.title_line1")} <span class="text-stroke">{t("hero.title_line2")}</span></h1>
-    <p class="mb-10 max-w-md text-body-md font-body-md text-on-surface-variant md:mb-12 md:max-w-2xl md:text-body-lg animate-hero-enter [animation-delay:450ms]">{t("hero.subtitle")}</p>
+    <h1 class="mb-8 text-4xl font-display-lg uppercase leading-[1.05] tracking-tighter break-words text-balance [hyphens:auto] md:mb-10 md:text-display-lg md:leading-[1.05] animate-hero-enter [animation-delay:200ms]">{t("hero.title_line1")} <span class="text-stroke">{t("hero.title_line2")}</span></h1>
+    <p class="mb-10 max-w-md text-justify text-body-md font-body-md leading-relaxed text-on-surface-variant md:mb-14 md:max-w-2xl md:text-left md:text-body-lg animate-hero-enter [animation-delay:450ms]">{t("hero.subtitle")}</p>
     <div class="flex flex-col gap-4 sm:flex-row md:gap-6">
       <a class="border border-primary bg-primary px-8 py-4 text-center text-label-sm font-label-sm font-bold uppercase tracking-[0.2em] text-on-primary transition-[background-color,color] hover:bg-transparent hover:text-primary animate-hero-enter [animation-delay:650ms] touch-manipulation md:px-10 md:py-5" href="#contact">{t("hero.cta_primary")}</a>
       <a class="border border-outline-variant px-8 py-4 text-center text-label-sm font-label-sm uppercase tracking-[0.2em] text-on-surface transition-[background-color,color] hover:bg-surface-container-high animate-hero-enter [animation-delay:750ms] touch-manipulation md:px-10 md:py-5" href="#gallery">{t("hero.cta_secondary")}</a>
