@@ -11,10 +11,21 @@
   <body>
     <script src="https://unpkg.com/decap-cms@2.14.0/dist/decap-cms.js"></script>
     <script>
-      // The actual configuration is loaded from config.yml.
-      // For local dev with the proxy, run: pnpm run cms-dev
-      // and access http://localhost:4321/admin/
-      CMS.init();
+      // Decap CMS exposes a global `CMS` object once its script loads. We wait
+      // for the DOM and the script to be ready before initializing. If the
+      // script has already finished by the time this runs, init immediately;
+      // otherwise, defer until DOMContentLoaded (script with `defer` semantics).
+      function initCMS() {
+        if (typeof CMS !== "undefined" && typeof CMS.init === "function") {
+          // The actual configuration is loaded from config.yml.
+          // For local dev with the proxy, run: pnpm run cms-dev
+          // and access http://localhost:4321/admin/
+          CMS.init();
+        } else {
+          window.addEventListener("DOMContentLoaded", initCMS, { once: true });
+        }
+      }
+      initCMS();
     </script>
   </body>
 </html>
