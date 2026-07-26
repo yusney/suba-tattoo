@@ -6,22 +6,22 @@
 FROM node:24-alpine AS builder
 WORKDIR /app
 
-# Enable pnpm via corepack (matches the project's package manager)
+# Enable pnpm via corepack (matches the project's package manager).
+# Pinned to a specific version because pnpm@latest can resolve to a version
+# whose build-script approval mechanism differs from what package.json's
+# `pnpm.onlyBuiltDependencies` expects.
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.32.1 --activate
 
-# Install dependencies first (better layer caching)
-COPY package.json pnpm-lock.yaml ./
-# pnpm 10+ blocks postinstall scripts by default. We explicitly allow the ones
-# that need to download platform-specific binaries or run native build steps:
+# Install dependencies first (better layer caching).
+# pnpm 10+ blocks postinstall scripts by default; we whitelist the ones we
+# actually need via the `pnpm.onlyBuiltDependencies` field in package.json:
 #   - esbuild (Vite's bundler)
 #   - @tailwindcss/oxide (Tailwind v4's Rust engine)
 #   - sharp (image processing)
-# This flag is required for the Docker build to succeed.
-RUN pnpm install --frozen-lockfile \
-  --allow-build=esbuild \
-  --allow-build=@tailwindcss/oxide \
-  --allow-build=sharp
+# Pnpm 10.32.1 respects this field at install time without extra flags.
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # Copy source and build
 COPY . .
