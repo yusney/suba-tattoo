@@ -2,7 +2,8 @@
 # BACKEND
 # ----------------------------------------------------------------------------
 # Production: GitHub backend (requires OAuth app — see DEPLOY.md).
-# Local dev:   git-gateway + decap-server on port 8081 (run `pnpm run cms-dev`).
+# Local dev:   set local_backend: true and run `pnpm run cms-dev` (decap-server
+#              on :8081) instead of using this production config.
 # ============================================================================
 backend:
   name: github
@@ -11,9 +12,8 @@ backend:
   base_url: https://suba.donduque.dev
   auth_endpoint: api
 
-local_backend:
-  name: git-gateway
-  proxy_url: http://localhost:8081/api/v1
+# Uncomment the next line for local development with decap-server (pnpm run cms-dev):
+# local_backend: true
 
 media_folder: "public/images"
 public_folder: "/images"
