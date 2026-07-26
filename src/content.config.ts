@@ -165,6 +165,7 @@ const site_settings = defineCollection({
     location: z.string().default("Barcelona · Underground Studio"),
     contact_email: z.string().email(),
     instagram_url: z.string().url().optional(),
+    instagram_url_secondary: z.string().url().optional(),
     whatsapp_number: z.string().optional(),
     address: z.string().optional(),
     hero_headline_line_1: z.string(),

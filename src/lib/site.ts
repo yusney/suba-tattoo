@@ -7,6 +7,7 @@ export interface SiteSettings {
   location: string;
   contact_email: string;
   instagram_url?: string;
+  instagram_url_secondary?: string;
   whatsapp_number?: string;
   address?: string;
   hero_headline_line_1: string;

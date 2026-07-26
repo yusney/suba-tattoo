@@ -388,7 +388,8 @@ collections:
           - { name: "tagline",        label: "Tagline",               widget: "string", default: "Technical Precision. Artistic Rawness." }
           - { name: "location",       label: "Ubicación corta",       widget: "string", default: "Barcelona · Underground Studio" }
           - { name: "contact_email",  label: "Email de contacto",     widget: "string" }
-          - { name: "instagram_url",  label: "URL de Instagram",      widget: "string", required: false }
+          - { name: "instagram_url",  label: "URL de Instagram (principal)",      widget: "string", required: false }
+          - { name: "instagram_url_secondary", label: "URL de Instagram secundaria (ej: línea de trabajo)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "Número WhatsApp (formato internacional, ej: +34000000000)", widget: "string", required: false }
           - { name: "address",        label: "Dirección física",      widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — línea 1 (sólida)",          widget: "string" }
@@ -404,7 +405,8 @@ collections:
           - { name: "tagline",        label: "Tagline",      widget: "string", default: "Technical Precision. Artistic Rawness." }
           - { name: "location",       label: "Short location", widget: "string", default: "Barcelona · Underground Studio" }
           - { name: "contact_email",  label: "Contact email", widget: "string" }
-          - { name: "instagram_url",  label: "Instagram URL", widget: "string", required: false }
+          - { name: "instagram_url",  label: "Instagram URL (main)", widget: "string", required: false }
+          - { name: "instagram_url_secondary", label: "Instagram URL (secondary, e.g. work line)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "WhatsApp number (international format, e.g. +44000000000)", widget: "string", required: false }
           - { name: "address",        label: "Physical address", widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — line 1 (solid)",        widget: "string" }
@@ -420,7 +422,8 @@ collections:
           - { name: "tagline",        label: "Tagline",          widget: "string", default: "Technical Precision. Artistic Rawness." }
           - { name: "location",       label: "Ubicació curta",   widget: "string", default: "Barcelona · Underground Studio" }
           - { name: "contact_email",  label: "Correu de contacte", widget: "string" }
-          - { name: "instagram_url",  label: "URL d'Instagram",  widget: "string", required: false }
+          - { name: "instagram_url",  label: "URL d'Instagram (principal)",  widget: "string", required: false }
+          - { name: "instagram_url_secondary", label: "URL d'Instagram secundària (ex: línia de treball)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "Número WhatsApp (format internacional, ex.: +34000000000)", widget: "string", required: false }
           - { name: "address",        label: "Adreça física",    widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — línia 1 (sòlida)",     widget: "string" }
