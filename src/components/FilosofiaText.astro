@@ -27,7 +27,7 @@ const { filosofiaText } = Astro.props;
       <div class="grid grid-cols-1 md:grid-cols-2 gap-16" data-reveal>
         <div class="space-y-8">
           {filosofiaText.split(/\n\n+/).map((p) => (
-            <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            <p class="font-body-md text-body-md text-on-surface leading-relaxed text-justify md:text-left">
               {p}
             </p>
           ))}
@@ -38,7 +38,7 @@ const { filosofiaText } = Astro.props;
             <h3 class="font-label-sm text-label-sm text-on-surface uppercase mb-4 tracking-wider">
               {t("sobre.filosofia_card1_title")}
             </h3>
-            <p class="text-sm text-on-surface-variant">
+            <p class="text-sm text-on-surface-variant text-justify leading-relaxed md:text-left">
               {t("sobre.filosofia_card1_body")}
             </p>
           </div>
@@ -47,7 +47,7 @@ const { filosofiaText } = Astro.props;
             <h3 class="font-label-sm text-label-sm text-on-surface uppercase mb-4 tracking-wider">
               {t("sobre.filosofia_card2_title")}
             </h3>
-            <p class="text-sm text-on-surface-variant">
+            <p class="text-sm text-on-surface-variant text-justify leading-relaxed md:text-left">
               {t("sobre.filosofia_card2_body")}
             </p>
           </div>

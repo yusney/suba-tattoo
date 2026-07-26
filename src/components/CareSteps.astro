@@ -35,7 +35,7 @@ const ordered = [...steps].sort((a, b) => a.step_number - b.step_number);
             {String(step.step_number).padStart(2, "0")}
           </div>
           <h3 class="font-headline-md text-headline-md uppercase mb-4 relative z-10">{step.title}</h3>
-          <p class="font-body-md text-on-surface-variant relative z-10">{step.description}</p>
+          <p class="font-body-md text-on-surface-variant relative z-10 text-justify leading-relaxed md:text-left">{step.description}</p>
         </div>
       ))}
     </div>

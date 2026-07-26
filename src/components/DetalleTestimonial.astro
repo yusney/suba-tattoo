@@ -17,7 +17,7 @@ const { testimonial, clientName } = Astro.props;
 <section class="bg-surface-container-low border-y border-outline-variant mb-section-gap">
   <div class="mx-auto w-full max-w-container-max px-margin-mobile py-12 text-center md:px-margin-desktop md:py-section-gap">
     <span class="material-symbols-outlined text-primary mb-6 text-4xl" aria-hidden="true">format_quote</span>
-    <blockquote class="font-headline-lg text-2xl italic max-w-4xl mx-auto mb-8 text-balance md:text-headline-lg">
+    <blockquote class="font-headline-lg text-2xl italic max-w-4xl mx-auto mb-8 text-balance md:text-headline-lg text-justify md:text-left">
       &ldquo;{testimonial}&rdquo;
     </blockquote>
     {clientName && (

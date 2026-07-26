@@ -26,7 +26,7 @@ const { styles } = Astro.props;
         <span class="font-label-sm text-label-sm text-primary mb-4 block">{t("sobre.styles_portfolio_label")}</span>
         <h2 class="font-headline-lg text-3xl mb-6 uppercase md:mb-8 md:text-headline-lg">{t("sobre.styles_title")}</h2>
       </div>
-      <p class="font-body-md text-on-surface-variant max-w-md text-right">
+      <p class="font-body-md text-on-surface-variant max-w-md text-right text-justify leading-relaxed md:text-left">
         {t("sobre.styles_subtitle")}
       </p>
     </div>
@@ -58,7 +58,7 @@ const { styles } = Astro.props;
                 <div class="text-center">
                   <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
                   <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>
-                  <p class="text-label-sm text-on-surface-variant mt-4 max-w-xs">{style.description}</p>
+                  <p class="text-label-sm text-on-surface-variant mt-4 max-w-xs text-justify leading-relaxed md:text-left">{style.description}</p>
                 </div>
               </div>
             )}

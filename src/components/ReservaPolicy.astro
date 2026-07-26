@@ -16,7 +16,7 @@ const t = useTranslations(locale);
     {t.array("reserva.policy_bullets").map((b: any) => (
       <li class="flex gap-4">
         <span class="font-label-sm text-primary">{b.number}</span>
-        <p>
+        <p class="text-justify leading-relaxed md:text-left">
           <strong class="text-on-surface uppercase block text-[10px] mb-1">{b.title}</strong>
           {b.body}
         </p>
