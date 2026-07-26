@@ -8,9 +8,9 @@ interface Props {
 const { title, buttonLabel, buttonHref } = Astro.props;
 ---
 
-<section class="relative w-full py-section-gap border-t border-b border-outline-variant overflow-hidden">
+<section class="relative w-full border-t border-b border-outline-variant overflow-hidden py-12 md:py-section-gap">
   <div class="absolute inset-0 technical-grid opacity-30 pointer-events-none"></div>
-  <div class="px-margin-desktop max-w-container-max mx-auto text-center relative z-10">
+  <div class="relative z-10 mx-auto w-full max-w-container-max px-margin-mobile text-center md:px-margin-desktop">
     <h2 class="font-display-lg text-4xl mb-6 uppercase leading-[1.05] md:mb-8 md:text-display-lg md:leading-none" data-reveal>{title}</h2>
     <a
       href={buttonHref}

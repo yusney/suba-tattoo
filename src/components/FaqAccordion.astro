@@ -11,7 +11,7 @@ interface Props {
 const { questions } = Astro.props;
 ---
 
-<section class="px-margin-desktop pb-section-gap max-w-container-max mx-auto">
+<section class="mx-auto w-full max-w-container-max px-margin-mobile pb-12 md:px-margin-desktop md:pb-section-gap">
   <div class="grid grid-cols-1 md:grid-cols-2 border-t border-l border-outline-variant">
     {questions.map((q, index) => (
       <details class="group border-r border-b border-outline-variant" open={index === 0}>

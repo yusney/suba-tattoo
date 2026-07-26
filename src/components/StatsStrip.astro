@@ -18,7 +18,7 @@ const parseStat = (raw: string): { target: number; suffix: string } => {
 ---
 
 <section class="border-b border-outline-variant py-16 bg-surface-container-lowest">
-  <div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-8">
+  <div class="mx-auto grid w-full max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:grid-cols-4 md:px-margin-desktop">
     {stats.map((stat) => {
       const { target, suffix } = parseStat(stat.number);
       return (

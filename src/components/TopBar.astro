@@ -49,8 +49,8 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
 ---
 
 <header class="fixed top-0 left-0 z-50 h-24 w-full border-b border-outline-variant bg-surface/90 backdrop-blur-sm">
-  <div class="mx-auto flex h-24 w-full max-w-container-max items-center justify-between px-margin-desktop">
-    <a class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface" href={brandHref}>{settings.brand_name}</a>
+  <div class="mx-auto flex h-24 w-full max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
+    <a class="font-headline-md text-base font-bold tracking-tighter text-on-surface sm:text-headline-md" href={brandHref}>{settings.brand_name}</a>
     <nav class="hidden items-center space-x-8 md:flex">
       <a class={linkClass(galleryActive)} href={galleryHref} data-spy="gallery">{t("nav.gallery")}</a>
       <a class={linkClass(processActive)} href={processHref} data-spy="process">{t("nav.process")}</a>

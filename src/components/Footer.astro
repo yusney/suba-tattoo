@@ -13,7 +13,7 @@ const waHref = whatsappLink(settings.whatsapp_number);
 const ubicacionHref = locale === DEFAULT_LOCALE ? "/#contact" : `/${locale}/#contact`;
 ---
 <footer class="border-t border-outline-variant bg-surface-container-lowest">
-  <div class="mx-auto flex w-full max-w-container-max flex-col items-center justify-between gap-8 px-margin-desktop py-12 md:flex-row">
+  <div class="mx-auto flex w-full max-w-container-max flex-col items-center justify-between gap-8 px-margin-mobile py-12 md:flex-row md:px-margin-desktop">
     <div class="flex flex-col items-center md:items-start">
       <span class="mb-2 font-headline-md text-headline-md font-bold uppercase tracking-tighter">{settings.brand_name}{t("footer.studio_suffix")}</span>
       <p class="text-label-sm font-label-sm text-on-surface-variant opacity-60">{settings.tagline}</p>

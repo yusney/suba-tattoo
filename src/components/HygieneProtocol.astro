@@ -26,7 +26,7 @@ const t = useTranslations(locale);
 const { label = t("faq.hygiene_label_default"), title = t("faq.hygiene_title_default"), items } = Astro.props;
 ---
 
-<section class="px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<section class="mx-auto w-full max-w-container-max px-margin-mobile py-12 md:px-margin-desktop md:py-section-gap">
   <div class="flex flex-col gap-4 mb-16" data-reveal>
     <span class="font-label-sm text-label-sm text-primary uppercase">{label}</span>
     <h2 class="font-headline-lg text-3xl mb-6 uppercase md:mb-8 md:text-headline-lg">{title}</h2>

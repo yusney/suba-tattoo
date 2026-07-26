@@ -24,7 +24,7 @@ const t = useTranslations(locale);
 const { items, archiveHref } = Astro.props;
 ---
 
-<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap">
+<section class="mx-auto w-full max-w-container-max px-margin-mobile mb-12 md:px-margin-desktop md:mb-section-gap">
   <div class="flex justify-between items-end mb-12">
     <h2 class="font-headline-lg text-3xl mb-6 uppercase md:mb-8 md:text-headline-lg">{t("detalle.related_title")}</h2>
     <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors border-b border-outline-variant pb-1 uppercase" href={archiveHref}>

@@ -19,8 +19,8 @@ const t = useTranslations(locale);
 const { styles } = Astro.props;
 ---
 
-<section class="py-section-gap bg-surface-container-low border-y border-outline-variant">
-  <div class="max-w-container-max mx-auto px-margin-desktop">
+<section class="border-y border-outline-variant bg-surface-container-low py-12 md:py-section-gap">
+  <div class="mx-auto w-full max-w-container-max px-margin-mobile md:px-margin-desktop">
     <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8" data-reveal>
       <div>
         <span class="font-label-sm text-label-sm text-primary mb-4 block">{t("sobre.styles_portfolio_label")}</span>

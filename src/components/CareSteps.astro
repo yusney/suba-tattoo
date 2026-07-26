@@ -22,8 +22,8 @@ const { label = t("faq.care_label_default"), title = t("faq.care_title_default")
 const ordered = [...steps].sort((a, b) => a.step_number - b.step_number);
 ---
 
-<section class="bg-surface-container-lowest py-section-gap">
-  <div class="px-margin-desktop max-w-container-max mx-auto">
+<section class="bg-surface-container-lowest py-12 md:py-section-gap">
+  <div class="mx-auto w-full max-w-container-max px-margin-mobile md:px-margin-desktop">
     <div class="flex flex-col gap-4 mb-16" data-reveal>
       <span class="font-label-sm text-label-sm text-primary uppercase">{label}</span>
       <h2 class="font-headline-lg text-3xl mb-6 uppercase md:mb-8 md:text-headline-lg">{title}</h2>

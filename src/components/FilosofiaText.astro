@@ -13,8 +13,8 @@ const t = useTranslations(locale);
 const { filosofiaText } = Astro.props;
 ---
 
-<section class="py-section-gap">
-  <div class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<section class="py-12 md:py-section-gap">
+  <div class="mx-auto grid w-full max-w-container-max grid-cols-1 gap-gutter px-margin-mobile md:grid-cols-12 md:px-margin-desktop">
     <div class="md:col-span-1 flex justify-center">
       <span class="vertical-text font-label-sm text-label-sm tracking-[0.5em] text-primary font-bold border-r border-outline-variant pr-4">
         {t("sobre.filosofia_tab")}
