@@ -66,7 +66,17 @@ async function handleTokenExchange(request, response) {
   if (!tokenResponse.ok || !result.access_token) {
     return respond(response, 502, JSON.stringify({ error: result.error ?? "token_exchange_failed", error_description: result.error_description }), "application/json");
   }
-  return respond(response, 200, JSON.stringify({ token: result.access_token, provider: "github" }), "application/json");
+  return respond(
+    response,
+    200,
+    JSON.stringify({
+      access_token: result.access_token,
+      provider: "github",
+      token_type: "bearer",
+      scope: "repo"
+    }),
+    "application/json"
+  );
 }
 
 const server = createServer(async (request, response) => {
