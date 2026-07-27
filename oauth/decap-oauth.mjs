@@ -90,7 +90,13 @@ const server = createServer(async (request, response) => {
 
     if (request.method === "GET" && url.pathname === "/auth") {
       pruneStates();
-      const state = randomBytes(32).toString("hex");
+      // Decap 3.x's popup-side completeAuth parses the `state` URL parameter
+      // as JSON and reads the `.nonce` field. A plain string causes the
+      // parse to fail silently, no token exchange POST is made, and the
+      // popup closes back to the Login screen. Generate state as a JSON
+      // object with a `nonce` field. (GitHub echoes whatever we put in
+      // the authorize URL back to us unchanged in /admin/callback.)
+      const stateString = JSON.stringify({ nonce: randomBytes(32).toString("hex") });
       // X-Forwarded-Proto may be empty if nginx didn't preserve the incoming
       // header (container-internal port is http://). The public scheme is
       // always https when reached through Cloudflare/Traefik; we default to
@@ -99,9 +105,9 @@ const server = createServer(async (request, response) => {
       const proto = request.headers["x-forwarded-proto"] || "https";
       const host = request.headers["x-forwarded-host"] || request.headers.host;
       const redirectUri = `${proto}://${host}/admin/callback`;
-      states.set(state, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
+      states.set(stateString, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
       const target = new URL("https://github.com/login/oauth/authorize");
-      target.search = new URLSearchParams({ client_id: CLIENT_ID, redirect_uri: redirectUri, scope: "repo", state }).toString();
+      target.search = new URLSearchParams({ client_id: CLIENT_ID, redirect_uri: redirectUri, scope: "repo", state: stateString }).toString();
       response.writeHead(302, { Location: target.toString() });
       return response.end();
     }
