@@ -10,9 +10,9 @@ backend:
   repo: yusney/suba-tattoo
   branch: main
   base_url: https://suba.donduque.dev
-  # auth_endpoint is auto-detected to https://api.github.com for github backend.
-  # Do NOT set auth_endpoint: api here — that would route OAuth through the local
-  # decap-server proxy (intended only for local dev with `pnpm run cms-dev`).
+  auth_endpoint: https://suba.donduque.dev/auth
+  # Production OAuth proxy runs inside the same container at /auth (see Dockerfile/oauth/).
+  # For local dev, set local_backend: true and run `pnpm run cms-dev` instead.
 
 # Uncomment the next line for local development with decap-server (pnpm run cms-dev):
 # local_backend: true

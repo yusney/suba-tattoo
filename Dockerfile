@@ -28,20 +28,36 @@ COPY . .
 RUN pnpm run build
 
 # ============================================================
-# Stage 2 — Serve the built static files via nginx
+# Stage 2 — Serve static files via nginx with the OAuth proxy
+# ------------------------------------------------------------
+# Stay on nginx:alpine (not node:alpine) to keep the image lean.
+# Alpine's package ships nodejs v22 — enough for our OAuth server.
+# Total image size: ~60 MB (vs ~320 MB with node:alpine + nginx).
 # ============================================================
 FROM nginx:1.27-alpine
 
-# Custom nginx config (cache strategy + SPA routing)
+# Node.js for the OAuth proxy. v18+ is required (built-in fetch); Alpine 3.20 ships v22.
+RUN apk add --no-cache nodejs
+
+# Custom nginx config (cache strategy + SPA routing + /auth proxy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Built static files
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Decap CMS OAuth proxy and process entrypoint
+COPY oauth/decap-oauth.mjs oauth/entrypoint.sh /usr/local/app/
+RUN chmod +x /usr/local/app/entrypoint.sh
+
 EXPOSE 80
 
-# Healthcheck — Dokploy / Uptime Kuma can hit this
+# Healthcheck — verify both nginx and its OAuth upstream by going
+# through nginx (which proxies /health -> 127.0.0.1:3000/health).
+# NOTE: use `wget -O /dev/null` (GET), NOT `wget --spider` (HEAD).
+# nginx does not forward HEAD requests to proxy_pass upstreams and
+# would return 404 directly, so the container would be marked unhealthy
+# even though nginx and the OAuth server are perfectly fine.
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+  CMD wget --no-verbose --tries=1 -O /dev/null http://127.0.0.1/health || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["sh", "/usr/local/app/entrypoint.sh"]
