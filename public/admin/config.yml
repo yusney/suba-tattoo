@@ -10,7 +10,11 @@ backend:
   repo: yusney/suba-tattoo
   branch: main
   base_url: https://suba.donduque.dev
-  auth_endpoint: https://suba.donduque.dev/auth
+  # auth_endpoint MUST be a path, not a full URL. Decap builds the popup URL as
+  # `${base_url}/${auth_endpoint}?provider=...&site_id=...` literally, so a full
+  # URL here produces a malformed URL like `https://host/https://host/auth?...`
+  # that nginx falls through to the public home page.
+  auth_endpoint: auth
   # Production OAuth proxy runs inside the same container at /auth (see Dockerfile/oauth/).
   # For local dev, set local_backend: true and run `pnpm run cms-dev` instead.
 
