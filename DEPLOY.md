@@ -50,7 +50,9 @@ git push -u origin main
    - **Homepage URL**: `https://suba.donduque.dev`
    - **Authorization callback URL**: `https://suba.donduque.dev/admin/callback`
 4. Click **Register application**
-5. Copiar el **Client ID** y generar un **Client Secret** (lo necesitás más adelante si querés configurar identity provider; el flujo OAuth público no requiere más config)
+5. Copiar el **Client ID** y generar un **Client Secret**.
+
+Necesitarás el **Client ID** y **Client Secret** de la OAuth App. Se configuran como variables de entorno en Dokploy (paso 4) con nombres `OAUTH_CLIENT_ID` y `OAUTH_CLIENT_SECRET`.
 
 ## Paso 3 — Configurar Decap CMS
 
@@ -62,8 +64,10 @@ backend:
   repo: yusney/suba-tattoo
   branch: main
   base_url: https://suba.donduque.dev
-  auth_endpoint: api
+  auth_endpoint: https://suba.donduque.dev/auth
 ```
+
+El backend `github` apunta al proxy OAuth del propio container (`base_url + /auth`). El proxy corre como proceso Node dentro del container; Dokploy/Traefik no necesita config adicional.
 
 Si tenés que cambiar el dominio en el futuro, editá:
 - `public/admin/config.yml` → `base_url`
@@ -85,7 +89,10 @@ git push
 3. Dentro del proyecto, click **Create Service** → **Application**
 4. **Source**: GitHub → seleccionar repo `yusney/suba-tattoo`, branch `main`
 5. **Build type**: **Dockerfile** (no Docker Compose, no Build Pack, no Nixpacks — nosotros tenemos un Dockerfile multi-stage custom)
-6. Click **Deploy**
+6. Antes de desplegar, abrir **Environment** y agregar:
+   - `OAUTH_CLIENT_ID`: Client ID de la OAuth App del paso 2
+   - `OAUTH_CLIENT_SECRET`: Client Secret de la OAuth App del paso 2
+7. Click **Deploy**
 
 Dokploy va a:
 - Clonar el repo
@@ -199,9 +206,11 @@ Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://sub
 - Verificar que el healthcheck pasa (`/` debe devolver 200)
 - Verificar que Traefik pudo obtener el certificado SSL (puede tardar 1-2 min)
 
-**El admin no autentica:**
-- Verificar que la `Authorization callback URL` en GitHub OAuth App coincide EXACTAMENTE con `https://suba.donduque.dev/admin/callback` (sin trailing slash, con https)
-- Verificar que el `base_url` en `config.yml` coincide con el dominio real
+**El Login no completa el OAuth:**
+- Verificar que `OAUTH_CLIENT_ID` y `OAUTH_CLIENT_SECRET` estén presentes en las variables de entorno del container en Dokploy
+- Verificar que `curl -sI https://<host>/auth` redirija a `github.com`
+- Verificar que la `Authorization callback URL` en GitHub OAuth App sea EXACTAMENTE `https://<host>/admin/callback` (sin trailing slash, con https)
+- Verificar que el `base_url` y `auth_endpoint` en `config.yml` coincidan con el dominio real
 
 **Las imágenes no se ven:**
 - Verificar que la carpeta `public/images/` se commitea al repo
