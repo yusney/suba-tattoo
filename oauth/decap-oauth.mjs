@@ -52,8 +52,13 @@ const server = createServer(async (request, response) => {
     if (request.method === "GET" && url.pathname === "/auth") {
       pruneStates();
       const state = randomBytes(32).toString("hex");
-      const proto = request.headers["x-forwarded-proto"] ?? "https";
-      const host = request.headers["x-forwarded-host"] ?? request.headers.host;
+      // X-Forwarded-Proto may be empty if nginx didn't preserve the incoming
+      // header (container-internal port is http://). The public scheme is
+      // always https when reached through Cloudflare/Traefik; we default to
+      // https so the redirect_uri we hand to GitHub matches the OAuth App's
+      // registered callback URL.
+      const proto = request.headers["x-forwarded-proto"] || "https";
+      const host = request.headers["x-forwarded-host"] || request.headers.host;
       const redirectUri = `${proto}://${host}/admin/callback`;
       states.set(state, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
       const target = new URL("https://github.com/login/oauth/authorize");
