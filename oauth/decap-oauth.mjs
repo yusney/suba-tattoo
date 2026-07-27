@@ -40,6 +40,35 @@ async function readBody(request) {
   return body;
 }
 
+async function handleTokenExchange(request, response) {
+  pruneStates();
+  const contentType = request.headers["content-type"] ?? "";
+  const body = await readBody(request);
+  const params = contentType.includes("application/json")
+    ? Object.fromEntries(Object.entries(JSON.parse(body)))
+    : Object.fromEntries(new URLSearchParams(body));
+  const code = params.code;
+  const state = params.state;
+  const stored = state && states.get(state);
+  if (!code || !state || !stored) return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+  states.delete(state);
+  const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      code,
+      redirect_uri: stored.redirectUri,
+    }),
+  });
+  const result = await tokenResponse.json();
+  if (!tokenResponse.ok || !result.access_token) {
+    return respond(response, 502, JSON.stringify({ error: result.error ?? "token_exchange_failed", error_description: result.error_description }), "application/json");
+  }
+  return respond(response, 200, JSON.stringify({ token: result.access_token, provider: "github" }), "application/json");
+}
+
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", `http://${request.headers.host ?? HOST}`);
   console.error(`${new Date().toISOString()} ${request.method} ${url.pathname}`);
@@ -67,31 +96,10 @@ const server = createServer(async (request, response) => {
       return response.end();
     }
 
-    if (request.method === "POST" && url.pathname === "/auth") {
-      pruneStates();
-      const contentType = request.headers["content-type"] ?? "";
-      const body = await readBody(request);
-      const params = contentType.includes("application/json")
-        ? Object.fromEntries(Object.entries(JSON.parse(body)))
-        : Object.fromEntries(new URLSearchParams(body));
-      const code = params.code;
-      const state = params.state;
-      const stored = state && states.get(state);
-      if (!code || !state || !stored) return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
-      states.delete(state);
-      const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          code,
-          redirect_uri: stored.redirectUri,
-        }),
-      });
-      const result = await tokenResponse.json();
-      if (!tokenResponse.ok || !result.access_token) return respond(response, 502, JSON.stringify({ error: result.error ?? "token_exchange_failed", error_description: result.error_description }), "application/json");
-      return respond(response, 200, JSON.stringify({ token: result.access_token, provider: "github" }), "application/json");
+    // Token exchange. Decap calls both /auth (legacy) and /auth/authorize
+    // (current v3.x) depending on apiURL form. We accept either.
+    if (request.method === "POST" && (url.pathname === "/auth" || url.pathname === "/auth/authorize")) {
+      return handleTokenExchange(request, response);
     }
 
     return respond(response, 404, "not found");
