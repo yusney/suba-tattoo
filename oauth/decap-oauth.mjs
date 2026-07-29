@@ -1,4 +1,4 @@
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { createServer } from "node:http";
 import { URL, URLSearchParams } from "node:url";
 
@@ -24,6 +24,21 @@ function respond(response, status, body, contentType = "text/plain; charset=utf-
   response.end(body);
 }
 
+function stateFingerprint(state) {
+  return typeof state === "string" && state
+    ? createHash("sha256").update(state).digest("hex").slice(0, 12)
+    : undefined;
+}
+
+function sanitizeLogValue(value) {
+  if (typeof value !== "string") return value;
+  return value.replace(/[\r\n\t]/g, " ").slice(0, 500);
+}
+
+function logEvent(event, fields = {}) {
+  console.error(JSON.stringify({ timestamp: new Date().toISOString(), event, ...fields }));
+}
+
 function pruneStates() {
   const now = Date.now();
   for (const [state, entry] of states) {
@@ -40,7 +55,7 @@ async function readBody(request) {
   return body;
 }
 
-async function handleTokenExchange(request, response) {
+async function handleTokenExchange(request, response, requestId) {
   pruneStates();
   const contentType = request.headers["content-type"] ?? "";
   const body = await readBody(request);
@@ -49,8 +64,23 @@ async function handleTokenExchange(request, response) {
     : Object.fromEntries(new URLSearchParams(body));
   const code = params.code;
   const state = params.state;
+  const fingerprint = stateFingerprint(state);
+  logEvent("oauth_token_exchange_received", {
+    requestId,
+    stateFingerprint: fingerprint,
+    hasCode: Boolean(code),
+    hasState: Boolean(state),
+  });
+  if (!code || !state) {
+    const reason = !code && !state ? "missing_code_and_state" : !code ? "missing_code" : "missing_state";
+    logEvent("oauth_invalid_request", { requestId, stateFingerprint: fingerprint, reason });
+    return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+  }
   const stored = state && states.get(state);
-  if (!code || !state || !stored) return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+  if (!stored) {
+    logEvent("oauth_invalid_request", { requestId, stateFingerprint: fingerprint, reason: "unknown_or_expired_state" });
+    return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+  }
   states.delete(state);
   const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
@@ -64,8 +94,20 @@ async function handleTokenExchange(request, response) {
   });
   const result = await tokenResponse.json();
   if (!tokenResponse.ok || !result.access_token) {
+    logEvent("oauth_github_token_exchange_failed", {
+      requestId,
+      stateFingerprint: fingerprint,
+      githubStatus: tokenResponse.status,
+      githubError: sanitizeLogValue(result.error),
+      githubErrorDescription: sanitizeLogValue(result.error_description),
+    });
     return respond(response, 502, JSON.stringify({ error: result.error ?? "token_exchange_failed", error_description: result.error_description }), "application/json");
   }
+  logEvent("oauth_token_exchange_succeeded", {
+    requestId,
+    stateFingerprint: fingerprint,
+    githubStatus: tokenResponse.status,
+  });
   return respond(
     response,
     200,
@@ -81,7 +123,8 @@ async function handleTokenExchange(request, response) {
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", `http://${request.headers.host ?? HOST}`);
-  console.error(`${new Date().toISOString()} ${request.method} ${url.pathname}`);
+  const requestId = randomBytes(6).toString("hex");
+  logEvent("oauth_request_received", { requestId, method: request.method, path: url.pathname });
 
   try {
     if (request.method === "GET" && url.pathname === "/health") {
@@ -106,6 +149,12 @@ const server = createServer(async (request, response) => {
       const host = request.headers["x-forwarded-host"] || request.headers.host;
       const redirectUri = `${proto}://${host}/admin/callback`;
       states.set(stateString, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
+      logEvent("oauth_authorization_started", {
+        requestId,
+        stateFingerprint: stateFingerprint(stateString),
+        redirectOrigin: new URL(redirectUri).origin,
+        stateTtlMs: STATE_TTL_MS,
+      });
       const target = new URL("https://github.com/login/oauth/authorize");
       target.search = new URLSearchParams({ client_id: CLIENT_ID, redirect_uri: redirectUri, scope: "repo", state: stateString }).toString();
       response.writeHead(302, { Location: target.toString() });
@@ -115,12 +164,15 @@ const server = createServer(async (request, response) => {
     // Token exchange. Decap calls both /auth (legacy) and /auth/authorize
     // (current v3.x) depending on apiURL form. We accept either.
     if (request.method === "POST" && (url.pathname === "/auth" || url.pathname === "/auth/authorize")) {
-      return handleTokenExchange(request, response);
+      return handleTokenExchange(request, response, requestId);
     }
 
     return respond(response, 404, "not found");
   } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error));
+    logEvent("oauth_unexpected_internal_error", {
+      requestId,
+      errorType: error instanceof Error ? error.name : "UnknownError",
+    });
     return respond(response, 500, JSON.stringify({ error: "internal_server_error" }), "application/json");
   }
 });
