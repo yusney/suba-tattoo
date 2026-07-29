@@ -109,20 +109,17 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
   const countEl = document.querySelector("[data-gallery-count]");
   const loadMoreWrapper = document.querySelector("[data-load-more-wrapper]");
   const loadMoreBtn = document.querySelector("[data-load-more]");
+  const filterButtons = Array.from(document.querySelectorAll("[data-filter-style]"));
 
-  // Track an "extraShown" offset of how many cards beyond the first page are
-  // currently revealed (independent of the filter's total).
   let extraShown = 0;
 
   function applyVisibility() {
     let shown = 0;
     cards.forEach((card) => {
-      // Reset previous state
       card.style.display = "";
-      if (card.hidden) return; // filtered out
+      if (card.hidden) return;
       shown += 1;
       const offsetIndex = shown - 1;
-      // Hide everything beyond `pageSize + extraShown`
       if (offsetIndex >= pageSize + extraShown) {
         card.style.display = "none";
       }
@@ -130,8 +127,26 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
     return shown;
   }
 
+  function setActiveButton(style) {
+    filterButtons.forEach((b) => {
+      b.classList.remove("border-b-2", "border-primary", "text-primary");
+      b.classList.add("text-on-surface-variant");
+    });
+    const target = filterButtons.find((b) => b.dataset.filterStyle === style);
+    if (target) {
+      target.classList.add("border-b-2", "border-primary", "text-primary");
+      target.classList.remove("text-on-surface-variant");
+    } else {
+      const allBtn = filterButtons.find((b) => b.dataset.filterStyle === "all");
+      if (allBtn) {
+        allBtn.classList.add("border-b-2", "border-primary", "text-primary");
+        allBtn.classList.remove("text-on-surface-variant");
+      }
+    }
+  }
+
   function refresh() {
-    const shown = applyVisibility();
+    applyVisibility();
     const totalVisible = cards.filter((c) => !c.hidden).length;
     if (loadMoreWrapper) {
       loadMoreWrapper.hidden = totalVisible <= pageSize + extraShown;
@@ -144,7 +159,17 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
         ? tpl.replace("{{count}}", String(totalVisible))
         : String(totalVisible);
     }
-    return shown;
+  }
+
+  function applyStyle(style) {
+    const known = filterButtons.some((b) => b.dataset.filterStyle === style);
+    const target = known ? style : "all";
+    cards.forEach((card) => {
+      card.hidden = target !== "all" && (card.dataset.style || "") !== target;
+    });
+    extraShown = 0;
+    setActiveButton(target);
+    refresh();
   }
 
   loadMoreBtn?.addEventListener("click", () => {
@@ -152,23 +177,17 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
     refresh();
   });
 
-  const filterButtons = Array.from(document.querySelectorAll("[data-filter-style]"));
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      const style = btn.dataset.filterStyle || "all";
-      filterButtons.forEach((b) => {
-        b.classList.remove("border-b-2", "border-primary", "text-primary");
-        b.classList.add("text-on-surface-variant");
-      });
-      btn.classList.add("border-b-2", "border-primary", "text-primary");
-      btn.classList.remove("text-on-surface-variant");
-      cards.forEach((card) => {
-        card.hidden = style !== "all" && (card.dataset.style || "") !== style;
-      });
-      extraShown = 0;
-      refresh();
+      applyStyle(btn.dataset.filterStyle || "all");
     });
   });
 
-  refresh();
+  // Preselect from ?estilo=... so the deep link from the home lands filtered.
+  const initialStyle = new URLSearchParams(window.location.search).get("estilo");
+  if (initialStyle) {
+    applyStyle(initialStyle);
+  } else {
+    refresh();
+  }
 </script>
