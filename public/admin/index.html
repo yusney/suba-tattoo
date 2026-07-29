@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- The decap-cms.js UMD bundle auto-initializes against /admin/config.yml. -->
-    <!-- With auth_endpoint configured, Decap handles /admin/callback and exchanges the code through the OAuth proxy. -->
+    <!-- With auth_endpoint configured, the OAuth proxy handles GitHub's callback and posts the token to Decap. -->
     <!-- Do NOT call CMS.init() manually — it conflicts with the auto-init. -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>

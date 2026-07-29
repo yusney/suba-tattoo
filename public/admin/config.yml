@@ -10,16 +10,12 @@ backend:
   repo: yusney/suba-tattoo
   branch: main
   base_url: https://suba.donduque.dev
-  # auth_endpoint must be a path with a leading slash so that both Decap URLs
-  # resolve correctly from the popup window at /admin/callback:
-  #   - popup URL:        ${base_url}/${auth_endpoint}?provider=...       -> /auth?...
-  #   - token exchange:   ${apiURL}/authorize?provider=...                -> /auth/authorize?...
-  # Without the leading slash Decap builds a relative path that the browser
-  # resolves against /admin/ -> /admin/auth/authorize, which our nginx serves
-  # as static HTML (Decap tries to parse it as JSON, fails, popup closes
-  # silently -> back at Login).
+  # Decap opens ${base_url}/${auth_endpoint} in a popup. The OAuth proxy then
+  # handles the GitHub redirect at /admin/callback and posts the token back to
+  # the opener using Decap's authorization handshake.
   auth_endpoint: /auth
-  # Production OAuth proxy runs inside the same container at /auth (see Dockerfile/oauth/).
+  # The callback path remains /admin/callback because it is already registered
+  # in the GitHub OAuth App (see nginx.conf).
   # For local dev, set local_backend: true and run `pnpm run cms-dev` instead.
 
 # Uncomment the next line for local development with decap-server (pnpm run cms-dev):

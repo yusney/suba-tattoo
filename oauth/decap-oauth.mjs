@@ -9,8 +9,8 @@ const HOST = "127.0.0.1";
 const STATE_TTL_MS = 5 * 60 * 1000;
 /**
  * state -> { expiresAt: number, redirectUri: string }
- * We persist the redirectUri used at /auth GET so the /auth POST can send
- * the EXACT same redirect_uri back to github.com (GitHub rejects mismatches).
+ * We persist the redirectUri used at /auth GET so the callback GET and legacy
+ * /auth POST can send the EXACT same redirect_uri to github.com.
  */
 const states = new Map();
 
@@ -19,8 +19,8 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
   process.exit(1);
 }
 
-function respond(response, status, body, contentType = "text/plain; charset=utf-8") {
-  response.writeHead(status, { "Content-Type": contentType });
+function respond(response, status, body, contentType = "text/plain; charset=utf-8", headers = {}) {
+  response.writeHead(status, { "Content-Type": contentType, ...headers });
   response.end(body);
 }
 
@@ -46,6 +46,77 @@ function pruneStates() {
   }
 }
 
+function getPublicOrigin(request) {
+  const forwardedProto = request.headers["x-forwarded-proto"];
+  const forwardedHost = request.headers["x-forwarded-host"];
+  const proto = typeof forwardedProto === "string" && forwardedProto.trim()
+    ? forwardedProto.split(",")[0].trim()
+    : "https";
+  const host = typeof forwardedHost === "string" && forwardedHost.trim()
+    ? forwardedHost.trim()
+    : request.headers.host;
+
+  if (typeof host !== "string" || !host) throw new Error("Missing public host");
+  return `${proto}://${host}`;
+}
+
+function callbackMessage(status, payload) {
+  return `authorization:github:${status}:${JSON.stringify(payload)}`;
+}
+
+function callbackPage(message) {
+  // Escape characters that could terminate the inline script if a future
+  // provider ever returns a token containing HTML-significant characters.
+  const serializedMessage = JSON.stringify(message).replace(/[<>&]/g, character => ({
+    "<": "\\u003c",
+    ">": "\\u003e",
+    "&": "\\u0026",
+  })[character]);
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Authorizing Decap</title>
+  </head>
+  <body>
+    <p>Authorizing Decap...</p>
+    <script>
+      const opener = window.opener;
+      const openerOrigin = window.location.origin;
+      const message = ${serializedMessage};
+      const receiveMessage = event => {
+        if (event.source !== opener || event.origin !== openerOrigin || event.data !== "authorizing:github") {
+          return;
+        }
+        window.removeEventListener("message", receiveMessage, false);
+        opener.postMessage(message, openerOrigin);
+        window.close();
+      };
+
+      if (opener && !opener.closed) {
+        window.addEventListener("message", receiveMessage, false);
+        opener.postMessage("authorizing:github", openerOrigin);
+        window.setTimeout(() => {
+          window.removeEventListener("message", receiveMessage, false);
+          window.close();
+        }, 10000);
+      } else {
+        window.close();
+      }
+    </script>
+  </body>
+</html>`;
+}
+
+function respondCallback(response, status, message) {
+  return respond(response, status, callbackPage(message), "text/html; charset=utf-8", {
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'none'; script-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
+    "Referrer-Policy": "no-referrer",
+  });
+}
+
 async function readBody(request) {
   let body = "";
   for await (const chunk of request) {
@@ -55,15 +126,8 @@ async function readBody(request) {
   return body;
 }
 
-async function handleTokenExchange(request, response, requestId) {
+async function exchangeCode({ code, state, requestId }) {
   pruneStates();
-  const contentType = request.headers["content-type"] ?? "";
-  const body = await readBody(request);
-  const params = contentType.includes("application/json")
-    ? Object.fromEntries(Object.entries(JSON.parse(body)))
-    : Object.fromEntries(new URLSearchParams(body));
-  const code = params.code;
-  const state = params.state;
   const fingerprint = stateFingerprint(state);
   logEvent("oauth_token_exchange_received", {
     requestId,
@@ -74,12 +138,12 @@ async function handleTokenExchange(request, response, requestId) {
   if (!code || !state) {
     const reason = !code && !state ? "missing_code_and_state" : !code ? "missing_code" : "missing_state";
     logEvent("oauth_invalid_request", { requestId, stateFingerprint: fingerprint, reason });
-    return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+    return { ok: false, status: 400, error: "invalid_request" };
   }
-  const stored = state && states.get(state);
+  const stored = states.get(state);
   if (!stored) {
     logEvent("oauth_invalid_request", { requestId, stateFingerprint: fingerprint, reason: "unknown_or_expired_state" });
-    return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+    return { ok: false, status: 400, error: "invalid_request" };
   }
   states.delete(state);
   const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
@@ -92,33 +156,80 @@ async function handleTokenExchange(request, response, requestId) {
       redirect_uri: stored.redirectUri,
     }),
   });
-  const result = await tokenResponse.json();
-  if (!tokenResponse.ok || !result.access_token) {
+  const result = await tokenResponse.json().catch(() => ({}));
+  const accessToken = result && typeof result === "object" ? result.access_token : undefined;
+  const githubError = result && typeof result === "object" ? result.error : undefined;
+  const githubErrorDescription = result && typeof result === "object" ? result.error_description : undefined;
+  if (!tokenResponse.ok || typeof accessToken !== "string" || !accessToken) {
     logEvent("oauth_github_token_exchange_failed", {
       requestId,
       stateFingerprint: fingerprint,
       githubStatus: tokenResponse.status,
-      githubError: sanitizeLogValue(result.error),
-      githubErrorDescription: sanitizeLogValue(result.error_description),
+      githubError: sanitizeLogValue(githubError),
+      githubErrorDescription: sanitizeLogValue(githubErrorDescription),
     });
-    return respond(response, 502, JSON.stringify({ error: result.error ?? "token_exchange_failed", error_description: result.error_description }), "application/json");
+    return {
+      ok: false,
+      status: 502,
+      error: typeof githubError === "string" ? githubError : "token_exchange_failed",
+      errorDescription: typeof githubErrorDescription === "string" ? githubErrorDescription : undefined,
+    };
   }
   logEvent("oauth_token_exchange_succeeded", {
     requestId,
     stateFingerprint: fingerprint,
     githubStatus: tokenResponse.status,
   });
+  return { ok: true, token: accessToken };
+}
+
+async function handleTokenExchange(request, response, requestId) {
+  const contentType = request.headers["content-type"] ?? "";
+  const body = await readBody(request);
+  const params = contentType.includes("application/json")
+    ? Object.fromEntries(Object.entries(JSON.parse(body)))
+    : Object.fromEntries(new URLSearchParams(body));
+  const exchange = await exchangeCode({ code: params.code, state: params.state, requestId });
+
+  if (!exchange.ok) {
+    return respond(
+      response,
+      exchange.status,
+      JSON.stringify({ error: exchange.error, error_description: exchange.errorDescription }),
+      "application/json"
+    );
+  }
+
   return respond(
     response,
     200,
     JSON.stringify({
-      access_token: result.access_token,
+      access_token: exchange.token,
       provider: "github",
       token_type: "bearer",
       scope: "repo"
     }),
     "application/json"
   );
+}
+
+async function handleCallback(url, response, requestId) {
+  const provider = url.searchParams.get("provider");
+  if (provider !== "github") {
+    logEvent("oauth_invalid_request", { requestId, reason: "invalid_provider" });
+    return respondCallback(response, 400, callbackMessage("error", { error: "invalid_provider" }));
+  }
+
+  const exchange = await exchangeCode({
+    code: url.searchParams.get("code"),
+    state: url.searchParams.get("state"),
+    requestId,
+  });
+  if (!exchange.ok) {
+    return respondCallback(response, exchange.status, callbackMessage("error", { error: exchange.error }));
+  }
+
+  return respondCallback(response, 200, callbackMessage("success", { token: exchange.token }));
 }
 
 const server = createServer(async (request, response) => {
@@ -145,9 +256,8 @@ const server = createServer(async (request, response) => {
       // always https when reached through Cloudflare/Traefik; we default to
       // https so the redirect_uri we hand to GitHub matches the OAuth App's
       // registered callback URL.
-      const proto = request.headers["x-forwarded-proto"] || "https";
-      const host = request.headers["x-forwarded-host"] || request.headers.host;
-      const redirectUri = `${proto}://${host}/admin/callback`;
+      // Keep the callback path already registered in the GitHub OAuth App.
+      const redirectUri = `${getPublicOrigin(request)}/admin/callback?provider=github`;
       states.set(stateString, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
       logEvent("oauth_authorization_started", {
         requestId,
@@ -159,6 +269,10 @@ const server = createServer(async (request, response) => {
       target.search = new URLSearchParams({ client_id: CLIENT_ID, redirect_uri: redirectUri, scope: "repo", state: stateString }).toString();
       response.writeHead(302, { Location: target.toString() });
       return response.end();
+    }
+
+    if (request.method === "GET" && (url.pathname === "/callback" || url.pathname === "/admin/callback")) {
+      return handleCallback(url, response, requestId);
     }
 
     // Token exchange. Decap calls both /auth (legacy) and /auth/authorize
