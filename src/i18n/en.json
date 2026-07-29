@@ -31,10 +31,22 @@
     "card3_title": "Personal Consultation",
     "card3_body": "A deep discovery process that turns your idea into a timeless piece."
   },
-  "gallery": {
+"gallery": {
     "title": "Archive of Works",
-    "subtitle": "A curated selection of recent projects",
-    "filter_all": "All"
+    "subtitle": "Curated selection of recent projects",
+    "filter_all": "All",
+    "view_all": "View full gallery",
+    "featured_empty": "New pieces coming soon.",
+    "empty": "No pieces in this category yet."
+  },
+  "gallery_page": {
+    "title": "Full Gallery",
+    "subtitle": "Explore every studio piece, filtered by style.",
+    "filter_label": "Filter by style",
+    "load_more": "Load more",
+    "count_one": "{{count}} piece",
+    "count_other": "{{count}} pieces",
+    "back_home": "Back to home"
   },
   "process": {
     "title": "The Path of the Ink",

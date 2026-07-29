@@ -21,9 +21,7 @@ const linkClass = (active: boolean) =>
     ? "text-label-sm font-label-sm uppercase tracking-widest text-primary font-bold border-b-2 border-primary pb-2"
     : "text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors";
 
-const galleryHref = isLanding
-  ? (locale === DEFAULT_LOCALE ? "#gallery" : `/${locale}#gallery`)
-  : (locale === DEFAULT_LOCALE ? "/#gallery" : `/${locale}/#gallery`);
+const galleryHref = locale === DEFAULT_LOCALE ? "/galeria" : `/${locale}/galeria`;
 const processHref = isLanding
   ? (locale === DEFAULT_LOCALE ? "#process" : `/${locale}#process`)
   : (locale === DEFAULT_LOCALE ? "/#process" : `/${locale}/#process`);
@@ -36,7 +34,7 @@ const brandHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}`;
 // Language switcher URLs — keep the current page, just swap the prefix.
 const switchLocale = (target: Locale): string => localizePath(pathname, target);
 
-const galleryActive = isLanding || isDetalle;
+const galleryActive = pathname.endsWith("/galeria");
 const processActive = false;
 const filosofiaActive = isSobre;
 const contactoActive = isReserva;

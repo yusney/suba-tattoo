@@ -34,7 +34,19 @@
   "gallery": {
     "title": "Archivo de Obras",
     "subtitle": "Selección curada de proyectos recientes",
-    "filter_all": "Todos"
+    "filter_all": "Todos",
+    "view_all": "Ver galería completa",
+    "featured_empty": "Pronto publicaremos nuevas piezas.",
+    "empty": "Aún no hay piezas en esta categoría."
+  },
+  "gallery_page": {
+    "title": "Galería Completa",
+    "subtitle": "Explora todas las piezas del estudio, filtradas por estilo.",
+    "filter_label": "Filtrar por estilo",
+    "load_more": "Cargar más",
+    "count_one": "{{count}} pieza",
+    "count_other": "{{count}} piezas",
+    "back_home": "Volver al inicio"
   },
   "process": {
     "title": "El Camino de la Tinta",

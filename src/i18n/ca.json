@@ -34,7 +34,19 @@
   "gallery": {
     "title": "Arxiu d'Obres",
     "subtitle": "Selecció curada de projectes recents",
-    "filter_all": "Tots"
+    "filter_all": "Tots",
+    "view_all": "Veure galeria completa",
+    "featured_empty": "Aviat publicarem noves peces.",
+    "empty": "Encara no hi ha peces en aquesta categoria."
+  },
+  "gallery_page": {
+    "title": "Galeria Completa",
+    "subtitle": "Explora totes les peces de l'estudi, filtrades per estil.",
+    "filter_label": "Filtra per estil",
+    "load_more": "Carrega'n més",
+    "count_one": "{{count}} peça",
+    "count_other": "{{count}} peces",
+    "back_home": "Tornar a l'inici"
   },
   "process": {
     "title": "El Camí de la Tinta",

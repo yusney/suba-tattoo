@@ -7,20 +7,30 @@ const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
 const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
 const t = useTranslations(locale);
 
+const PREVIEW_PER_STYLE = 3;
+
 const allTattoos = await getCollection("tattoos");
 const tattoos = allTattoos
   .filter((entry) => entry.data.locale === locale)
   .sort((a, b) => +b.data.date - +a.data.date);
 
-const allCategories = Array.from(new Set(tattoos.map((t) => t.data.category)));
-const filters = [t("gallery.filter_all"), ...allCategories];
-
-const featured = tattoos.find((t) => t.data.featured);
-const rest = tattoos.filter((t) => !t.data.featured);
-const ordered = featured ? [featured, ...rest] : tattoos;
-
+const styles = Array.from(new Set(tattoos.map((entry) => entry.data.style)));
 const detailHref = (slug: string) =>
   locale === DEFAULT_LOCALE ? `/detalle/${slug}` : `/${locale}/detalle/${slug}`;
+const galleryHref = locale === DEFAULT_LOCALE ? "/galeria" : `/${locale}/galeria`;
+
+// Curated preview per style: featured first, then by date desc.
+const previewByStyle = styles.map((style) => {
+  const inStyle = tattoos.filter((entry) => entry.data.style === style);
+  const featured = inStyle.find((entry) => entry.data.featured);
+  const rest = inStyle.filter((entry) => !entry.data.featured);
+  const ordered = featured ? [featured, ...rest] : inStyle;
+  return {
+    style,
+    items: ordered.slice(0, PREVIEW_PER_STYLE),
+    total: inStyle.length,
+  };
+});
 ---
 
 <section class="relative mx-auto w-full max-w-container-max bg-surface-container-lowest px-margin-mobile py-12 md:px-margin-desktop md:py-section-gap" id="gallery">
@@ -30,41 +40,51 @@ const detailHref = (slug: string) =>
       <h2 class="mb-6 text-3xl font-headline-lg uppercase md:mb-8 md:text-headline-lg">{t("gallery.title")}</h2>
       <p class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("gallery.subtitle")}</p>
     </div>
-    <div class="flex flex-wrap gap-4 border-b border-outline-variant pb-2">
-      {filters.map((filter, index) => (
-        <button
-          class={`px-4 py-2 text-label-sm font-label-sm uppercase tracking-widest ${index === 0 ? "border-b-2 border-primary text-primary" : "text-on-surface-variant hover:text-on-surface"}`}
-        >
-          {filter}
-        </button>
-      ))}
-    </div>
+    <a class="self-start text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary border-b border-outline-variant pb-1 md:self-end" href={galleryHref}>
+      {t("gallery.view_all")} →
+    </a>
   </div>
-  <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3" data-reveal>
-    {ordered.map((tattoo, idx) => {
-      const isFeature = tattoo.data.featured;
-      const wrapperClass = `group gallery-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high ${isFeature ? "md:col-span-2 md:aspect-[16/10]" : ""}`;
-      return (
-        <a class={wrapperClass} data-idx={idx} href={detailHref(tattoo.data.slug)}>
-          <img
-            class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
-            src={tattoo.data.image}
-            alt={tattoo.data.alt_text}
-            loading={isFeature ? "eager" : "lazy"}
-            decoding="async"
-            width={isFeature ? 1280 : 800}
-            height={isFeature ? 800 : 800}
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
-          <div class="absolute bottom-6 left-6">
-            <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.category}</span>
-            {tattoo.data.title && (
-              <h3 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h3>
-            )}
-          </div>
-        </a>
-      );
-    })}
+
+  <div class="mt-16 flex flex-col gap-section-gap">
+    {previewByStyle.map((group) => (
+      <div class="flex flex-col gap-6" data-reveal>
+        <div class="flex items-baseline justify-between border-b border-outline-variant pb-3">
+          <h3 class="text-headline-md font-headline-md uppercase">{group.style}</h3>
+          <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={`${galleryHref}?estilo=${encodeURIComponent(group.style)}`}>
+            {t("gallery.view_all")} →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {group.items.map((tattoo, idx) => {
+            const isFeature = idx === 0 && tattoo.data.featured;
+            const wrapperClass = `group gallery-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high ${isFeature ? "md:col-span-2 md:aspect-[16/10]" : ""}`;
+            return (
+              <a class={wrapperClass} data-idx={idx} href={detailHref(tattoo.data.slug)}>
+                <img
+                  class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  src={tattoo.data.image}
+                  alt={tattoo.data.alt_text}
+                  loading={isFeature ? "eager" : "lazy"}
+                  decoding="async"
+                  width={isFeature ? 1280 : 800}
+                  height={isFeature ? 800 : 800}
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+                <div class="absolute bottom-6 left-6">
+                  <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
+                  {tattoo.data.title && (
+                    <h4 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h4>
+                  )}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+    {previewByStyle.length === 0 && (
+      <p class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("gallery.featured_empty")}</p>
+    )}
   </div>
 </section>
 
@@ -73,7 +93,7 @@ const detailHref = (slug: string) =>
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const target = entry.target as HTMLElement;
+        const target = entry.target;
         const idx = Number(target.dataset.idx ?? "0");
         target.style.transitionDelay = `${idx * 150}ms`;
         target.classList.add("is-revealed");

@@ -1,0 +1,29 @@
+---
+interface Props {
+  styles: string[];
+  allLabel: string;
+  filterLabel: string;
+}
+
+const { styles, allLabel, filterLabel } = Astro.props as Props;
+---
+
+<div class="mt-12 flex flex-wrap items-center gap-4 border-b border-outline-variant pb-2" data-filter-bar>
+  <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{filterLabel}</span>
+  <button
+    type="button"
+    class="border-b-2 border-primary px-4 py-2 text-label-sm font-label-sm uppercase tracking-widest text-primary"
+    data-filter-style="all"
+  >
+    {allLabel}
+  </button>
+  {styles.map((style) => (
+    <button
+      type="button"
+      class="px-4 py-2 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface"
+      data-filter-style={style}
+    >
+      {style}
+    </button>
+  ))}
+</div>

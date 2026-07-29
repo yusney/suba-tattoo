@@ -1,0 +1,174 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TopBar from "../../components/TopBar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppButton from "../../components/WhatsAppButton.astro";
+import ScrollReveal from "../../components/ScrollReveal.astro";
+import GalleryFilter from "../../components/GalleryFilter.astro";
+import { getCollection } from "astro:content";
+import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
+import type { Locale } from "../../lib/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props as Props;
+const t = useTranslations(locale);
+
+const PAGE_SIZE = 18;
+
+const allTattoos = await getCollection("tattoos");
+const tattoos = allTattoos
+  .filter((entry) => entry.data.locale === locale)
+  .sort((a, b) => +b.data.date - +a.data.date);
+
+const styles = Array.from(new Set(tattoos.map((entry) => entry.data.style)));
+const totalCount = tattoos.length;
+const detailHref = (slug: string) =>
+  locale === DEFAULT_LOCALE ? `/detalle/${slug}` : `/${locale}/detalle/${slug}`;
+const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
+---
+
+<Layout title={t("gallery_page.title")} description={t("gallery_page.subtitle")}>
+  <TopBar />
+  <main id="main" class="pt-24 scroll-mt-24">
+    <section class="relative mx-auto w-full max-w-container-max bg-surface-container-lowest px-margin-mobile py-12 md:px-margin-desktop md:py-section-gap" id="galeria">
+      <span class="section-marker" aria-hidden="true">02 / 03</span>
+      <div class="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end" data-reveal>
+        <div>
+          <h1 class="mb-6 text-3xl font-headline-lg uppercase md:mb-8 md:text-headline-lg">{t("gallery_page.title")}</h1>
+          <p class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("gallery_page.subtitle")}</p>
+        </div>
+        <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary border-b border-outline-variant pb-1" href={homeHref}>
+          ← {t("gallery_page.back_home")}
+        </a>
+      </div>
+
+      <GalleryFilter styles={styles} allLabel={t("gallery.filter_all")} filterLabel={t("gallery_page.filter_label")} />
+
+      <p
+        class="mt-12 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant"
+        data-gallery-count
+        data-count-one={t("gallery_page.count_one")}
+        data-count-other={t("gallery_page.count_other")}
+      >
+        {totalCount === 1 ? t("gallery_page.count_one").replace("{{count}}", String(totalCount)) : t("gallery_page.count_other").replace("{{count}}", String(totalCount))}
+      </p>
+
+      <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3" data-reveal>
+        {tattoos.map((tattoo) => {
+          const slug = tattoo.data.slug;
+          return (
+            <a
+              class="group gallery-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high"
+              href={detailHref(slug)}
+              data-style={tattoo.data.style}
+              data-detail-href={detailHref(slug)}
+            >
+              <img
+                class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                src={tattoo.data.image}
+                alt={tattoo.data.alt_text}
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="800"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+              <div class="absolute bottom-6 left-6">
+                <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
+                {tattoo.data.title && (
+                  <h2 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h2>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="mt-12 flex justify-center" data-load-more-wrapper hidden>
+        <button
+          class="border border-primary px-12 py-4 font-label-sm text-label-sm uppercase tracking-widest font-bold text-primary hover:bg-primary hover:text-on-primary transition-colors"
+          type="button"
+          data-load-more
+        >
+          {t("gallery_page.load_more")}
+        </button>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+  <ScrollReveal />
+</Layout>
+
+<script define:vars={{ PAGE_SIZE }}>
+  const pageSize = PAGE_SIZE;
+  const cards = Array.from(document.querySelectorAll(".gallery-card"));
+  const countEl = document.querySelector("[data-gallery-count]");
+  const loadMoreWrapper = document.querySelector("[data-load-more-wrapper]");
+  const loadMoreBtn = document.querySelector("[data-load-more]");
+
+  // Track an "extraShown" offset of how many cards beyond the first page are
+  // currently revealed (independent of the filter's total).
+  let extraShown = 0;
+
+  function applyVisibility() {
+    let shown = 0;
+    cards.forEach((card) => {
+      // Reset previous state
+      card.style.display = "";
+      if (card.hidden) return; // filtered out
+      shown += 1;
+      const offsetIndex = shown - 1;
+      // Hide everything beyond `pageSize + extraShown`
+      if (offsetIndex >= pageSize + extraShown) {
+        card.style.display = "none";
+      }
+    });
+    return shown;
+  }
+
+  function refresh() {
+    const shown = applyVisibility();
+    const totalVisible = cards.filter((c) => !c.hidden).length;
+    if (loadMoreWrapper) {
+      loadMoreWrapper.hidden = totalVisible <= pageSize + extraShown;
+    }
+    if (countEl) {
+      const tpl = totalVisible === 1
+        ? (countEl.dataset.countOne || "")
+        : (countEl.dataset.countOther || "");
+      countEl.textContent = tpl
+        ? tpl.replace("{{count}}", String(totalVisible))
+        : String(totalVisible);
+    }
+    return shown;
+  }
+
+  loadMoreBtn?.addEventListener("click", () => {
+    extraShown += pageSize;
+    refresh();
+  });
+
+  const filterButtons = Array.from(document.querySelectorAll("[data-filter-style]"));
+  filterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const style = btn.dataset.filterStyle || "all";
+      filterButtons.forEach((b) => {
+        b.classList.remove("border-b-2", "border-primary", "text-primary");
+        b.classList.add("text-on-surface-variant");
+      });
+      btn.classList.add("border-b-2", "border-primary", "text-primary");
+      btn.classList.remove("text-on-surface-variant");
+      cards.forEach((card) => {
+        card.hidden = style !== "all" && (card.dataset.style || "") !== style;
+      });
+      extraShown = 0;
+      refresh();
+    });
+  });
+
+  refresh();
+</script>
