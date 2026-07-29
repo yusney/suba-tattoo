@@ -31,6 +31,19 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 ---
 
 <Layout title={t("gallery_page.title")} description={t("gallery_page.subtitle")}>
+  <style is:global>
+    /*
+     * GalleryPage cards must be visible without the global clip-path reveal
+     * animation. The home GallerySection owns that animation, but here the
+     * cards can sit far below the fold and IntersectionObserver won't trigger
+     * because the layout box reports the clipped (zero-area) state. Showing
+     * them outright avoids the bug.
+     */
+    .gallery-card,
+    .gallery-card.is-revealed {
+      clip-path: none !important;
+    }
+  </style>
   <TopBar />
   <main id="main" class="pt-24 scroll-mt-24">
     <section class="relative mx-auto w-full max-w-container-max bg-surface-container-lowest px-margin-mobile py-12 md:px-margin-desktop md:py-section-gap" id="galeria">
@@ -102,6 +115,25 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
   <WhatsAppButton />
   <ScrollReveal />
 </Layout>
+
+<script>
+  // Clear the global .gallery-card clip-path animation as soon as each card
+  // enters the viewport. GalleryPage cards are not picked up by the home
+  // GallerySection's observer, so without this they stay clipped at
+  // clip-path: inset(0 100% 0 0) (see styles/global.css).
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll(".gallery-card").forEach((el) => revealObserver.observe(el));
+</script>
 
 <script define:vars={{ PAGE_SIZE }}>
   const pageSize = PAGE_SIZE;
