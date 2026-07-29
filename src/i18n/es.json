@@ -44,6 +44,7 @@
     "subtitle": "Explora todas las piezas del estudio, filtradas por estilo.",
     "filter_label": "Filtrar por estilo",
     "load_more": "Cargar más",
+    "end_message": "Has llegado al final de la galería",
     "count_one": "{{count}} pieza",
     "count_other": "{{count}} piezas",
     "back_home": "Volver al inicio"

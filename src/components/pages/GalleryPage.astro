@@ -100,14 +100,10 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
         })}
       </div>
 
-      <div class="mt-12 flex justify-center" data-load-more-wrapper hidden>
-        <button
-          class="border border-primary px-12 py-4 font-label-sm text-label-sm uppercase tracking-widest font-bold text-primary hover:bg-primary hover:text-on-primary transition-colors"
-          type="button"
-          data-load-more
-        >
-          {t("gallery_page.load_more")}
-        </button>
+      <div class="mt-12 flex justify-center" data-sentinel aria-hidden="true">
+        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant opacity-0" data-end-message>
+          {t("gallery_page.end_message")}
+        </span>
       </div>
     </section>
   </main>
@@ -139,11 +135,12 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
   const pageSize = PAGE_SIZE;
   const cards = Array.from(document.querySelectorAll(".gallery-card"));
   const countEl = document.querySelector("[data-gallery-count]");
-  const loadMoreWrapper = document.querySelector("[data-load-more-wrapper]");
-  const loadMoreBtn = document.querySelector("[data-load-more]");
+  const sentinel = document.querySelector("[data-sentinel]");
+  const endMessage = document.querySelector("[data-end-message]");
   const filterButtons = Array.from(document.querySelectorAll("[data-filter-style]"));
 
   let extraShown = 0;
+  let loading = false;
 
   function applyVisibility() {
     let shown = 0;
@@ -180,9 +177,9 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
   function refresh() {
     applyVisibility();
     const totalVisible = cards.filter((c) => !c.hidden).length;
-    if (loadMoreWrapper) {
-      loadMoreWrapper.hidden = totalVisible <= pageSize + extraShown;
-    }
+    const shownLimit = pageSize + extraShown;
+    const reachedEnd = totalVisible <= shownLimit;
+    if (endMessage) endMessage.classList.toggle("opacity-0", !reachedEnd);
     if (countEl) {
       const tpl = totalVisible === 1
         ? (countEl.dataset.countOne || "")
@@ -190,6 +187,12 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
       countEl.textContent = tpl
         ? tpl.replace("{{count}}", String(totalVisible))
         : String(totalVisible);
+    }
+    // Re-arm the sentinel observer once layout settles (some cards might
+    // have just been revealed by the filter or load-more).
+    if (sentinel && "IntersectionObserver" in window) {
+      sentinelObserver.disconnect();
+      sentinelObserver.observe(sentinel);
     }
   }
 
@@ -204,10 +207,23 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
     refresh();
   }
 
-  loadMoreBtn?.addEventListener("click", () => {
-    extraShown += pageSize;
-    refresh();
-  });
+  // Infinite scroll: reveal the next page when the sentinel approaches the
+  // viewport. With `loading="lazy"` on every <img>, the browser only fetches
+  // the bytes the user actually scrolls toward, so 200 entries are safe.
+  const sentinelObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || loading) return;
+        const totalVisible = cards.filter((c) => !c.hidden).length;
+        if (totalVisible <= pageSize + extraShown) return;
+        loading = true;
+        extraShown += pageSize;
+        refresh();
+        loading = false;
+      });
+    },
+    { rootMargin: "600px 0px" }
+  );
 
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {

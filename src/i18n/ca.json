@@ -44,6 +44,7 @@
     "subtitle": "Explora totes les peces de l'estudi, filtrades per estil.",
     "filter_label": "Filtra per estil",
     "load_more": "Carrega'n més",
+    "end_message": "Has arribat al final de la galeria",
     "count_one": "{{count}} peça",
     "count_other": "{{count}} peces",
     "back_home": "Tornar a l'inici"

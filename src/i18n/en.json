@@ -44,6 +44,7 @@
     "subtitle": "Explore every studio piece, filtered by style.",
     "filter_label": "Filter by style",
     "load_more": "Load more",
+    "end_message": "You've reached the end of the gallery",
     "count_one": "{{count}} piece",
     "count_other": "{{count}} pieces",
     "back_home": "Back to home"
