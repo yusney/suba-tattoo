@@ -1,0 +1,12 @@
+---
+import GalleryPage from "../../../components/pages/GalleryPage.astro";
+import { getGalleryTattoos, GALLERY_PAGE_SIZE } from "../../../lib/gallery";
+
+export async function getStaticPaths({ paginate }) {
+  const tattoos = await getGalleryTattoos("ca");
+  return paginate(tattoos, { pageSize: GALLERY_PAGE_SIZE }).filter(({ params }) => params.page !== "1");
+}
+
+const { page } = Astro.props;
+---
+<GalleryPage locale="ca" pageItems={page.data} currentPage={page.currentPage} totalPages={page.lastPage} />

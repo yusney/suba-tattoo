@@ -47,6 +47,7 @@
     "end_message": "Has llegado al final de la galería",
     "count_one": "{{count}} pieza",
     "count_other": "{{count}} piezas",
+    "pagination_label": "Paginación de la galería",
     "back_home": "Volver al inicio"
   },
   "process": {

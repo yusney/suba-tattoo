@@ -5,43 +5,44 @@ import Footer from "../../components/Footer.astro";
 import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import ScrollReveal from "../../components/ScrollReveal.astro";
 import GalleryFilter from "../../components/GalleryFilter.astro";
-import { getCollection } from "astro:content";
+import { getGalleryPageHref, getGalleryTattoos, GALLERY_PAGE_SIZE } from "../../lib/gallery";
 import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 
 interface Props {
   locale: Locale;
+  pageItems?: Awaited<ReturnType<typeof getGalleryTattoos>>;
+  currentPage?: number;
+  totalPages?: number;
 }
 
-const { locale } = Astro.props as Props;
+const { locale, pageItems, currentPage = 1, totalPages: providedTotalPages } = Astro.props as Props;
 const t = useTranslations(locale);
-
-const PAGE_SIZE = 18;
-
-const allTattoos = await getCollection("tattoos");
-const tattoos = allTattoos
-  .filter((entry) => entry.data.locale === locale)
-  .sort((a, b) => +b.data.date - +a.data.date);
-
-const styles = Array.from(new Set(tattoos.map((entry) => entry.data.style)));
-const totalCount = tattoos.length;
+const allTattoos = await getGalleryTattoos(locale);
+const tattoos = pageItems ?? allTattoos.slice(0, GALLERY_PAGE_SIZE);
+const totalPages = providedTotalPages ?? Math.max(1, Math.ceil(allTattoos.length / GALLERY_PAGE_SIZE));
+const styles = Array.from(new Set(allTattoos.map((entry) => entry.data.style)));
+const styleCounts = Object.fromEntries(
+  styles.map((style) => [style, allTattoos.filter((entry) => entry.data.style === style).length]),
+);
 const detailHref = (slug: string) =>
   locale === DEFAULT_LOCALE ? `/detalle/${slug}` : `/${locale}/detalle/${slug}`;
 const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
+const pageHref = (page: number) => getGalleryPageHref(locale, page);
+const nextPageHref = currentPage < totalPages ? pageHref(currentPage + 1) : "";
+const previousPageHref = currentPage > 1 ? pageHref(currentPage - 1) : "";
+const pageTitle = currentPage > 1 ? `${t("gallery_page.title")} · ${currentPage}` : t("gallery_page.title");
+const pageDescription = currentPage > 1
+  ? `${t("gallery_page.subtitle")} (${currentPage})`
+  : t("gallery_page.subtitle");
+const canonicalUrl = new URL(pageHref(currentPage), Astro.site?.origin ?? "https://subatattoo.com").toString();
 ---
 
-<Layout title={t("gallery_page.title")} description={t("gallery_page.subtitle")}>
-  <style is:global>
-    /*
-     * GalleryPage cards must be visible without the global clip-path reveal
-     * animation. The home GallerySection owns that animation, but here the
-     * cards can sit far below the fold and IntersectionObserver won't trigger
-     * because the layout box reports the clipped (zero-area) state. Showing
-     * them outright avoids the bug.
-     */
-    .gallery-card,
-    .gallery-card.is-revealed {
-      clip-path: none !important;
+<Layout title={pageTitle} description={pageDescription} canonical={canonicalUrl}>
+  <style>
+    /* Gallery pages do not use the home page's clip-path reveal animation. */
+    .gallery-page-card {
+      clip-path: none;
     }
   </style>
   <TopBar />
@@ -65,46 +66,59 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
         data-gallery-count
         data-count-one={t("gallery_page.count_one")}
         data-count-other={t("gallery_page.count_other")}
+        data-total-count={allTattoos.length}
+        data-style-counts={JSON.stringify(styleCounts)}
+        aria-live="polite"
       >
-        {totalCount === 1 ? t("gallery_page.count_one").replace("{{count}}", String(totalCount)) : t("gallery_page.count_other").replace("{{count}}", String(totalCount))}
+        {allTattoos.length === 1 ? t("gallery_page.count_one").replace("{{count}}", String(allTattoos.length)) : t("gallery_page.count_other").replace("{{count}}", String(allTattoos.length))}
       </p>
 
-      <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3" data-reveal>
-        {tattoos.map((tattoo) => {
-          const slug = tattoo.data.slug;
-          return (
-            <a
-              class="group gallery-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high"
-              href={detailHref(slug)}
-              data-style={tattoo.data.style}
-              data-detail-href={detailHref(slug)}
-            >
-              <img
-                class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
-                src={tattoo.data.image}
-                alt={tattoo.data.alt_text}
-                loading="lazy"
-                decoding="async"
-                width="800"
-                height="800"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
-              <div class="absolute bottom-6 left-6">
-                <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
-                {tattoo.data.title && (
-                  <h2 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h2>
-                )}
-              </div>
-            </a>
-          );
-        })}
+      <div
+        class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3"
+        data-gallery-grid
+        data-next-page={nextPageHref || undefined}
+        data-reveal
+      >
+        {tattoos.map((tattoo, index) => (
+          <a
+            class="group gallery-page-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high"
+            href={detailHref(tattoo.data.slug)}
+            data-style={tattoo.data.style}
+          >
+            <img
+              class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+              src={tattoo.data.image}
+              alt={tattoo.data.alt_text}
+              loading={index < 3 ? "eager" : "lazy"}
+              fetchpriority={index < 3 ? "high" : "auto"}
+              decoding="async"
+              width="800"
+              height="800"
+              sizes="(min-width: 768px) 33vw, 100vw"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+            <div class="absolute bottom-6 left-6">
+              <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
+              {tattoo.data.title && <h2 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h2>}
+            </div>
+          </a>
+        ))}
       </div>
 
-      <div class="mt-12 flex justify-center" data-sentinel aria-hidden="true">
-        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant opacity-0" data-end-message>
+      <div class="mt-12 flex min-h-8 justify-center" data-sentinel>
+        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant" data-loading-message hidden aria-live="polite">
+          {t("common.loading")}
+        </span>
+        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant" data-end-message hidden role="status">
           {t("gallery_page.end_message")}
         </span>
       </div>
+
+      <nav class="mt-8 flex items-center justify-center gap-8" aria-label={t("gallery_page.pagination_label")} data-pagination>
+        {previousPageHref ? <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={previousPageHref}>{t("common.previous")}</a> : <span aria-hidden="true"></span>}
+        <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant" aria-current="page">{currentPage} / {totalPages}</span>
+        {nextPageHref ? <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={nextPageHref} data-next-link>{t("common.next")}</a> : <span aria-hidden="true"></span>}
+      </nav>
     </section>
   </main>
   <Footer />
@@ -113,129 +127,93 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 </Layout>
 
 <script>
-  // Clear the global .gallery-card clip-path animation as soon as each card
-  // enters the viewport. GalleryPage cards are not picked up by the home
-  // GallerySection's observer, so without this they stay clipped at
-  // clip-path: inset(0 100% 0 0) (see styles/global.css).
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-revealed");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll(".gallery-card").forEach((el) => revealObserver.observe(el));
-</script>
-
-<script define:vars={{ PAGE_SIZE }}>
-  const pageSize = PAGE_SIZE;
-  const cards = Array.from(document.querySelectorAll(".gallery-card"));
-  const countEl = document.querySelector("[data-gallery-count]");
-  const sentinel = document.querySelector("[data-sentinel]");
-  const endMessage = document.querySelector("[data-end-message]");
-  const filterButtons = Array.from(document.querySelectorAll("[data-filter-style]"));
-
-  let extraShown = 0;
+  const grid = document.querySelector<HTMLElement>("[data-gallery-grid]");
+  const sentinel = document.querySelector<HTMLElement>("[data-sentinel]");
+  const countEl = document.querySelector<HTMLElement>("[data-gallery-count]");
+  const endMessage = document.querySelector<HTMLElement>("[data-end-message]");
+  const loadingMessage = document.querySelector<HTMLElement>("[data-loading-message]");
+  const nextLink = document.querySelector<HTMLAnchorElement>("[data-next-link]");
+  const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter-style]"));
+  const styleCounts = JSON.parse(countEl?.dataset.styleCounts || "{}") as Record<string, number>;
+  let nextPage = grid?.dataset.nextPage || null;
+  let activeStyle = new URLSearchParams(window.location.search).get("estilo") || "all";
   let loading = false;
 
-  function applyVisibility() {
-    let shown = 0;
-    cards.forEach((card) => {
-      card.style.display = "";
-      if (card.hidden) return;
-      shown += 1;
-      const offsetIndex = shown - 1;
-      if (offsetIndex >= pageSize + extraShown) {
-        card.style.display = "none";
-      }
+  function getCards() {
+    return Array.from(document.querySelectorAll<HTMLElement>(".gallery-page-card"));
+  }
+
+  function updateCount() {
+    const visibleCount = activeStyle === "all"
+      ? Number(countEl?.dataset.totalCount || getCards().length)
+      : styleCounts[activeStyle] || 0;
+    const template = visibleCount === 1 ? countEl?.dataset.countOne : countEl?.dataset.countOther;
+    if (countEl && template) countEl.textContent = template.replace("{{count}}", String(visibleCount));
+  }
+
+  function applyStyle(style: string) {
+    const knownStyle = style === "all" || filterButtons.some((button) => button.dataset.filterStyle === style);
+    activeStyle = knownStyle ? style : "all";
+    filterButtons.forEach((button) => {
+      const selected = button.dataset.filterStyle === activeStyle;
+      button.setAttribute("aria-pressed", String(selected));
+      button.classList.toggle("border-b-2", selected);
+      button.classList.toggle("border-primary", selected);
+      button.classList.toggle("text-primary", selected);
+      button.classList.toggle("text-on-surface-variant", !selected);
     });
-    return shown;
-  }
-
-  function setActiveButton(style) {
-    filterButtons.forEach((b) => {
-      b.classList.remove("border-b-2", "border-primary", "text-primary");
-      b.classList.add("text-on-surface-variant");
+    getCards().forEach((card) => {
+      card.hidden = activeStyle !== "all" && card.dataset.style !== activeStyle;
     });
-    const target = filterButtons.find((b) => b.dataset.filterStyle === style);
-    if (target) {
-      target.classList.add("border-b-2", "border-primary", "text-primary");
-      target.classList.remove("text-on-surface-variant");
-    } else {
-      const allBtn = filterButtons.find((b) => b.dataset.filterStyle === "all");
-      if (allBtn) {
-        allBtn.classList.add("border-b-2", "border-primary", "text-primary");
-        allBtn.classList.remove("text-on-surface-variant");
-      }
-    }
+    updateCount();
   }
 
-  function refresh() {
-    applyVisibility();
-    const totalVisible = cards.filter((c) => !c.hidden).length;
-    const shownLimit = pageSize + extraShown;
-    const reachedEnd = totalVisible <= shownLimit;
-    if (endMessage) endMessage.classList.toggle("opacity-0", !reachedEnd);
-    if (countEl) {
-      const tpl = totalVisible === 1
-        ? (countEl.dataset.countOne || "")
-        : (countEl.dataset.countOther || "");
-      countEl.textContent = tpl
-        ? tpl.replace("{{count}}", String(totalVisible))
-        : String(totalVisible);
-    }
-    // Re-arm the sentinel observer once layout settles (some cards might
-    // have just been revealed by the filter or load-more).
-    if (sentinel && "IntersectionObserver" in window) {
-      sentinelObserver.disconnect();
-      sentinelObserver.observe(sentinel);
-    }
-  }
-
-  function applyStyle(style) {
-    const known = filterButtons.some((b) => b.dataset.filterStyle === style);
-    const target = known ? style : "all";
-    cards.forEach((card) => {
-      card.hidden = target !== "all" && (card.dataset.style || "") !== target;
-    });
-    extraShown = 0;
-    setActiveButton(target);
-    refresh();
-  }
-
-  // Infinite scroll: reveal the next page when the sentinel approaches the
-  // viewport. With `loading="lazy"` on every <img>, the browser only fetches
-  // the bytes the user actually scrolls toward, so 200 entries are safe.
-  const sentinelObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting || loading) return;
-        const totalVisible = cards.filter((c) => !c.hidden).length;
-        if (totalVisible <= pageSize + extraShown) return;
-        loading = true;
-        extraShown += pageSize;
-        refresh();
-        loading = false;
+  async function loadNextPage() {
+    if (!grid || !nextPage || loading) return;
+    loading = true;
+    if (loadingMessage) loadingMessage.hidden = false;
+    try {
+      const response = await fetch(nextPage, { headers: { Accept: "text/html" } });
+      if (!response.ok) throw new Error(`Gallery page request failed: ${response.status}`);
+      const documentFragment = new DOMParser().parseFromString(await response.text(), "text/html");
+      documentFragment.querySelectorAll<HTMLElement>(".gallery-page-card").forEach((card) => {
+        card.hidden = activeStyle !== "all" && card.dataset.style !== activeStyle;
+        grid.append(card);
       });
-    },
-    { rootMargin: "600px 0px" }
-  );
+      nextPage = documentFragment.querySelector<HTMLElement>("[data-gallery-grid]")?.dataset.nextPage || null;
+      if (nextLink) {
+        if (nextPage) nextLink.href = nextPage;
+        else nextLink.hidden = true;
+      }
+      if (!nextPage && endMessage) endMessage.hidden = false;
+      updateCount();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      loading = false;
+      if (loadingMessage) loadingMessage.hidden = true;
+    }
+  }
 
-  filterButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      applyStyle(btn.dataset.filterStyle || "all");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const style = button.dataset.filterStyle || "all";
+      const url = new URL(window.location.href);
+      if (style === "all") url.searchParams.delete("estilo");
+      else url.searchParams.set("estilo", style);
+      window.history.replaceState({}, "", url);
+      applyStyle(style);
     });
   });
 
-  // Preselect from ?estilo=... so the deep link from the home lands filtered.
-  const initialStyle = new URLSearchParams(window.location.search).get("estilo");
-  if (initialStyle) {
-    applyStyle(initialStyle);
-  } else {
-    refresh();
+  applyStyle(activeStyle);
+
+  if (sentinel && nextPage && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) void loadNextPage();
+    }, { rootMargin: "600px 0px" });
+    observer.observe(sentinel);
+  } else if (endMessage) {
+    endMessage.hidden = false;
   }
 </script>

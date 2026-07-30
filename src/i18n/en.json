@@ -47,6 +47,7 @@
     "end_message": "You've reached the end of the gallery",
     "count_one": "{{count}} piece",
     "count_other": "{{count}} pieces",
+    "pagination_label": "Gallery pagination",
     "back_home": "Back to home"
   },
   "process": {

@@ -47,6 +47,7 @@
     "end_message": "Has arribat al final de la galeria",
     "count_one": "{{count}} peça",
     "count_other": "{{count}} peces",
+    "pagination_label": "Paginació de la galeria",
     "back_home": "Tornar a l'inici"
   },
   "process": {
