@@ -26,6 +26,13 @@ public_folder: "/images"
 
 publish_mode: editorial_workflow
 
+# The tattoo Markdown files are stored as one file per locale:
+# src/content/tattoos/<locale>/<slug>.md
+i18n:
+  structure: multiple_folders
+  locales: [es, en, ca]
+  default_locale: es
+
 # ---------------------------------------------------------------------------
 # i18n notes
 # ---------------------------------------------------------------------------
@@ -63,7 +70,9 @@ collections:
     folder: "src/content/tattoos"
     create: true
     delete: true
-    slug: "{{year}}-{{slug}}"
+    i18n: true
+    identifier_field: "slug"
+    slug: "{{slug}}"
     summary: "{{title}} — {{category}} · {{year}} · [{{locale | upper}}]"
     sortable_fields: ["date", "title", "category", "style", "year", "featured"]
     view_filters:
@@ -108,14 +117,15 @@ collections:
       - label: "Idioma"
         field: "locale"
     fields:
-      - { name: "locale",        label: "Idioma",                   widget: "select", options: ["es", "en", "ca"], hint: "Determina en qué carpeta se guardará el archivo (src/content/tattoos/<locale>/)." }
-      - { name: "title",         label: "Título",                  widget: "string" }
-      - { name: "slug",          label: "Slug (URL)",              widget: "string", hint: "Identificador único, sin espacios. Ej: ouroboros-descent" }
-      - { name: "date",          label: "Fecha de la sesión",      widget: "datetime", picker_utc: false, format: "YYYY-MM-DD HH:mm" }
-      - { name: "year",          label: "Año",                     widget: "number", value_type: "int", min: 2014, max: 2100 }
+      - { name: "locale",        label: "Idioma",                   widget: "select", options: ["es", "en", "ca"], i18n: true, hint: "Debe coincidir con la pestaña de idioma y la carpeta src/content/tattoos/<locale>/." }
+      - { name: "title",         label: "Título",                  widget: "string", i18n: true }
+      - { name: "slug",          label: "Slug (URL)",              widget: "string", i18n: duplicate, hint: "Identificador único, sin espacios. Ej: fine-line-gafas-rayo-antebrazo" }
+      - { name: "date",          label: "Fecha de la sesión",      widget: "datetime", picker_utc: false, format: "YYYY-MM-DD HH:mm", i18n: duplicate }
+      - { name: "year",          label: "Año",                     widget: "number", value_type: "int", min: 2014, max: 2100, i18n: duplicate }
       - name: "style"
         label: "Estilo técnico"
         widget: "select"
+        i18n: duplicate
         options:
           - "Blackwork"
           - "Realismo"
@@ -126,30 +136,32 @@ collections:
       - name: "category"
         label: "Categoría (filtro de galería)"
         widget: "select"
+        i18n: duplicate
         options:
           - "Blackwork"
           - "Realismo"
           - "Fine Line"
           - "Color"
         hint: "Determina en qué chip de filtro aparece esta pieza."
-      - { name: "featured",      label: "Destacado (tarjeta grande)", widget: "boolean", default: false, hint: "Solo una pieza debe estar destacada a la vez." }
+      - { name: "featured",      label: "Destacado (tarjeta grande)", widget: "boolean", default: false, i18n: duplicate, hint: "Solo una pieza debe estar destacada a la vez." }
       - name: "image"
         label: "Imagen principal"
         widget: "image"
+        i18n: duplicate
         allow_multiple: false
         media_library:
           config:
             multiple: false
         hint: "Sube a public/images/tattoos/. Recomendado: 1600x1000 (feature) o 1200x1200 (cuadrado)."
-      - { name: "alt_text",      label: "Texto alternativo (a11y)", widget: "string", hint: "Describe la pieza para lectores de pantalla. Obligatorio." }
-      - { name: "client_name",   label: "Nombre del cliente",      widget: "string", required: false }
-      - { name: "needles",       label: "Agujas (ej: 7RL, 9RL, 14RM)", widget: "string", required: false }
-      - { name: "duration_hours", label: "Duración (horas)",       widget: "number", value_type: "float", required: false, min: 0 }
-      - { name: "sessions",      label: "Sesiones",                widget: "number", value_type: "int", default: 1, min: 1 }
-      - { name: "body_part",     label: "Zona del cuerpo",         widget: "string", required: false, hint: "Ej: Antebrazo externo, Espalda alta, Gemelo" }
-      - { name: "size_cm",       label: "Tamaño (cm)",             widget: "string", required: false, hint: "Ej: 18x22, 25x30" }
-      - { name: "description",   label: "Notas del artista (página de detalle)", widget: "text", required: false }
-      - { name: "testimonial",   label: "Testimonio del cliente",  widget: "text", required: false }
+      - { name: "alt_text",      label: "Texto alternativo (a11y)", widget: "string", i18n: true, hint: "Describe la pieza para lectores de pantalla. Obligatorio." }
+      - { name: "client_name",   label: "Nombre del cliente",      widget: "string", required: false, i18n: duplicate }
+      - { name: "needles",       label: "Agujas (ej: 7RL, 9RL, 14RM)", widget: "string", required: false, i18n: duplicate }
+      - { name: "duration_hours", label: "Duración (horas)",       widget: "number", value_type: "float", required: false, min: 0, i18n: duplicate }
+      - { name: "sessions",      label: "Sesiones",                widget: "number", value_type: "int", default: 1, min: 1, i18n: duplicate }
+      - { name: "body_part",     label: "Zona del cuerpo",         widget: "string", required: false, i18n: true, hint: "Ej: Antebrazo externo, Espalda alta, Gemelo" }
+      - { name: "size_cm",       label: "Tamaño (cm)",             widget: "string", required: false, i18n: duplicate, hint: "Ej: 18x22, 25x30" }
+      - { name: "description",   label: "Notas del artista (página de detalle)", widget: "text", required: false, i18n: true }
+      - { name: "testimonial",   label: "Testimonio del cliente",  widget: "text", required: false, i18n: true }
 
   # ============================== FAQ ==============================
   - name: "faq"
