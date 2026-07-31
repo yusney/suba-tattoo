@@ -1,7 +1,7 @@
 ---
-import { getCollection } from "astro:content";
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
+import { getTattoos } from "../lib/tattoos";
 
 const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
 const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
@@ -9,7 +9,7 @@ const t = useTranslations(locale);
 
 const PREVIEW_PER_STYLE = 3;
 
-const allTattoos = await getCollection("tattoos");
+const allTattoos = await getTattoos();
 const tattoos = allTattoos
   .filter((entry) => entry.data.locale === locale)
   .sort((a, b) => +b.data.date - +a.data.date);

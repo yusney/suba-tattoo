@@ -1,9 +1,9 @@
 ---
-import { getCollection } from "astro:content";
 import DetallePage from "../../components/pages/DetallePage.astro";
+import { getTattoos } from "../../lib/tattoos";
 
 export async function getStaticPaths() {
-  const all = await getCollection("tattoos");
+  const all = await getTattoos();
   const slugs = Array.from(new Set(all.map((e) => e.data.slug)));
   return slugs.map((slug) => ({ params: { slug } }));
 }

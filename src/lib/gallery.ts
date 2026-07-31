@@ -1,10 +1,10 @@
-import { getCollection } from "astro:content";
 import type { Locale } from "./i18n";
+import { getTattoos } from "./tattoos";
 
 export const GALLERY_PAGE_SIZE = 18;
 
 export async function getGalleryTattoos(locale: Locale) {
-  const allTattoos = await getCollection("tattoos");
+  const allTattoos = await getTattoos();
   return allTattoos
     .filter((entry) => entry.data.locale === locale)
     .sort((a, b) => +b.data.date - +a.data.date);
