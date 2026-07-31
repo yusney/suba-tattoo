@@ -4,7 +4,10 @@
     "process": "Process",
     "about": "Philosophy",
     "contact": "Contact",
-    "cta": "Request Consultation"
+    "cta": "Request Consultation",
+    "menu": "Menu",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
   },
   "switcher": {
     "label": "Language",

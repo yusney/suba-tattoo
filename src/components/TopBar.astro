@@ -62,7 +62,7 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
           aria-label={t("switcher.label")}
           aria-haspopup="true"
           aria-expanded="false"
-          class="flex h-12 items-center justify-center gap-2 border border-outline-variant px-4 font-label-sm text-label-sm uppercase tracking-wide md:tracking-widest text-on-surface-variant hover:border-primary hover:text-primary transition-colors touch-manipulation"
+          class="flex h-12 items-center justify-center gap-2 border border-outline-variant px-4 font-label-sm text-label-sm uppercase tracking-wide text-on-surface-variant transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary touch-manipulation md:tracking-widest"
         >
           <span class="font-bold">{localeLabels[locale].code}</span>
           <span class="material-symbols-outlined text-base" aria-hidden="true">expand_more</span>
@@ -72,7 +72,7 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
             <a
               href={switchLocale(target)}
               class:list={[
-                "flex items-center justify-between px-4 py-3 font-label-sm text-label-sm uppercase tracking-widest transition-colors",
+                "flex items-center justify-between px-4 py-3 font-label-sm text-label-sm uppercase tracking-widest transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary",
                 target === locale
                   ? "text-primary"
                   : "text-on-surface-variant hover:bg-surface-container-high hover:text-primary",
@@ -86,9 +86,112 @@ const localeLabels: Record<Locale, { code: string; name: string }> = {
         </div>
       </div>
       <a class="hidden h-12 items-center justify-center border border-transparent bg-primary px-5 font-label-sm text-label-sm uppercase tracking-wide md:tracking-widest text-on-primary transition-[background-color,color] hover:bg-on-background hover:text-surface md:inline-flex" href={ctaHref}>{t("nav.cta")}</a>
+      <button
+        type="button"
+        data-mobile-menu-trigger
+        aria-label={t("nav.open_menu")}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="flex h-12 w-12 items-center justify-center border border-outline-variant text-on-surface-variant transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary touch-manipulation md:hidden"
+      >
+        <span class="material-symbols-outlined text-2xl" aria-hidden="true">menu</span>
+      </button>
     </div>
   </div>
 </header>
+
+<div id="mobile-menu" class="fixed inset-0 z-[60] hidden md:hidden" aria-hidden="true">
+  <button
+    type="button"
+    data-mobile-menu-backdrop
+    aria-label={t("nav.close_menu")}
+    class="absolute inset-0 bg-surface/80 backdrop-blur-sm touch-manipulation"
+  ></button>
+  <aside
+    data-mobile-menu-panel
+    role="dialog"
+    aria-modal="true"
+    aria-label={t("nav.menu")}
+    class="absolute right-0 top-0 flex h-full w-[min(88vw,420px)] translate-x-full flex-col overflow-y-auto border-l border-primary/40 bg-surface-container-lowest px-6 pb-10 pt-6 shadow-2xl transition-transform duration-300 ease-out"
+  >
+    <div class="mb-14 flex items-center justify-between border-b border-outline-variant pb-5">
+      <span class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-primary">{t("nav.menu")}</span>
+      <button
+        type="button"
+        data-mobile-menu-close
+        aria-label={t("nav.close_menu")}
+        class="flex h-12 w-12 items-center justify-center border border-outline-variant text-on-surface-variant transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary touch-manipulation"
+      >
+        <span class="material-symbols-outlined text-2xl" aria-hidden="true">close</span>
+      </button>
+    </div>
+
+    <nav aria-label={t("nav.menu")} class="flex flex-col">
+      <a class="border-b border-outline-variant py-5 font-headline-md text-3xl uppercase tracking-tight text-on-surface transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary" href={galleryHref} data-mobile-menu-link>{t("nav.gallery")}</a>
+      <a class="border-b border-outline-variant py-5 font-headline-md text-3xl uppercase tracking-tight text-on-surface transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary" href={processHref} data-mobile-menu-link>{t("nav.process")}</a>
+      <a class="border-b border-outline-variant py-5 font-headline-md text-3xl uppercase tracking-tight text-on-surface transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary" href={filosofiaHref} data-mobile-menu-link>{t("nav.about")}</a>
+      <a class="border-b border-outline-variant py-5 font-headline-md text-3xl uppercase tracking-tight text-on-surface transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary" href={contactoHref} data-mobile-menu-link>{t("nav.contact")}</a>
+    </nav>
+
+    <a class="mt-auto flex min-h-14 items-center justify-center border border-transparent bg-primary px-5 py-4 text-center font-label-sm text-label-sm font-bold uppercase tracking-[0.2em] text-on-primary transition-[background-color,color] hover:bg-on-background hover:text-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary touch-manipulation" href={ctaHref} data-mobile-menu-link>{t("nav.cta")}</a>
+  </aside>
+</div>
+
+<script>
+  const mobileMenuTrigger = document.querySelector<HTMLButtonElement>("[data-mobile-menu-trigger]");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileMenuPanel = mobileMenu?.querySelector<HTMLElement>("[data-mobile-menu-panel]");
+  const mobileMenuClose = mobileMenu?.querySelector<HTMLButtonElement>("[data-mobile-menu-close]");
+  const mobileMenuBackdrop = mobileMenu?.querySelector<HTMLButtonElement>("[data-mobile-menu-backdrop]");
+  const mobileMenuLinks = mobileMenu
+    ? Array.from(mobileMenu.querySelectorAll<HTMLAnchorElement>("[data-mobile-menu-link]"))
+    : [];
+
+  if (mobileMenuTrigger && mobileMenu && mobileMenuPanel && mobileMenuClose && mobileMenuBackdrop) {
+    let lastFocusedElement: HTMLElement | null = null;
+
+    const setMobileMenuState = (isOpen: boolean, restoreFocus = true) => {
+      mobileMenuTrigger.setAttribute("aria-expanded", String(isOpen));
+      mobileMenu.setAttribute("aria-hidden", String(!isOpen));
+
+      if (isOpen) {
+        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : mobileMenuTrigger;
+        mobileMenu.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+        requestAnimationFrame(() => mobileMenuPanel.classList.remove("translate-x-full"));
+        mobileMenuClose.focus();
+        return;
+      }
+
+      mobileMenuPanel.classList.add("translate-x-full");
+      document.body.classList.remove("overflow-hidden");
+      window.setTimeout(() => mobileMenu.classList.add("hidden"), 300);
+
+      if (restoreFocus) {
+        (lastFocusedElement ?? mobileMenuTrigger).focus();
+      }
+    };
+
+    mobileMenuTrigger.addEventListener("click", () => {
+      setMobileMenuState(mobileMenuTrigger.getAttribute("aria-expanded") !== "true");
+    });
+    mobileMenuClose.addEventListener("click", () => setMobileMenuState(false));
+    mobileMenuBackdrop.addEventListener("click", () => setMobileMenuState(false));
+    mobileMenuLinks.forEach((link) => link.addEventListener("click", () => setMobileMenuState(false, false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mobileMenuTrigger.getAttribute("aria-expanded") === "true") {
+        setMobileMenuState(false);
+      }
+    });
+
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    desktopQuery.addEventListener("change", (event) => {
+      if (event.matches && mobileMenuTrigger.getAttribute("aria-expanded") === "true") {
+        setMobileMenuState(false, false);
+      }
+    });
+  }
+</script>
 
 {isLanding && (
   <script>

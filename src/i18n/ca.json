@@ -4,7 +4,10 @@
     "process": "Procés",
     "about": "Filosofia",
     "contact": "Contacte",
-    "cta": "Sol·licitar Valoració"
+    "cta": "Sol·licitar Valoració",
+    "menu": "Menú",
+    "open_menu": "Obrir menú",
+    "close_menu": "Tancar menú"
   },
   "switcher": {
     "label": "Idioma",
