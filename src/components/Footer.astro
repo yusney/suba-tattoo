@@ -29,7 +29,9 @@ const cookiesHref = locale === "en" ? localizePath("/cookies", "en") : locale ==
     <nav class="flex flex-wrap justify-center gap-8">
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={igHref} target="_blank" rel="noreferrer" aria-label={`Instagram @${igHandle}`}>@{igHandle}</a>
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={igLineHref} target="_blank" rel="noreferrer" aria-label={`Instagram @${igLineHandle}`}>@{igLineHandle}</a>
-      <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={waHref} target="_blank" rel="noreferrer">{t("footer.whatsapp")}</a>
+      {settings.whatsapp_number && (
+        <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={waHref} target="_blank" rel="noreferrer">{t("footer.whatsapp")}</a>
+      )}
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={ubicacionHref}>{t("footer.ubicacion")}</a>
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={privacidadHref}>{t("footer.privacidad")}</a>
       <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={cookiesHref}>{t("footer.cookies")}</a>

@@ -9,7 +9,6 @@ backend:
   name: github
   repo: yusney/suba-tattoo
   branch: main
-  base_url: https://suba.donduque.dev
   # Decap opens ${base_url}/${auth_endpoint} in a popup. The OAuth proxy then
   # handles the GitHub redirect at /admin/callback and posts the token back to
   # the opener using Decap's authorization handshake.

@@ -35,7 +35,7 @@ const pageTitle = currentPage > 1 ? `${t("gallery_page.title")} · ${currentPage
 const pageDescription = currentPage > 1
   ? `${t("gallery_page.subtitle")} (${currentPage})`
   : t("gallery_page.subtitle");
-const canonicalUrl = new URL(pageHref(currentPage), Astro.site?.origin ?? "https://subatattoo.com").toString();
+const canonicalUrl = Astro.site ? new URL(pageHref(currentPage), Astro.site.origin).toString() : undefined;
 ---
 
 <Layout title={pageTitle} description={pageDescription} canonical={canonicalUrl}>

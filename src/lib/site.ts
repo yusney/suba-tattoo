@@ -17,6 +17,26 @@ export interface SiteSettings {
   opening_hours?: string;
 }
 
+interface PublicEnvOverride {
+  configured: boolean;
+  value?: string;
+}
+
+function readPublicEnvOverride(value: string | undefined): PublicEnvOverride {
+  if (value === undefined) return { configured: false };
+
+  const normalized = value.trim();
+  if (!normalized || normalized.toLowerCase() === "false") {
+    return { configured: true };
+  }
+
+  return { configured: true, value: normalized };
+}
+
+const addressOverride = readPublicEnvOverride(import.meta.env.PUBLIC_BUSINESS_ADDRESS);
+const phoneOverride = readPublicEnvOverride(import.meta.env.PUBLIC_BUSINESS_PHONE);
+export const configuredSiteUrl = readPublicEnvOverride(import.meta.env.PUBLIC_SITE_URL).value;
+
 const cache = new Map<Locale, SiteSettings>();
 
 /**
@@ -32,8 +52,13 @@ export async function getSiteSettings(locale: Locale = DEFAULT_LOCALE): Promise<
     );
   }
   const data = entry.data as unknown as SiteSettings;
-  cache.set(locale, data);
-  return data;
+  const settings: SiteSettings = {
+    ...data,
+    ...(addressOverride.configured ? { address: addressOverride.value } : {}),
+    ...(phoneOverride.configured ? { whatsapp_number: phoneOverride.value } : {}),
+  };
+  cache.set(locale, settings);
+  return settings;
 }
 
 /**

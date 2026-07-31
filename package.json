@@ -24,5 +24,8 @@
       "@tailwindcss/oxide",
       "sharp"
     ]
+  },
+  "devDependencies": {
+    "vite": "^8.1.5"
   }
 }
