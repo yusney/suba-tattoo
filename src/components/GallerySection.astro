@@ -57,11 +57,11 @@ const previewByStyle = styles.map((style) => {
         <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
           {group.items.map((tattoo, idx) => {
             const isFeature = idx === 0 && tattoo.data.featured;
-            const wrapperClass = `group gallery-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high ${isFeature ? "md:col-span-2 md:aspect-[16/10]" : ""}`;
+            const wrapperClass = `group gallery-card relative aspect-square touch-manipulation overflow-hidden border border-outline-variant bg-surface-container-high ${isFeature ? "md:col-span-2 md:aspect-[16/10]" : ""}`;
             return (
               <a class={wrapperClass} data-idx={idx} href={detailHref(tattoo.data.slug)}>
                 <img
-                  class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  class="h-full w-full object-cover"
                   src={tattoo.data.image}
                   alt={tattoo.data.alt_text}
                   loading={isFeature ? "eager" : "lazy"}
@@ -105,3 +105,30 @@ const previewByStyle = styles.map((style) => {
 
   document.querySelectorAll<HTMLElement>(".gallery-card").forEach((el) => observer.observe(el));
 </script>
+
+<style>
+  .gallery-card img {
+    transition: filter 350ms ease-out, transform 350ms ease-out;
+  }
+
+  .gallery-card:active img {
+    transform: scale(0.98);
+  }
+
+  @media (min-width: 768px) {
+    .gallery-card img {
+      filter: grayscale(1);
+    }
+
+    .gallery-card:hover img {
+      filter: grayscale(0);
+      transform: scale(1.02);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-card img {
+      transition: none;
+    }
+  }
+</style>

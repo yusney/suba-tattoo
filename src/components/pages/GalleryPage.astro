@@ -44,6 +44,31 @@ const canonicalUrl = new URL(pageHref(currentPage), Astro.site?.origin ?? "https
     .gallery-page-card {
       clip-path: none;
     }
+
+    .gallery-page-card img {
+      transition: filter 350ms ease-out, transform 350ms ease-out;
+    }
+
+    .gallery-page-card:active img {
+      transform: scale(0.98);
+    }
+
+    @media (min-width: 768px) {
+      .gallery-page-card img {
+        filter: grayscale(1);
+      }
+
+      .gallery-page-card:hover img {
+        filter: grayscale(0);
+        transform: scale(1.02);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gallery-page-card img {
+        transition: none;
+      }
+    }
   </style>
   <TopBar />
   <main id="main" class="pt-24 scroll-mt-24">
@@ -81,12 +106,12 @@ const canonicalUrl = new URL(pageHref(currentPage), Astro.site?.origin ?? "https
       >
         {tattoos.map((tattoo, index) => (
           <a
-            class="group gallery-page-card relative aspect-square overflow-hidden border border-outline-variant bg-surface-container-high"
+            class="group gallery-page-card relative aspect-square touch-manipulation overflow-hidden border border-outline-variant bg-surface-container-high"
             href={detailHref(tattoo.data.slug)}
             data-style={tattoo.data.style}
           >
             <img
-              class="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-105 group-hover:grayscale-0"
+              class="h-full w-full object-cover"
               src={tattoo.data.image}
               alt={tattoo.data.alt_text}
               loading={index < 3 ? "eager" : "lazy"}
@@ -217,3 +242,30 @@ const canonicalUrl = new URL(pageHref(currentPage), Astro.site?.origin ?? "https
     endMessage.hidden = false;
   }
 </script>
+
+<style>
+  .gallery-page-card img {
+    transition: filter 350ms ease-out, transform 350ms ease-out;
+  }
+
+  .gallery-page-card:active img {
+    transform: scale(0.98);
+  }
+
+  @media (min-width: 768px) {
+    .gallery-page-card img {
+      filter: grayscale(1);
+    }
+
+    .gallery-page-card:hover img {
+      filter: grayscale(0);
+      transform: scale(1.02);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-page-card img {
+      transition: none;
+    }
+  }
+</style>

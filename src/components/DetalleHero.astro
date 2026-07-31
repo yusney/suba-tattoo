@@ -1,16 +1,134 @@
 ---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
+interface NavigationItem {
+  slug: string;
+  title: string;
+  style: string;
+  year: number;
+  href: string;
+}
+
 interface Props {
   image: string;
   alt: string;
+  prev: NavigationItem | null;
+  next: NavigationItem | null;
+  currentIndex: number;
+  totalItems: number;
 }
 
-const { image, alt } = Astro.props;
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+
+const { image, alt, prev, next, currentIndex, totalItems } = Astro.props as Props;
+const counter = `${String(currentIndex).padStart(2, "0")} / ${String(totalItems).padStart(2, "0")}`;
 ---
 
 <section class="w-full">
   <div class="mx-auto w-full max-w-container-max px-margin-mobile py-8 md:px-margin-desktop">
-    <div class="aspect-[16/9] w-full border border-outline-variant overflow-hidden relative">
-      <img class="w-full h-full object-cover" src={image} alt={alt} width="1280" height="720" />
+    <div class="detail-hero relative aspect-[4/5] w-full touch-pan-y overflow-hidden border border-outline-variant bg-black md:aspect-[16/9]" data-detail-hero>
+      <img class="detail-hero-image h-full w-full object-contain" src={image} alt={alt} width="1280" height="720" />
+
+      {prev && (
+        <a
+          class="detail-hero-control absolute left-2 top-1/2 z-10 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/65 px-3 text-white opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary hover:opacity-100 md:left-4 md:gap-2 md:px-4"
+          href={prev.href}
+          data-detail-prev
+          aria-label={`${t("detalle.prev")}: ${prev.title}`}
+        >
+          <span>
+            <span aria-hidden="true">←</span>
+            <span class="sr-only md:not-sr-only md:ml-2">{t("detalle.prev")}</span>
+            <span class="hidden max-w-32 truncate text-label-sm uppercase tracking-wider md:inline">{prev.title}</span>
+          </span>
+        </a>
+      )}
+
+      {next && (
+        <a
+          class="detail-hero-control absolute right-2 top-1/2 z-10 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center border border-white/30 bg-black/65 px-3 text-white opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary hover:opacity-100 md:right-4 md:gap-2 md:px-4"
+          href={next.href}
+          data-detail-next
+          aria-label={`${t("detalle.next")}: ${next.title}`}
+        >
+          <span>
+            <span class="hidden max-w-32 truncate text-label-sm uppercase tracking-wider md:inline">{next.title}</span>
+            <span class="sr-only md:not-sr-only md:mr-2">{t("detalle.next")}</span>
+            <span aria-hidden="true">→</span>
+          </span>
+        </a>
+      )}
+
+      <div class="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 border border-white/20 bg-black/65 px-3 py-1 font-label-sm text-label-sm tabular-nums tracking-widest text-white" aria-label={counter}>
+        {counter}
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes detailHeroEnter {
+    from {
+      opacity: 0;
+      transform: scale(0.995);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .detail-hero-image {
+    animation: detailHeroEnter 700ms ease-out both;
+  }
+
+  .detail-hero-control > span {
+    transition: transform 300ms ease-out;
+  }
+
+  .detail-hero-control:active > span {
+    transform: scale(0.98);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .detail-hero-image,
+    .detail-hero-control,
+    .detail-hero-control span {
+      animation: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>("[data-detail-hero]");
+  const previousLink = hero?.querySelector<HTMLAnchorElement>("[data-detail-prev]");
+  const nextLink = hero?.querySelector<HTMLAnchorElement>("[data-detail-next]");
+  const SWIPE_THRESHOLD = 52;
+
+  if (hero) {
+    let startX = 0;
+    let startY = 0;
+
+    hero.addEventListener("touchstart", (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      startX = touch.clientX;
+      startY = touch.clientY;
+    }, { passive: true });
+
+    hero.addEventListener("touchend", (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+      if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+      const destination = deltaX < 0 ? nextLink : previousLink;
+      destination?.click();
+    }, { passive: true });
+  }
+</script>

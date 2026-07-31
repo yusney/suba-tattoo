@@ -80,10 +80,15 @@ const reservaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva
       pieceNumber={pieceNumber}
       style={data.style}
       year={data.year}
+    />
+    <DetalleHero
+      image={data.image}
+      alt={data.alt_text}
       prev={prevLink}
       next={nextLink}
+      currentIndex={idx + 1}
+      totalItems={localeTattoos.length}
     />
-    <DetalleHero image={data.image} alt={data.alt_text} />
     <section class="mx-auto w-full max-w-container-max px-margin-mobile mb-12 md:px-margin-desktop md:mb-section-gap">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         <div class="lg:col-span-8">
