@@ -17,25 +17,18 @@ export interface SiteSettings {
   opening_hours?: string;
 }
 
-interface PublicEnvOverride {
-  configured: boolean;
-  value?: string;
-}
-
-function readPublicEnvOverride(value: string | undefined): PublicEnvOverride {
-  if (value === undefined) return { configured: false };
+function readConfiguredSiteUrl(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
 
   const normalized = value.trim();
   if (!normalized || normalized.toLowerCase() === "false") {
-    return { configured: true };
+    return undefined;
   }
 
-  return { configured: true, value: normalized };
+  return normalized;
 }
 
-const addressOverride = readPublicEnvOverride(import.meta.env.PUBLIC_BUSINESS_ADDRESS);
-const phoneOverride = readPublicEnvOverride(import.meta.env.PUBLIC_BUSINESS_PHONE);
-export const configuredSiteUrl = readPublicEnvOverride(import.meta.env.PUBLIC_SITE_URL).value;
+export const configuredSiteUrl = readConfiguredSiteUrl(import.meta.env.PUBLIC_SITE_URL);
 
 const cache = new Map<Locale, SiteSettings>();
 
@@ -51,12 +44,7 @@ export async function getSiteSettings(locale: Locale = DEFAULT_LOCALE): Promise<
       `[site.ts] Missing src/content/settings/${locale}.json — the site_settings collection has no entry for locale "${locale}".`,
     );
   }
-  const data = entry.data as unknown as SiteSettings;
-  const settings: SiteSettings = {
-    ...data,
-    ...(addressOverride.configured ? { address: addressOverride.value } : {}),
-    ...(phoneOverride.configured ? { whatsapp_number: phoneOverride.value } : {}),
-  };
+  const settings = entry.data as unknown as SiteSettings;
   cache.set(locale, settings);
   return settings;
 }
