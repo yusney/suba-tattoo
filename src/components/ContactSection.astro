@@ -36,24 +36,19 @@ const errorStrings = {
   privacy_required: t("form_gdpr.privacy_required_error"),
 };
 
-// GDPR/LOPDGDD first-layer + privacy consent. Read tax_id, address, and
-// policy_version from the site_settings content collection so the
-// consent record travels with each submission.
+// GDPR/LOPDGDD compact first-layer + privacy consent. Read tax_id and
+// policy_version from site_settings so the consent record travels with
+// each submission. The detailed fields (address, recipients, retention,
+// etc.) live in /privacidad — the form only carries the three minimum
+// pieces required by Art. 11.1 LOPDGDD inline: controller, purpose +
+// legal basis, link to the full policy.
 const settings = await getSiteSettings(locale);
 const taxId = settings.tax_id ?? "[NIF/CIF pendiente]";
-const address = settings.address ?? "";
 const policyVersion = settings.policy_version ?? "v1.0";
 const privacyLink = locale === DEFAULT_LOCALE ? "/privacidad" : `/${locale}/privacidad`;
 
 const gdprStrings = {
-  info_title: t("form_gdpr.info_title"),
-  info_responsible: t("form_gdpr.info_responsible", { tax_id: taxId }),
-  info_address: t("form_gdpr.info_address", { address }),
-  info_purpose: t("form_gdpr.info_purpose"),
-  info_legitimation: t("form_gdpr.info_legitimation"),
-  info_recipients: t("form_gdpr.info_recipients"),
-  info_rights: t("form_gdpr.info_rights"),
-  info_extra: t("form_gdpr.info_extra"),
+  info_compact: t("form_gdpr.info_compact", { tax_id: taxId }),
   privacy_aria: t("form_gdpr.privacy_aria"),
   privacy_label: t("form_gdpr.privacy_label"),
   privacy_link_text: t("form_gdpr.privacy_link_text"),
@@ -102,25 +97,17 @@ const gdprStrings = {
         ></div>
       </div>
 
-      <!-- GDPR/LOPDGDD first-layer + privacy consent. Art. 13 RGPD and
-           Art. 11 LOPDGDD require an explicit consent BEFORE any personal
-           data is sent. Server-side rejection is the authoritative gate;
-           this UI gives the user a clear checkbox + the mandatory
-           first-layer information block. -->
+      <!-- GDPR/LOPDGDD compact first-layer + privacy consent. Art. 13 RGPD
+           and Art. 11 LOPDGDD require an explicit consent BEFORE any
+           personal data is sent. Inline we carry the three minimum
+           pieces (controller + purpose/legal basis + link to the full
+           policy). The full detail (address, recipients, retention,
+           rights, security measures) lives in /privacidad. -->
       <input type="hidden" name="policy_version" value={policyVersion} />
-      <fieldset class="md:col-span-2 mt-4 border border-outline-variant p-6 text-sm text-on-surface-variant">
-        <legend class="px-2 font-label-sm text-label-sm uppercase tracking-widest text-on-surface">{gdprStrings.info_title}</legend>
-        <p class="mb-1">{gdprStrings.info_responsible}</p>
-        <p class="mb-1">{gdprStrings.info_address}</p>
-        <p class="mb-1">{gdprStrings.info_purpose}</p>
-        <p class="mb-1">{gdprStrings.info_legitimation}</p>
-        <p class="mb-1">{gdprStrings.info_recipients}</p>
-        <p class="mb-1">{gdprStrings.info_rights}</p>
-        <p class="mb-1">
-          <Fragment set:html={gdprStrings.info_extra
-            .replace("{privacy_link}", `<a href="${privacyLink}" class="text-primary underline-offset-4 hover:underline">${gdprStrings.privacy_link_text}</a>`)} />
-        </p>
-      </fieldset>
+      <p class="md:col-span-2 mt-4 text-xs whitespace-pre-line text-on-surface-variant leading-relaxed">
+        <Fragment set:html={gdprStrings.info_compact
+          .replace("{privacy_link}", `<a href="${privacyLink}" class="text-primary underline-offset-4 hover:underline">${gdprStrings.privacy_link_text}</a>`)} />
+      </p>
       <label class="md:col-span-2 flex items-start gap-3 mt-4 text-sm text-on-surface-variant">
         <input
           type="checkbox"
