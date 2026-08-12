@@ -167,6 +167,15 @@
   gap: 24px;
 }
 
+.icon-filled {
+  /* Filled variant of material-symbols-outlined. Kept as an unlayered
+   * utility so it wins the cascade against the unlayered base rule
+   * above (a Tailwind utility in @layer utilities would lose). All four
+   * axes are set explicitly so the rendered glyph does not depend on
+   * the font's own defaults for wght/GRAD/opsz. */
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
 /* ========== Motion keyframes & utilities ========== */
 @keyframes heroEnter {
   from {
