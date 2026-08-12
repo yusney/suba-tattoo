@@ -118,6 +118,11 @@ function respondCallback(response, status, message) {
 }
 
 async function readBody(request) {
+  // Decode each chunk as UTF-8 BEFORE concatenation. Without this, Node
+  // delivers Buffer chunks that we coerce to string via `body += chunk`,
+  // and multi-byte chars (á é ñ ç ...) split across chunk boundaries are
+  // corrupted by the default decoder.
+  request.setEncoding("utf8");
   let body = "";
   for await (const chunk of request) {
     body += chunk;
