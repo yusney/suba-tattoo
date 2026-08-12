@@ -24,7 +24,7 @@ const sobreEntry = await getEntry("sobre", locale);
 if (!sobreEntry) {
   throw new Error(`[SobrePage] Missing src/content/sobre/${locale}.json`);
 }
-const sobre = sobreEntry.data as any;
+const sobre = sobreEntry.data;
 
 const t = useTranslations(locale);
 const settings = await getSiteSettings(locale);
