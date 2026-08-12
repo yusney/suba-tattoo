@@ -15,8 +15,18 @@ const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL;
 const RESEND_API_URL = "https://api.resend.com/emails";
 const REQUEST_BODY_LIMIT = 16_384;
-// Per-IP sliding-window rate limit for POST /api/contact. OAuth routes are
-// intentionally NOT rate-limited here.
+// Per-IP sliding-window rate limit for POST /api/contact. OAuth routes
+// (`/auth`, `/auth/authorize`, `/auth/callback`) are intentionally EXEMPT
+// because:
+//   1. The OAuth handshake is browser-mediated and short-lived (one GET to
+//      /auth, one callback redirect to /admin/callback). A real user can
+//      retry safely; an attacker has no incentive to spam these routes
+//      because they don't yield anything useful (no email, no DB write).
+//   2. State validation in pruneStates() already expires unused entries
+//      after STATE_TTL_MS (5 min), bounding memory growth.
+//   3. Rate-limiting the callback would block legitimate users behind
+//      flaky proxies / corporate gateways that retry the OAuth round-trip.
+// If abuse appears on /auth, add a separate coarse-grained throttle.
 const CONTACT_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const CONTACT_RATE_LIMIT_MAX = 5;
 /**
