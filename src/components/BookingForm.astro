@@ -122,7 +122,7 @@ const gdprStrings = {
              policy). The full detail (address, recipients, retention,
              rights, security measures) lives in /privacidad. -->
         <input type="hidden" name="policy_version" value={policyVersion} />
-        <p class="mt-4 text-xs text-on-surface-variant leading-relaxed" style="white-space: pre-line;">
+        <p class="mt-4 text-xs whitespace-pre-line text-on-surface-variant leading-relaxed">
           <Fragment set:html={gdprStrings.info_compact
             .replace("{privacy_link}", `<a href="${privacyLink}" class="text-primary underline-offset-4 hover:underline">${gdprStrings.privacy_link_text}</a>`)} />
         </p>
