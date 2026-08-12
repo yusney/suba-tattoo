@@ -270,6 +270,8 @@ const errorStrings = {
             }
             const first = details.find((d) => typeof d.field === "string");
             if (first) focusField(first.field);
+          } else {
+            showToast(errorStrings.invalid, "error");
           }
         } else {
           showToast(strings.error_server, "error");
