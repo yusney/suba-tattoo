@@ -9,6 +9,7 @@ export const LOCALES: Locale[] = ["es", "en", "ca"];
 
 export type Translator = ((key: string) => string) & {
   array: (key: string) => string[];
+  arrayObjects: <T>(key: string) => T[];
 };
 
 export function useTranslations(locale: Locale | string | undefined): Translator {
@@ -32,6 +33,11 @@ export function useTranslations(locale: Locale | string | undefined): Translator
   t.array = (key: string): string[] => {
     const value = resolve(key);
     return Array.isArray(value) ? (value as unknown[]).map((v) => String(v)) : [];
+  };
+
+  t.arrayObjects = <T>(key: string): T[] => {
+    const value = resolve(key);
+    return Array.isArray(value) ? (value as T[]) : [];
   };
 
   return t as Translator;
