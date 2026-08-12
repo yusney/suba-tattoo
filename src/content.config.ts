@@ -168,6 +168,8 @@ const site_settings = defineCollection({
     instagram_url_secondary: z.string().url().optional(),
     whatsapp_number: z.string().optional(),
     address: z.string().optional(),
+    tax_id: z.string().default("[NIF/CIF pendiente]"),
+    policy_version: z.string().default("v1.0-2026-08-12"),
     hero_headline_line_1: z.string(),
     hero_headline_line_2_stroke: z.string(),
     hero_subtitle: z.string(),

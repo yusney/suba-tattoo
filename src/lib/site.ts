@@ -10,6 +10,8 @@ export interface SiteSettings {
   instagram_url_secondary?: string;
   whatsapp_number?: string;
   address?: string;
+  tax_id?: string;
+  policy_version?: string;
   hero_headline_line_1: string;
   hero_headline_line_2_stroke: string;
   hero_subtitle: string;

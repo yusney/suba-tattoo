@@ -537,6 +537,24 @@ async function handleContact(request, response, requestId) {
     return respond(response, 400, JSON.stringify({ error: "invalid_request", details: [{ reason: "unknown_form_kind" }] }), "application/json");
   }
 
+  // =====================================================================
+  // GDPR/LOPDGDD consent gate (Art. 13 RGPD + Art. 11 LOPDGDD).
+  // The privacy_accepted boolean must be explicitly true — anything else
+  // (missing, false, "false", null, undefined) is rejected. This is the
+  // authoritative gate; the client-side checkbox is for UX only.
+  // Placed BEFORE validateContactPayload so a privacy rejection does not
+  // leak field-level detail (a privacy violation is not per-field).
+  // =====================================================================
+  const privacyAccepted = parsed["privacy_accepted"];
+  if (privacyAccepted !== true) {
+    logEvent("contact_privacy_rejected", {
+      requestId,
+      kind,
+      rawValue: sanitizeLogValue(typeof privacyAccepted === "string" ? privacyAccepted : JSON.stringify(privacyAccepted)),
+    });
+    return respond(response, 400, JSON.stringify({ error: "privacy_required" }), "application/json");
+  }
+
   const errors = validateContactPayload(kind, parsed);
   if (errors.length > 0) {
     logEvent("contact_invalid_request", {
@@ -606,6 +624,20 @@ async function handleContact(request, response, requestId) {
     }
     logEvent("contact_captcha_verified", { requestId });
   }
+
+  // =====================================================================
+  // GDPR consent evidence (RGPD Art. 5.2 + LOPDGDD Art. 24).
+  // Once we have a verified captcha + the privacy checkbox ticked, log
+  // a durable record of the consent: which policy version, when, from
+  // which IP, for which kind. This is the on-disk trail the AEPD would
+  // ask for if they ever audit a complaint.
+  // =====================================================================
+  logEvent("consent_recorded", {
+    requestId,
+    kind,
+    policy_version: sanitizeLogValue(typeof parsed["policy_version"] === "string" ? parsed["policy_version"] : String(parsed["policy_version"] ?? "")),
+    ip: sanitizeLogValue(getClientIp(request)),
+  });
 
   if (honeypotTripped(kind, parsed)) {
     // Silently accept. Do not log as an error — don't tip off spammers.

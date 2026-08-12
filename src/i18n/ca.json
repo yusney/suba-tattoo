@@ -351,5 +351,19 @@
     "error_invalid": "Revisa els camps i torna-ho a provar.",
     "error_network": "No s'ha pogut enviar. Torna-ho a provar.",
     "error_server": "El servidor no està disponible ara."
+  },
+  "form_gdpr": {
+    "info_title": "Informació bàsica sobre Protecció de Dades",
+    "info_responsible": "Responsable: SUBA TATTOO — Joshua Jiménez Buendía (NIF/CIF: {tax_id})",
+    "info_address": "Domicili: {address}",
+    "info_purpose": "Finalitat: Gestionar la teva consulta, valoració del projecte i, si escau, reserva de cita.",
+    "info_legitimation": "Legitimació: El teu consentiment exprés en enviar aquest formulari.",
+    "info_recipients": "Destinataris: No es cediran dades a tercers, excepte per obligació legal o a proveïdors de hosting i correu electrònic (encarregats del tractament).",
+    "info_rights": "Drets: Accedir, rectificar, suprimir i altres drets, tal com s'explica a la informació addicional.",
+    "info_extra": "Informació addicional: consulta-la a la nostra {privacy_link}.",
+    "privacy_aria": "Casella obligatòria per acceptar la política de privacitat",
+    "privacy_label": "He llegit i accepto la {privacy_link}.",
+    "privacy_link_text": "Política de Privacitat",
+    "privacy_required_error": "Has d'acceptar la Política de Privacitat per continuar."
   }
 }
