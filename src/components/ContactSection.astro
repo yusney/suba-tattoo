@@ -1,6 +1,7 @@
 ---
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
+import { getSiteSettings } from "../lib/site";
 
 const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
 const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
@@ -32,6 +33,32 @@ const errorStrings = {
   phone_format: t("form_errors.phone_format"),
   too_long: t("form_errors.too_long"),
   invalid: t("form_errors.invalid"),
+  privacy_required: t("form_gdpr.privacy_required_error"),
+};
+
+// GDPR/LOPDGDD first-layer + privacy consent. Read tax_id, address, and
+// policy_version from the site_settings content collection so the
+// consent record travels with each submission.
+const settings = await getSiteSettings(locale);
+const taxId = settings.tax_id ?? "[NIF/CIF pendiente]";
+const address = settings.address ?? "";
+const policyVersion = settings.policy_version ?? "v1.0";
+const privacyLink = locale === DEFAULT_LOCALE ? "/privacidad" : `/${locale}/privacidad`;
+
+const gdprStrings = {
+  info_title: t("form_gdpr.info_title"),
+  info_responsible: t("form_gdpr.info_responsible", { tax_id: taxId }),
+  info_address: t("form_gdpr.info_address", { address }),
+  info_purpose: t("form_gdpr.info_purpose"),
+  info_legitimation: t("form_gdpr.info_legitimation"),
+  info_recipients: t("form_gdpr.info_recipients"),
+  info_rights: t("form_gdpr.info_rights"),
+  info_extra: t("form_gdpr.info_extra"),
+  privacy_aria: t("form_gdpr.privacy_aria"),
+  privacy_label: t("form_gdpr.privacy_label"),
+  privacy_link_text: t("form_gdpr.privacy_link_text"),
+  privacy_required_error: t("form_gdpr.privacy_required_error"),
+  privacy_link_href: privacyLink,
 };
 ---
 
@@ -41,7 +68,7 @@ const errorStrings = {
       <h2 class="mb-6 text-3xl font-headline-lg uppercase md:mb-8 md:text-headline-lg">{t("contact.title")}</h2>
       <p class="text-body-lg font-body-lg text-on-surface-variant text-justify leading-relaxed md:text-left">{t("contact.subtitle")}</p>
     </div>
-    <form data-contact-form data-strings={JSON.stringify(statusStrings)} data-errors={JSON.stringify(errorStrings)} novalidate class="grid gap-8 md:grid-cols-2">
+    <form data-contact-form data-strings={JSON.stringify(statusStrings)} data-errors={JSON.stringify(errorStrings)} data-gdpr={JSON.stringify(gdprStrings)} novalidate class="grid gap-8 md:grid-cols-2">
       {fields.map((f) => (
         <div class="space-y-2">
           <label for={f.name} class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{f.label}</label>
@@ -74,6 +101,44 @@ const errorStrings = {
           data-callback="onContactTurnstileSuccess"
         ></div>
       </div>
+
+      <!-- GDPR/LOPDGDD first-layer + privacy consent. Art. 13 RGPD and
+           Art. 11 LOPDGDD require an explicit consent BEFORE any personal
+           data is sent. Server-side rejection is the authoritative gate;
+           this UI gives the user a clear checkbox + the mandatory
+           first-layer information block. -->
+      <input type="hidden" name="policy_version" value={policyVersion} />
+      <fieldset class="md:col-span-2 mt-4 border border-outline-variant p-6 text-sm text-on-surface-variant">
+        <legend class="px-2 font-label-sm text-label-sm uppercase tracking-widest text-on-surface">{gdprStrings.info_title}</legend>
+        <p class="mb-1">{gdprStrings.info_responsible}</p>
+        <p class="mb-1">{gdprStrings.info_address}</p>
+        <p class="mb-1">{gdprStrings.info_purpose}</p>
+        <p class="mb-1">{gdprStrings.info_legitimation}</p>
+        <p class="mb-1">{gdprStrings.info_recipients}</p>
+        <p class="mb-1">{gdprStrings.info_rights}</p>
+        <p class="mb-1">
+          <Fragment set:html={gdprStrings.info_extra
+            .replace("{privacy_link}", `<a href="${privacyLink}" class="text-primary underline-offset-4 hover:underline">${gdprStrings.privacy_link_text}</a>`)} />
+        </p>
+      </fieldset>
+      <label class="md:col-span-2 flex items-start gap-3 mt-4 text-sm text-on-surface-variant">
+        <input
+          type="checkbox"
+          name="privacy_accepted"
+          id="privacy-accepted-contact"
+          value="true"
+          required
+          aria-required="true"
+          aria-describedby="privacy-error-contact"
+          aria-invalid="false"
+          class="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-primary"
+        />
+        <span class="font-label-sm text-label-sm text-on-surface leading-snug">
+          <Fragment set:html={gdprStrings.privacy_label
+            .replace("{privacy_link}", `<a href="${privacyLink}" class="text-primary underline-offset-4 hover:underline">${gdprStrings.privacy_link_text}</a>`)} />
+        </span>
+      </label>
+      <p id="privacy-error-contact" data-privacy-error class="md:col-span-2 hidden font-label-sm text-[10px] uppercase text-error mt-1" role="alert"></p>
 
       <div class="mt-8 flex flex-col items-center gap-4 md:col-span-2">
         <button data-contact-submit class="border border-primary bg-primary px-16 py-5 text-label-sm font-label-sm font-bold uppercase tracking-[0.3em] text-on-primary transition-[background-color,color,border-color] hover:bg-transparent hover:text-primary touch-manipulation disabled:cursor-not-allowed disabled:opacity-50" type="submit">
@@ -122,6 +187,10 @@ const errorStrings = {
     too_long: string;
     invalid: string;
   };
+  type GdprStrings = {
+    privacy_required_error: string;
+    privacy_link_href: string;
+  };
 
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   const submit = document.querySelector<HTMLButtonElement>("[data-contact-submit]");
@@ -138,6 +207,13 @@ const errorStrings = {
       errorStrings = JSON.parse(form.dataset.errors ?? "{}") as ErrorStrings;
     } catch {
       errorStrings = { required: "Este campo es obligatorio.", email_format: "Email inválido.", phone_format: "Teléfono inválido.", too_long: "Máximo {max} caracteres.", invalid: "Revisá este campo." };
+    }
+
+    let gdprStrings: GdprStrings;
+    try {
+      gdprStrings = JSON.parse(form.dataset.gdpr ?? "{}") as GdprStrings;
+    } catch {
+      gdprStrings = { privacy_required_error: "Debes aceptar la Política de Privacidad para continuar.", privacy_link_href: "/privacidad" };
     }
 
     const labelEl = submit.querySelector<HTMLElement>("[data-submit-label]");
@@ -220,9 +296,40 @@ const errorStrings = {
       input.addEventListener("change", handler);
     });
 
+    // GDPR/LOPDGDD: client-side gate for the privacy checkbox. The
+    // server is the authoritative gate (handleContact rejects 400 if
+    // privacy_accepted !== true) but we block the submit here for UX so
+    // the user sees an inline field error instead of a server round-trip.
+    const privacyCheckbox = form.querySelector<HTMLInputElement>("input[name=\"privacy_accepted\"]");
+    const privacyErrorEl = form.querySelector<HTMLElement>("[data-privacy-error]");
+    const setPrivacyError = (msg: string): void => {
+      if (!privacyCheckbox || !privacyErrorEl) return;
+      privacyCheckbox.setAttribute("aria-invalid", "true");
+      privacyErrorEl.textContent = msg;
+      privacyErrorEl.classList.remove("hidden");
+    };
+    const clearPrivacyError = (): void => {
+      if (!privacyCheckbox || !privacyErrorEl) return;
+      privacyCheckbox.removeAttribute("aria-invalid");
+      privacyErrorEl.textContent = "";
+      privacyErrorEl.classList.add("hidden");
+    };
+    privacyCheckbox?.addEventListener("change", () => {
+      if (privacyCheckbox.checked) clearPrivacyError();
+    });
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (state === "sending") return;
+
+      // Privacy gate (Art. 13 RGPD + Art. 11 LOPDGDD)
+      if (privacyCheckbox && !privacyCheckbox.checked) {
+        setPrivacyError(gdprStrings.privacy_required_error);
+        privacyCheckbox.focus();
+        return;
+      }
+      clearPrivacyError();
+
       const formData = new FormData(form);
       const payload = {
         form: "contact" as const,
@@ -233,6 +340,8 @@ const errorStrings = {
         description: String(formData.get("description") ?? ""),
         website: String(formData.get("website") ?? ""),
         "cf-turnstile-response": String(formData.get("cf-turnstile-response") ?? ""),
+        privacy_accepted: privacyCheckbox?.checked ?? false,
+        policy_version: String(formData.get("policy_version") ?? ""),
       };
 
       const clientErrors = validateContact(payload);
@@ -257,6 +366,7 @@ const errorStrings = {
         if (res.ok) {
           form.reset();
           clearAllFieldErrors();
+          clearPrivacyError();
           showToast(strings.success, "success");
           // Turnstile tokens are single-use — regenerate so a second submit
           // (e.g., user wants to send another message) gets a fresh token.
@@ -282,7 +392,19 @@ const errorStrings = {
             const first = details.find((d) => typeof d.field === "string");
             if (first) focusField(first.field);
           } else {
-            showToast(errorStrings.invalid, "error");
+            // Server returned 400 with no field-level details — likely a
+            // privacy_required / captcha_required / captcha_misconfigured.
+            // Surface the privacy error if the server complained about
+            // privacy; otherwise show the generic toast.
+            const errorCode = (data && typeof data === "object" && "error" in data)
+              ? String((data as { error?: unknown }).error)
+              : "";
+            if (errorCode === "privacy_required") {
+              setPrivacyError(gdprStrings.privacy_required_error);
+              if (privacyCheckbox) privacyCheckbox.focus();
+            } else {
+              showToast(errorStrings.invalid, "error");
+            }
           }
         } else {
           showToast(strings.error_server, "error");
