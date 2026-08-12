@@ -311,6 +311,20 @@ async function handleCallback(url, response, requestId) {
 const FORBIDDEN_PAYLOAD_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// mirrors src/lib/forms.ts (sidecar is plain Node, no TS transpilation)
+const PHONE_STRIP_RE = /[\s+\-()]/g;
+const PHONE_DIGIT_RE = /\d/g;
+function isValidPhone(value) {
+  const stripped = value.replace(PHONE_STRIP_RE, "");
+  const digitCount = (stripped.match(PHONE_DIGIT_RE) ?? []).length;
+  return digitCount >= 6;
+}
+function isValidDateString(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+  return !Number.isNaN(Date.parse(trimmed));
+}
+
 const CONTACT_FIELD_CONFIG = {
   contact: {
     required: ["name", "email"],
@@ -382,6 +396,15 @@ function validateContactPayload(kind, payload) {
 
   if (typeof payload.email === "string" && payload.email.trim() && !EMAIL_REGEX.test(payload.email.trim())) {
     if (!errors.some(e => e.field === "email")) errors.push({ field: "email", reason: "invalid_format" });
+  }
+
+  if (kind === "booking") {
+    if (typeof payload.telefono === "string" && payload.telefono.trim() && !isValidPhone(payload.telefono)) {
+      if (!errors.some(e => e.field === "telefono")) errors.push({ field: "telefono", reason: "invalid_format" });
+    }
+    if (typeof payload.fecha === "string" && payload.fecha.trim() && !isValidDateString(payload.fecha)) {
+      if (!errors.some(e => e.field === "fecha")) errors.push({ field: "fecha", reason: "invalid_format" });
+    }
   }
 
   return errors;
