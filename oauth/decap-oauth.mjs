@@ -547,6 +547,66 @@ async function handleContact(request, response, requestId) {
     return respond(response, 400, JSON.stringify({ error: "invalid_request", details: errors }), "application/json");
   }
 
+  // =====================================================================
+  // Cloudflare Turnstile verification — server-side check that the
+  // submission came from a real browser, not a bot. Defense-in-depth
+  // alongside the honeypot (silent 200) and the per-IP rate limit.
+  // Sits AFTER payload validation (don't waste a Cloudflare round-trip
+  // on garbage) but BEFORE the honeypot (so a captcha rejection is not
+  // masked as a silent 200).
+  // =====================================================================
+  const captchaToken = typeof parsed["cf-turnstile-response"] === "string"
+    ? parsed["cf-turnstile-response"]
+    : "";
+
+  if (!captchaToken) {
+    logEvent("contact_captcha_missing", { requestId });
+    return respond(response, 400, JSON.stringify({ error: "captcha_required" }), "application/json");
+  }
+
+  const captchaSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (!captchaSecret) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("[handleContact] TURNSTILE_SECRET_KEY missing in production — rejecting all submissions for safety");
+      return respond(response, 503, JSON.stringify({ error: "captcha_misconfigured" }), "application/json");
+    }
+    console.warn("[handleContact] TURNSTILE_SECRET_KEY not set, skipping captcha verification (dev mode)");
+  } else {
+    let verifyRes;
+    try {
+      verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: captchaSecret,
+          response: captchaToken,
+          remoteip: getClientIp(request),
+        }),
+      });
+    } catch (error) {
+      logEvent("contact_captcha_unreachable", {
+        requestId,
+        errorType: error instanceof Error ? error.name : "UnknownError",
+      });
+      return respond(response, 502, JSON.stringify({ error: "captcha_verify_failed" }), "application/json");
+    }
+
+    if (!verifyRes.ok) {
+      logEvent("contact_captcha_verify_http_error", { requestId, status: verifyRes.status });
+      return respond(response, 502, JSON.stringify({ error: "captcha_verify_failed" }), "application/json");
+    }
+
+    const verifyData = await verifyRes.json().catch(() => ({}));
+    if (!verifyData.success) {
+      logEvent("contact_captcha_rejected", {
+        requestId,
+        errors: sanitizeLogValue(JSON.stringify(verifyData["error-codes"] ?? [])),
+      });
+      return respond(response, 403, JSON.stringify({ error: "captcha_rejected" }), "application/json");
+    }
+    logEvent("contact_captcha_verified", { requestId });
+  }
+
   if (honeypotTripped(kind, parsed)) {
     // Silently accept. Do not log as an error — don't tip off spammers.
     return respond(response, 200, JSON.stringify({ ok: true }), "application/json");
