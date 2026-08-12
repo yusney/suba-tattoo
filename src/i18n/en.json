@@ -351,5 +351,19 @@
     "error_invalid": "Please check the fields and try again.",
     "error_network": "Could not send. Please try again.",
     "error_server": "The server is currently unavailable."
+  },
+  "form_gdpr": {
+    "info_title": "Basic Information on Data Protection",
+    "info_responsible": "Controller: SUBA TATTOO — Joshua Jiménez Buendía (Tax ID: {tax_id})",
+    "info_address": "Address: {address}",
+    "info_purpose": "Purpose: To manage your inquiry, project assessment and, where applicable, appointment booking.",
+    "info_legitimation": "Legal basis: Your explicit consent by submitting this form.",
+    "info_recipients": "Recipients: No data will be disclosed to third parties, except under legal obligation or to hosting/email providers acting as data processors.",
+    "info_rights": "Rights: Access, rectification, erasure and other rights, as detailed in the additional information.",
+    "info_extra": "Additional information: see our {privacy_link}.",
+    "privacy_aria": "Required checkbox to accept the privacy policy",
+    "privacy_label": "I have read and accept the {privacy_link}.",
+    "privacy_link_text": "Privacy Policy",
+    "privacy_required_error": "You must accept the Privacy Policy to continue."
   }
 }
