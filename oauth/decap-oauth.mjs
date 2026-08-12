@@ -77,7 +77,12 @@ function stripIpv6Scope(ip) {
 }
 
 function getClientIp(request) {
-  // X-Forwarded-For may be missing or spoofed; fall back to socket address.
+  // Trust the X-Forwarded-For first hop. The sidecar listens on 127.0.0.1
+  // inside the container, so only the upstream proxy (nginx in front of the
+  // site, which sets X-Forwarded-For itself before proxying to the sidecar)
+  // can reach it. Direct external XFF spoofing is impossible because the
+  // sidecar isn't internet-facing. Fall back to socket.remoteAddress if
+  // the header is missing (e.g., during local `astro dev` with vite proxy).
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
     const first = forwarded.split(",")[0]?.trim();
