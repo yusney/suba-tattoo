@@ -330,5 +330,26 @@
     "category_marketing_desc": "Utilizadas para mostrarte anuncios personalizados. Actualmente no se utilizan.",
     "always_active": "Siempre activas",
     "open_settings": "Configurar cookies"
+  },
+  "form_errors": {
+    "required": "Este campo es obligatorio.",
+    "email_format": "Email inválido (ej: nombre@ejemplo.com).",
+    "phone_format": "Teléfono inválido.",
+    "too_long": "Máximo {max} caracteres.",
+    "invalid": "Revisá este campo."
+  },
+  "contact_form": {
+    "sending": "Enviando...",
+    "success": "Mensaje enviado. Te respondo pronto.",
+    "error_invalid": "Revisá los campos e intentá de nuevo.",
+    "error_network": "No se pudo enviar. Intentá de nuevo.",
+    "error_server": "El servidor no está disponible ahora."
+  },
+  "booking_form": {
+    "sending": "Enviando...",
+    "success": "Solicitud enviada. Te respondo en menos de 48 horas.",
+    "error_invalid": "Revisá los campos e intentá de nuevo.",
+    "error_network": "No se pudo enviar. Intentá de nuevo.",
+    "error_server": "El servidor no está disponible ahora."
   }
 }

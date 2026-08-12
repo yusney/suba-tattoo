@@ -330,5 +330,26 @@
     "category_marketing_desc": "Used to show you personalised ads. Currently not in use.",
     "always_active": "Always active",
     "open_settings": "Configure cookies"
+  },
+  "form_errors": {
+    "required": "This field is required.",
+    "email_format": "Invalid email (e.g. name@example.com).",
+    "phone_format": "Invalid phone number.",
+    "too_long": "Maximum {max} characters.",
+    "invalid": "Please review this field."
+  },
+  "contact_form": {
+    "sending": "Sending...",
+    "success": "Message sent. We'll get back to you soon.",
+    "error_invalid": "Please check the fields and try again.",
+    "error_network": "Could not send. Please try again.",
+    "error_server": "The server is currently unavailable."
+  },
+  "booking_form": {
+    "sending": "Sending...",
+    "success": "Request sent. We'll get back to you within 48 hours.",
+    "error_invalid": "Please check the fields and try again.",
+    "error_network": "Could not send. Please try again.",
+    "error_server": "The server is currently unavailable."
   }
 }

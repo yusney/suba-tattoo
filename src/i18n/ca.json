@@ -330,5 +330,26 @@
     "category_marketing_desc": "Utilitzades per mostrar-te anuncis personalitzats. Actualment no s'utilitzen.",
     "always_active": "Sempre actives",
     "open_settings": "Configurar cookies"
+  },
+  "form_errors": {
+    "required": "Aquest camp és obligatori.",
+    "email_format": "Correu invàlid (p. ex. nom@exemple.com).",
+    "phone_format": "Telèfon invàlid.",
+    "too_long": "Màxim {max} caràcters.",
+    "invalid": "Revisa aquest camp."
+  },
+  "contact_form": {
+    "sending": "Enviant...",
+    "success": "Missatge enviat. Et respondré aviat.",
+    "error_invalid": "Revisa els camps i torna-ho a provar.",
+    "error_network": "No s'ha pogut enviar. Torna-ho a provar.",
+    "error_server": "El servidor no està disponible ara."
+  },
+  "booking_form": {
+    "sending": "Enviant...",
+    "success": "Sol·licitud enviada. Et respondrem en menys de 48 hores.",
+    "error_invalid": "Revisa els camps i torna-ho a provar.",
+    "error_network": "No s'ha pogut enviar. Torna-ho a provar.",
+    "error_server": "El servidor no està disponible ara."
   }
 }

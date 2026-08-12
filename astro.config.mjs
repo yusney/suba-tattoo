@@ -31,6 +31,15 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    // Dev-only: forward /api/contact to the Node sidecar (oauth/decap-oauth.mjs)
+    // so the contact/booking forms can POST during `astro dev`. In production
+    // this is handled by nginx (see nginx.conf), so vite.server.proxy is
+    // never used in the build output.
+    server: {
+      proxy: {
+        '/api/contact': 'http://127.0.0.1:3000'
+      }
+    }
   }
 });

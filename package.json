@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "cms-dev": "npx decap-server"
+    "cms-dev": "npx decap-server",
+    "sidecar": "node --env-file=.env oauth/decap-oauth.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

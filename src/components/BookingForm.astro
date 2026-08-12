@@ -7,6 +7,21 @@ const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? ra
 const t = useTranslations(locale);
 
 const styleOptions = t.array("reserva.form.style_options");
+
+const statusStrings = {
+  sending: t("booking_form.sending"),
+  success: t("booking_form.success"),
+  error_network: t("booking_form.error_network"),
+  error_server: t("booking_form.error_server"),
+};
+
+const errorStrings = {
+  required: t("form_errors.required"),
+  email_format: t("form_errors.email_format"),
+  phone_format: t("form_errors.phone_format"),
+  too_long: t("form_errors.too_long"),
+  invalid: t("form_errors.invalid"),
+};
 ---
 
 <section class="mx-auto w-full max-w-6xl px-margin-mobile md:px-margin-desktop">
@@ -16,19 +31,22 @@ const styleOptions = t.array("reserva.form.style_options");
         <span class="w-12 h-px bg-primary"></span>
         {t("reserva.form.title")}
       </h2>
-      <form action="#" method="post" class="space-y-12">
+      <form data-booking-form data-strings={JSON.stringify(statusStrings)} data-errors={JSON.stringify(errorStrings)} novalidate class="space-y-12">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
           <div class="group">
             <label for="nombre" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_name")}</label>
-            <input id="nombre" name="nombre" type="text" autocomplete="name" required placeholder={t("reserva.form.placeholder_name") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="nombre-error" placeholder={t("reserva.form.placeholder_name") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="nombre-error" data-field-error="nombre" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group">
             <label for="email" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_email")}</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required placeholder={t("reserva.form.placeholder_email") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-describedby="email-error" placeholder={t("reserva.form.placeholder_email") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="email-error" data-field-error="email" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group">
             <label for="telefono" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_phone")}</label>
-            <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder={t("reserva.form.placeholder_phone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="telefono-error" placeholder={t("reserva.form.placeholder_phone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="telefono-error" data-field-error="telefono" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group">
             <label for="estilo" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_style")}</label>
@@ -40,11 +58,13 @@ const styleOptions = t.array("reserva.form.style_options");
           </div>
           <div class="group">
             <label for="zona" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_zone")}</label>
-            <input id="zona" name="zona" type="text" autocomplete="off" placeholder={t("reserva.form.placeholder_zone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="zona" name="zona" type="text" autocomplete="off" aria-describedby="zona-error" placeholder={t("reserva.form.placeholder_zone") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="zona-error" data-field-error="zona" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group">
             <label for="tamano" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_size")}</label>
-            <input id="tamano" name="tamano" type="text" autocomplete="off" placeholder={t("reserva.form.placeholder_size") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="tamano" name="tamano" type="text" autocomplete="off" aria-describedby="tamano-error" placeholder={t("reserva.form.placeholder_size") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="tamano-error" data-field-error="tamano" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group md:col-span-2">
             <label for="fecha" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_date")}</label>
@@ -53,14 +73,17 @@ const styleOptions = t.array("reserva.form.style_options");
         </div>
         <div class="group">
           <label for="descripcion" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_description")}</label>
-          <textarea id="descripcion" name="descripcion" rows="4" autocomplete="off" placeholder={t("reserva.form.placeholder_description") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface resize-none focus:outline-none focus:border-primary transition-colors touch-manipulation"></textarea>
+          <textarea id="descripcion" name="descripcion" rows="4" autocomplete="off" aria-describedby="descripcion-error" placeholder={t("reserva.form.placeholder_description") as string} class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface resize-none focus:outline-none focus:border-primary transition-colors touch-manipulation"></textarea>
+          <p id="descripcion-error" data-field-error="descripcion" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
         </div>
-        <div class="flex flex-col items-center pt-8">
-          <button type="submit" class="bg-primary text-on-primary w-full md:w-auto px-16 py-5 font-headline-md text-2xl uppercase tracking-tighter flex items-center justify-center gap-4 hover:bg-primary-fixed hover:text-surface transition-[background-color,color] duration-300 touch-manipulation">
-            {t("reserva.form.submit")}
+        <!-- Honeypot: hidden off-screen field that bots auto-fill and humans never see. -->
+        <input type="text" name="sitio_web" id="sitio_web-honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; top:0; width:1px; height:1px; opacity:0; pointer-events:none;" />
+        <div class="flex flex-col items-center gap-4 pt-8">
+          <button data-booking-submit class="bg-primary text-on-primary w-full md:w-auto px-16 py-5 font-headline-md text-2xl uppercase tracking-tighter flex items-center justify-center gap-4 hover:bg-primary-fixed hover:text-surface transition-[background-color,color] duration-300 touch-manipulation disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+            <span data-submit-label>{t("reserva.form.submit")}</span>
             <span class="material-symbols-outlined text-4xl" aria-hidden="true">arrow_right_alt</span>
           </button>
-          <p class="mt-6 font-label-sm text-[10px] uppercase opacity-40 text-center">{t("reserva.form.legal")}</p>
+          <p class="font-label-sm text-[10px] uppercase opacity-40 text-center">{t("reserva.form.legal")}</p>
         </div>
       </form>
     </div>
@@ -69,3 +92,195 @@ const styleOptions = t.array("reserva.form.style_options");
     </div>
   </div>
 </section>
+
+<script>
+  import { validateBooking, type FieldError } from "../lib/forms";
+  import { showToast } from "../lib/toast";
+
+  type BookingStatus = "idle" | "sending" | "success" | "error";
+  type StatusStrings = {
+    sending: string;
+    success: string;
+    error_network: string;
+    error_server: string;
+  };
+  type ErrorStrings = {
+    required: string;
+    email_format: string;
+    phone_format: string;
+    too_long: string;
+    invalid: string;
+  };
+
+  const form = document.querySelector<HTMLFormElement>("[data-booking-form]");
+  const submit = document.querySelector<HTMLButtonElement>("[data-booking-submit]");
+  if (form && submit) {
+    let strings: StatusStrings;
+    try {
+      strings = JSON.parse(form.dataset.strings ?? "{}") as StatusStrings;
+    } catch {
+      strings = { sending: "Enviando...", success: "Mensaje enviado.", error_network: "No se pudo enviar.", error_server: "El servidor no está disponible." };
+    }
+
+    let errorStrings: ErrorStrings;
+    try {
+      errorStrings = JSON.parse(form.dataset.errors ?? "{}") as ErrorStrings;
+    } catch {
+      errorStrings = { required: "Este campo es obligatorio.", email_format: "Email inválido.", phone_format: "Teléfono inválido.", too_long: "Máximo {max} caracteres.", invalid: "Revisá este campo." };
+    }
+
+    const labelEl = submit.querySelector<HTMLElement>("[data-submit-label]");
+    const defaultLabel = labelEl?.textContent ?? submit.textContent ?? "";
+
+    const watchedFields = [
+      "nombre",
+      "email",
+      "telefono",
+      "estilo",
+      "zona",
+      "tamano",
+      "fecha",
+      "descripcion",
+    ];
+
+    const getFieldNodes = (field: string): { input: HTMLElement; error: HTMLElement | null } | null => {
+      const input = form.querySelector<HTMLElement>(`[name="${CSS.escape(field)}"]`);
+      if (!input) return null;
+      const error = form.querySelector<HTMLElement>(`[data-field-error="${CSS.escape(field)}"]`);
+      return { input, error };
+    };
+
+    const setFieldError = (field: string, message: string): void => {
+      const nodes = getFieldNodes(field);
+      if (!nodes) return;
+      nodes.input.setAttribute("aria-invalid", "true");
+      nodes.input.classList.remove("border-outline-variant");
+      nodes.input.classList.add("border-error");
+      if (nodes.error) {
+        nodes.error.textContent = message;
+        nodes.error.classList.remove("hidden");
+      }
+    };
+
+    const clearFieldError = (field: string): void => {
+      const nodes = getFieldNodes(field);
+      if (!nodes) return;
+      nodes.input.removeAttribute("aria-invalid");
+      nodes.input.classList.remove("border-error");
+      nodes.input.classList.add("border-outline-variant");
+      if (nodes.error) {
+        nodes.error.textContent = "";
+        nodes.error.classList.add("hidden");
+      }
+    };
+
+    const clearAllFieldErrors = (): void => {
+      form.querySelectorAll<HTMLElement>("[data-field-error]").forEach((el) => {
+        const field = el.getAttribute("data-field-error");
+        if (field) clearFieldError(field);
+      });
+    };
+
+    const reasonToMessage = (field: string, reason: string, max?: number): string => {
+      if (reason === "too_long" && typeof max === "number") {
+        return errorStrings.too_long.replace("{max}", String(max));
+      }
+      if (reason === "missing" || reason === "invalid_type") return errorStrings.required;
+      if (reason === "invalid_format") {
+        if (field === "email") return errorStrings.email_format;
+        if (field === "telefono") return errorStrings.phone_format;
+      }
+      return errorStrings.invalid;
+    };
+
+    const focusField = (field: string): void => {
+      const nodes = getFieldNodes(field);
+      if (!nodes) return;
+      const focusable = nodes.input as HTMLElement & { focus?: () => void };
+      if (typeof focusable.focus === "function") focusable.focus();
+    };
+
+    let state: BookingStatus = "idle";
+
+    watchedFields.forEach((field) => {
+      const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+      if (!input) return;
+      const handler = () => {
+        if (input.getAttribute("aria-invalid") === "true") clearFieldError(field);
+      };
+      input.addEventListener("input", handler);
+      input.addEventListener("change", handler);
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (state === "sending") return;
+      const formData = new FormData(form);
+      const payload = {
+        form: "booking" as const,
+        nombre: String(formData.get("nombre") ?? ""),
+        email: String(formData.get("email") ?? ""),
+        telefono: String(formData.get("telefono") ?? ""),
+        estilo: String(formData.get("estilo") ?? ""),
+        zona: String(formData.get("zona") ?? ""),
+        tamano: String(formData.get("tamano") ?? ""),
+        fecha: String(formData.get("fecha") ?? ""),
+        descripcion: String(formData.get("descripcion") ?? ""),
+        sitio_web: String(formData.get("sitio_web") ?? ""),
+      };
+
+      const clientErrors = validateBooking(payload);
+      if (clientErrors.length > 0) {
+        clearAllFieldErrors();
+        for (const err of clientErrors) {
+          setFieldError(err.field, reasonToMessage(err.field, err.reason, err.max));
+        }
+        focusField(clientErrors[0]!.field);
+        return;
+      }
+
+      clearAllFieldErrors();
+      submit.disabled = true;
+      if (labelEl) labelEl.textContent = strings.sending;
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          form.reset();
+          clearAllFieldErrors();
+          showToast(strings.success, "success");
+        } else if (res.status === 400) {
+          const data: unknown = await res.json().catch(() => ({}));
+          const details = (() => {
+            if (data && typeof data === "object" && "details" in data) {
+              const d = (data as { details?: unknown }).details;
+              return Array.isArray(d) ? (d as FieldError[]) : [];
+            }
+            return [];
+          })();
+          if (details.length > 0) {
+            clearAllFieldErrors();
+            for (const err of details) {
+              if (typeof err.field === "string" && typeof err.reason === "string") {
+                setFieldError(err.field, reasonToMessage(err.field, err.reason, err.max));
+              }
+            }
+            const first = details.find((d) => typeof d.field === "string");
+            if (first) focusField(first.field);
+          }
+        } else {
+          showToast(strings.error_server, "error");
+        }
+      } catch {
+        showToast(strings.error_network, "error");
+      } finally {
+        submit.disabled = false;
+        if (labelEl) labelEl.textContent = defaultLabel;
+        else submit.textContent = defaultLabel;
+      }
+    });
+  }
+</script>

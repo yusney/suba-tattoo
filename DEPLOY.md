@@ -92,6 +92,7 @@ git push
 6. Antes de desplegar, abrir **Environment** y agregar:
    - `OAUTH_CLIENT_ID`: Client ID de la OAuth App del paso 2
    - `OAUTH_CLIENT_SECRET`: Client Secret de la OAuth App del paso 2
+   - `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — ver [Paso 4b — Configurar envío de emails (Resend)](#paso-4b--configurar-envío-de-emails-resend) para detalle de cada variable y pre-requisitos
 7. Click **Deploy**
 
 Dokploy va a:
@@ -99,6 +100,55 @@ Dokploy va a:
 - Construir la imagen Docker (multi-stage, ~2-3 min la primera vez)
 - Levantar el container exponiendo el puerto 80 (que es el `EXPOSE` de nuestro Dockerfile)
 - Configurar Traefik como reverse proxy
+
+## Paso 4b — Configurar envío de emails (Resend)
+
+Los formularios de contacto (`/`) y reserva (`/reserva`) están cableados para enviar emails vía [Resend](https://resend.com). Si las tres variables de abajo no están configuradas, el sidecar Node sigue arrancando (Decap sigue funcionando) pero `POST /api/contact` responde **503 `email_not_configured`** y el frontend muestra "El servidor no está disponible ahora".
+
+### Qué hace cada variable
+
+| Variable | Qué es |
+|---|---|
+| `RESEND_API_KEY` | API key de Resend con permiso **Sending access** (NO full access). Crear en [resend.com/api-keys](https://resend.com/api-keys). |
+| `CONTACT_TO_EMAIL` | Dirección que **recibe** los mensajes de los formularios (el inbox del artista). Staging puede ser un email personal del dev; producción debería ser el inbox del estudio (ej. `hola@subatattoo.es`). |
+| `CONTACT_FROM_EMAIL` | Dirección que aparece como **remitente** del email. Formato: `"Nombre <mail@dominio>"`. **DEBE** ser una dirección de un dominio verificado dentro de Resend — si no, Resend rechaza el envío. |
+
+### Pre-requisito para producción: verificar dominio
+
+Resend exige verificar el dominio del `CONTACT_FROM_EMAIL` antes de permitir envíos hacia destinatarios externos. Sin dominio verificado, solo se puede enviar desde `onboarding@resend.dev` y **solo hacia emails de la cuenta Resend** (sirve para probar el flujo, no para producción).
+
+Pasos para producción:
+
+1. Crear cuenta en [resend.com](https://resend.com).
+2. **Domains → Add Domain** → agregar el dominio del estudio (ej. `subatattoo.es`).
+3. Resend devuelve registros DNS: **MX en el subdominio `send.`** (ej. `send.subatattoo.es → feedback-smtp.us-east-1.amazonses.com`), **DKIM** y **DMARC**. Agregarlos en el panel DNS del dominio y esperar a que Resend confirme la verificación.
+4. Crear API key con permiso **Sending access** → guardar como `RESEND_API_KEY`.
+
+En staging el dominio temporal es `suba.donduque.dev`; mientras ese dominio no esté verificado en Resend, podés probar el flujo enviando a tu propio email vía `onboarding@resend.dev` (limitaciones de Resend: solo hacia emails de la cuenta que creó la API key).
+
+### Setup en Dokploy
+
+1. Service `suba-tattoo` → tab **Environment**.
+2. Agregar las tres variables:
+
+   ```
+   RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxx
+   CONTACT_TO_EMAIL=tu-email@ejemplo.com
+   CONTACT_FROM_EMAIL="SUBA TATTOO <noreply@subatattoo.es>"
+   ```
+
+3. **Deploy** / redeploy para que Dokploy re-inyecte las variables en el container.
+
+### Verificación
+
+- [ ] `curl -sI -X POST https://<host>/api/contact` → `405 Method Not Allowed` (el endpoint existe)
+- [ ] `curl -X POST https://<host>/api/contact -H 'Content-Type: application/json' -d '{"form":"contact","name":"Test","email":"test@test.com","body":"X","style":"Y","description":"Z","website":""}'` → `200 {"ok":true}` y el email aparece en el inbox de `CONTACT_TO_EMAIL`
+- [ ] Sin las variables configuradas: el mismo curl devuelve `503 {"error":"email_not_configured"}` y el log del container muestra el warning de startup
+- [ ] El campo honeypot `website` (o `sitio_web` en reserva) con valor no-vacío devuelve `200 {"ok":true}` **sin** enviar email
+
+### Próximo paso
+
+Volver a [Paso 5 — Configurar dominio](#paso-5--configurar-dominio).
 
 ## Paso 5 — Configurar dominio
 
@@ -219,3 +269,8 @@ Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://sub
 **Las traducciones no funcionan:**
 - Verificar que las URLs `/en/` y `/ca/` devuelven 200 (curl)
 - Si dan 404, verificar la config de i18n en `astro.config.mjs`
+
+**Los formularios devuelven "El servidor no está disponible ahora":**
+- El frontend muestra ese mensaje cuando `POST /api/contact` responde `503`. Verificar que `RESEND_API_KEY`, `CONTACT_TO_EMAIL` y `CONTACT_FROM_EMAIL` estén en el tab Environment del service en Dokploy.
+- Si las variables están bien pero Resend rechaza el envío (`502 email_send_failed` en logs), verificar que el dominio en `CONTACT_FROM_EMAIL` esté verificado en el dashboard de Resend. Resend rechaza con `403`/`422` cualquier envío desde un dominio no verificado.
+- Verificar logs del container: `Dokploy UI → service → Logs` y buscar líneas con `event: "contact_send_failed"` — el campo `upstreamStatus` indica el código HTTP exacto de Resend.
