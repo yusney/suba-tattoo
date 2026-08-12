@@ -141,7 +141,7 @@ En staging el dominio temporal es `suba.donduque.dev`; mientras ese dominio no e
 
 ### Verificación
 
-- [ ] `curl -sI -X POST https://<host>/api/contact` → `405 Method Not Allowed` (el endpoint existe)
+- [ ] `curl -sI https://<host>/api/contact` → `405 Method Not Allowed` (el endpoint existe; sin `-X`, defaults to GET, el handler devuelve 405)
 - [ ] `curl -X POST https://<host>/api/contact -H 'Content-Type: application/json' -d '{"form":"contact","name":"Test","email":"test@test.com","body":"X","style":"Y","description":"Z","website":""}'` → `200 {"ok":true}` y el email aparece en el inbox de `CONTACT_TO_EMAIL`
 - [ ] Sin las variables configuradas: el mismo curl devuelve `503 {"error":"email_not_configured"}` y el log del container muestra el warning de startup
 - [ ] El campo honeypot `website` (o `sitio_web` en reserva) con valor no-vacío devuelve `200 {"ok":true}` **sin** enviar email
