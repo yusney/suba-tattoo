@@ -62,6 +62,19 @@ const errorStrings = {
       </div>
       <!-- Honeypot: hidden off-screen field that bots auto-fill and humans never see. -->
       <input type="text" name="website" id="website-honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] top-0 h-px w-px opacity-0 pointer-events-none" />
+
+      <!-- Cloudflare Turnstile: server verifies the token in handleContact.
+           The widget resolves automatically in the background (managed
+           mode); the token lands in the hidden input below via the callback. -->
+      <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response-contact" />
+      <div class="md:col-span-2">
+        <div
+          class="cf-turnstile"
+          data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}
+          data-callback="onContactTurnstileSuccess"
+        ></div>
+      </div>
+
       <div class="mt-8 flex flex-col items-center gap-4 md:col-span-2">
         <button data-contact-submit class="border border-primary bg-primary px-16 py-5 text-label-sm font-label-sm font-bold uppercase tracking-[0.3em] text-on-primary transition-[background-color,color,border-color] hover:bg-transparent hover:text-primary touch-manipulation disabled:cursor-not-allowed disabled:opacity-50" type="submit">
           <span data-submit-label>{t("contact.submit")}</span>
@@ -74,6 +87,26 @@ const errorStrings = {
 <script>
   import { validateContact, type FieldError } from "../lib/forms";
   import { showToast } from "../lib/toast";
+
+  declare global {
+    interface Window {
+      turnstile?: {
+        render: (container: string | HTMLElement, options?: object) => string;
+        reset: (widgetId?: string) => void;
+        remove: (widgetId?: string) => void;
+      };
+      onContactTurnstileSuccess?: (token: string) => void;
+    }
+  }
+
+  // Turnstile widget callback: stores the resolved token in the hidden
+  // input so it travels with the FormData on submit. The widget script
+  // (loaded in Layout.astro) finds `window.onContactTurnstileSuccess`
+  // by name from the `data-callback` attribute on the widget div.
+  window.onContactTurnstileSuccess = (token: string) => {
+    const input = document.getElementById("cf-turnstile-response-contact") as HTMLInputElement | null;
+    if (input) input.value = token;
+  };
 
   type ContactStatus = "idle" | "sending" | "success" | "error";
   type StatusStrings = {
@@ -199,6 +232,7 @@ const errorStrings = {
         style: String(formData.get("style") ?? ""),
         description: String(formData.get("description") ?? ""),
         website: String(formData.get("website") ?? ""),
+        "cf-turnstile-response": String(formData.get("cf-turnstile-response") ?? ""),
       };
 
       const clientErrors = validateContact(payload);
@@ -224,6 +258,11 @@ const errorStrings = {
           form.reset();
           clearAllFieldErrors();
           showToast(strings.success, "success");
+          // Turnstile tokens are single-use — regenerate so a second submit
+          // (e.g., user wants to send another message) gets a fresh token.
+          if (typeof window !== "undefined" && window.turnstile) {
+            window.turnstile.reset();
+          }
         } else if (res.status === 400) {
           const data: unknown = await res.json().catch(() => ({}));
           const details = (() => {

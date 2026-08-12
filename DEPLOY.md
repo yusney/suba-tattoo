@@ -146,6 +146,57 @@ En staging el dominio temporal es `suba.donduque.dev`; mientras ese dominio no e
 - [ ] Sin las variables configuradas: el mismo curl devuelve `503 {"error":"email_not_configured"}` y el log del container muestra el warning de startup
 - [ ] El campo honeypot `website` (o `sitio_web` en reserva) con valor no-vacío devuelve `200 {"ok":true}` **sin** enviar email
 
+## Paso 4c — Configurar anti-bot (Cloudflare Turnstile)
+
+Los formularios de contacto (`/`) y reserva (`/reserva`) están protegidos con [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/), un CAPTCHA invisible que corre challenges en background (proof-of-work, browser probing) sin interrumpir al usuario real. Solo muestra un checkbox si el visitante parece sospechoso. Es gratis, GDPR-friendly y no manda tráfico a Google.
+
+El sidecar verifica server-side el token antes de cualquier envío: si el captcha rechaza, el form devuelve `403 captcha_rejected` y **no se manda email**. Defensa en profundidad con el rate-limit (Paso 4a) y el honeypot (silently accepted).
+
+### Qué hace cada variable
+
+| Variable | Descripción |
+|---|---|
+| `PUBLIC_TURNSTILE_SITE_KEY` | Sitekey pública, expuesta al browser. Formato: `0x4AAAAAAA...`. Se inyecta vía `import.meta.env` en build time. |
+| `TURNSTILE_SECRET_KEY` | Secret key para verificar contra `challenges.cloudflare.com/turnstile/v0/siteverify`. **NUNCA** exponer públicamente. Formato: `0x4AAAAAAA...`. |
+
+Si falta `TURNSTILE_SECRET_KEY`:
+- **Producción**: el sidecar rechaza todos los submissions con `503 captcha_misconfigured` (fail closed, ver log).
+- **Desarrollo**: el sidecar skipea la verificación con un warning en consola, los forms funcionan sin captcha.
+
+### Pre-requisito: crear el site en Cloudflare
+
+1. Ir a [Cloudflare Dashboard → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile) → **Add Widget**
+2. Llenar:
+   - **Widget name**: `SUBA TATTOO`
+   - **Hostname**: `suba.donduque.dev` (o el dominio final en producción)
+   - **Widget Mode**: **Managed** (recomendado — invisible para usuarios legítimos, solo muestra checkbox si el riesgo es alto)
+3. Click **Create**
+4. Copiar las dos keys que aparecen en el panel:
+   - **Site Key** → `PUBLIC_TURNSTILE_SITE_KEY`
+   - **Secret Key** → `TURNSTILE_SECRET_KEY`
+
+### Setup en Dokploy
+
+En el service del sitio → tab **Environment** → agregar las dos variables:
+
+```
+PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAAAXXXXXXXXXXXX
+TURNSTILE_SECRET_KEY=0x4BBBBBBBXXXXXXXXXXXX
+```
+
+Redeploy. Las variables se inyectan al container en el siguiente arranque del sidecar.
+
+### Verificación
+
+Después del redeploy, smoke tests contra `/api/contact`:
+
+- [ ] **Sin token de captcha** (form submit sin widget, o token vacío) → `400 {"error":"captcha_required"}` y log `contact_captcha_missing`
+- [ ] **Token inválido** (string cualquiera, ej. `"FAKE-TOKEN"`) → `403 {"error":"captcha_rejected"}` y log `contact_captcha_rejected` con `error-codes` de Turnstile
+- [ ] **Token válido** (token real de un submit desde el browser, o test key `1x00000000000000000000AA` con secret matching) → `200 {"ok":true}` y log `contact_captcha_verified`
+- [ ] **Sin `TURNSTILE_SECRET_KEY` en producción** → `503 {"error":"captcha_misconfigured"}` y error en stdout del container
+
+En el browser, verificar visualmente que el widget aparece (puede ser invisible managed → no se ve nada, eso es correcto) y que el form submitea normalmente sin necesidad de interacción humana (los challenges corren en background).
+
 ### Próximo paso
 
 Volver a [Paso 5 — Configurar dominio](#paso-5--configurar-dominio).
