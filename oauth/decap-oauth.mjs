@@ -67,14 +67,23 @@ function pruneStates() {
   }
 }
 
+function stripIpv6Scope(ip) {
+  // IPv6 link-local addresses may carry a zone identifier (e.g.
+  // `fe80::1%eth0`); without stripping it the same client with a
+  // different scope gets bucketed separately and bypasses the rate
+  // limit. Canonical form: substring before any `%`.
+  const zoneIdx = ip.indexOf("%");
+  return zoneIdx === -1 ? ip : ip.substring(0, zoneIdx);
+}
+
 function getClientIp(request) {
   // X-Forwarded-For may be missing or spoofed; fall back to socket address.
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
     const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+    if (first) return stripIpv6Scope(first);
   }
-  return request.socket?.remoteAddress ?? "unknown";
+  return stripIpv6Scope(request.socket?.remoteAddress ?? "unknown");
 }
 
 function checkContactRateLimit(ip, requestId) {
