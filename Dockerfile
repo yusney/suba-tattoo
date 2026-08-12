@@ -25,6 +25,17 @@ RUN pnpm install --frozen-lockfile
 
 # Copy source and build
 COPY . .
+
+# Public Astro env vars must be available at build time. We declare them
+# as ARG (so they can be passed by `docker build --build-arg`) and then
+# expose them as ENV so that `pnpm run build` (which spawns Astro/Vite)
+# can read them via `import.meta.env.PUBLIC_*`.
+#
+# Without this two-step pattern, BuildKit accepts --build-arg but the
+# value never reaches the Node process and Astro inlines `undefined`.
+ARG PUBLIC_TURNSTILE_SITE_KEY
+ENV PUBLIC_TURNSTILE_SITE_KEY=$PUBLIC_TURNSTILE_SITE_KEY
+
 RUN pnpm run build
 
 # ============================================================
