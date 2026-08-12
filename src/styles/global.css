@@ -52,6 +52,7 @@
 
   /* ========== Border Radius — brutalist 0px ========== */
   --radius: 0px;
+  --radius-md: 0px;
   --radius-lg: 0px;
   --radius-xl: 0px;
   --radius-full: 9999px;
