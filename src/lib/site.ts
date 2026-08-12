@@ -44,7 +44,7 @@ export async function getSiteSettings(locale: Locale = DEFAULT_LOCALE): Promise<
       `[site.ts] Missing src/content/settings/${locale}.json — the site_settings collection has no entry for locale "${locale}".`,
     );
   }
-  const settings = entry.data as unknown as SiteSettings;
+  const settings = entry.data;
   cache.set(locale, settings);
   return settings;
 }
