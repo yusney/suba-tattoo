@@ -15,8 +15,18 @@ const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL;
 const RESEND_API_URL = "https://api.resend.com/emails";
 const REQUEST_BODY_LIMIT = 16_384;
-// Per-IP sliding-window rate limit for POST /api/contact. OAuth routes are
-// intentionally NOT rate-limited here.
+// Per-IP sliding-window rate limit for POST /api/contact. OAuth routes
+// (`/auth`, `/auth/authorize`, `/auth/callback`) are intentionally EXEMPT
+// because:
+//   1. The OAuth handshake is browser-mediated and short-lived (one GET to
+//      /auth, one callback redirect to /admin/callback). A real user can
+//      retry safely; an attacker has no incentive to spam these routes
+//      because they don't yield anything useful (no email, no DB write).
+//   2. State validation in pruneStates() already expires unused entries
+//      after STATE_TTL_MS (5 min), bounding memory growth.
+//   3. Rate-limiting the callback would block legitimate users behind
+//      flaky proxies / corporate gateways that retry the OAuth round-trip.
+// If abuse appears on /auth, add a separate coarse-grained throttle.
 const CONTACT_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const CONTACT_RATE_LIMIT_MAX = 5;
 /**
@@ -77,7 +87,12 @@ function stripIpv6Scope(ip) {
 }
 
 function getClientIp(request) {
-  // X-Forwarded-For may be missing or spoofed; fall back to socket address.
+  // Trust the X-Forwarded-For first hop. The sidecar listens on 127.0.0.1
+  // inside the container, so only the upstream proxy (nginx in front of the
+  // site, which sets X-Forwarded-For itself before proxying to the sidecar)
+  // can reach it. Direct external XFF spoofing is impossible because the
+  // sidecar isn't internet-facing. Fall back to socket.remoteAddress if
+  // the header is missing (e.g., during local `astro dev` with vite proxy).
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
     const first = forwarded.split(",")[0]?.trim();
