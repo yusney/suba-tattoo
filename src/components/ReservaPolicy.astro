@@ -13,7 +13,7 @@ const t = useTranslations(locale);
     {t("reserva.policy_title")}
   </h4>
   <ul class="space-y-6 text-sm text-on-surface-variant">
-    {t.array("reserva.policy_bullets").map((b: any) => (
+    {t.array("reserva.policy_bullets").map((b) => (
       <li class="flex gap-4">
         <span class="font-label-sm text-primary">{b.number}</span>
         <p class="text-justify leading-relaxed md:text-left">

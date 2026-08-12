@@ -27,10 +27,10 @@ if (!faqEntry) {
 }
 
 const settings = await getSiteSettings(locale);
-const sections = (faqEntry.data as any).sections;
+const sections = faqEntry.data.sections;
 const info = sections[0];
-const care = sections.find((s: any) => s.care_steps && s.care_steps.length > 0);
-const hygiene = sections.find((s: any) => s.protocol_items && s.protocol_items.length > 0);
+const care = sections.find((s) => s.care_steps && s.care_steps.length > 0);
+const hygiene = sections.find((s) => s.protocol_items && s.protocol_items.length > 0);
 
 const pageTitle = t("meta.faq.title");
 const pageDescription = t("meta.faq.description");
