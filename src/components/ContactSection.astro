@@ -61,7 +61,7 @@ const errorStrings = {
         <p id="description-error" data-field-error="description" class="hidden text-label-sm font-label-sm text-error mt-1" role="alert"></p>
       </div>
       <!-- Honeypot: hidden off-screen field that bots auto-fill and humans never see. -->
-      <input type="text" name="website" id="website-honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; top:0; width:1px; height:1px; opacity:0; pointer-events:none;" />
+      <input type="text" name="website" id="website-honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] top-0 h-px w-px opacity-0 pointer-events-none" />
       <div class="mt-8 flex flex-col items-center gap-4 md:col-span-2">
         <button data-contact-submit class="border border-primary bg-primary px-16 py-5 text-label-sm font-label-sm font-bold uppercase tracking-[0.3em] text-on-primary transition-[background-color,color,border-color] hover:bg-transparent hover:text-primary touch-manipulation disabled:cursor-not-allowed disabled:opacity-50" type="submit">
           <span data-submit-label>{t("contact.submit")}</span>
