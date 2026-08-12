@@ -50,11 +50,12 @@ const errorStrings = {
           </div>
           <div class="group">
             <label for="estilo" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_style")}</label>
-            <select id="estilo" name="estilo" autocomplete="off" class="w-full bg-surface border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none touch-manipulation">
+            <select id="estilo" name="estilo" autocomplete="off" aria-describedby="estilo-error" class="w-full bg-surface border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none touch-manipulation">
               {(Array.isArray(styleOptions) ? styleOptions : []).map((opt: string) => (
                 <option value={opt}>{opt}</option>
               ))}
             </select>
+            <p id="estilo-error" data-field-error="estilo" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
           <div class="group">
             <label for="zona" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_zone")}</label>
@@ -68,7 +69,8 @@ const errorStrings = {
           </div>
           <div class="group md:col-span-2">
             <label for="fecha" class="font-label-sm text-[10px] uppercase text-on-surface-variant group-focus-within:text-primary transition-colors block mb-2">{t("reserva.form.label_date")}</label>
-            <input id="fecha" name="fecha" type="date" autocomplete="off" class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <input id="fecha" name="fecha" type="date" autocomplete="off" aria-describedby="fecha-error" class="w-full bg-transparent border-0 border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary transition-colors touch-manipulation" />
+            <p id="fecha-error" data-field-error="fecha" class="hidden font-label-sm text-[10px] uppercase text-error mt-2" role="alert"></p>
           </div>
         </div>
         <div class="group">
@@ -270,6 +272,8 @@ const errorStrings = {
             }
             const first = details.find((d) => typeof d.field === "string");
             if (first) focusField(first.field);
+          } else {
+            showToast(errorStrings.invalid, "error");
           }
         } else {
           showToast(strings.error_server, "error");

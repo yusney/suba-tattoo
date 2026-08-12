@@ -67,14 +67,23 @@ function pruneStates() {
   }
 }
 
+function stripIpv6Scope(ip) {
+  // IPv6 link-local addresses may carry a zone identifier (e.g.
+  // `fe80::1%eth0`); without stripping it the same client with a
+  // different scope gets bucketed separately and bypasses the rate
+  // limit. Canonical form: substring before any `%`.
+  const zoneIdx = ip.indexOf("%");
+  return zoneIdx === -1 ? ip : ip.substring(0, zoneIdx);
+}
+
 function getClientIp(request) {
   // X-Forwarded-For may be missing or spoofed; fall back to socket address.
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
     const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+    if (first) return stripIpv6Scope(first);
   }
-  return request.socket?.remoteAddress ?? "unknown";
+  return stripIpv6Scope(request.socket?.remoteAddress ?? "unknown");
 }
 
 function checkContactRateLimit(ip, requestId) {
@@ -302,6 +311,20 @@ async function handleCallback(url, response, requestId) {
 const FORBIDDEN_PAYLOAD_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// mirrors src/lib/forms.ts (sidecar is plain Node, no TS transpilation)
+const PHONE_STRIP_RE = /[\s+\-()]/g;
+const PHONE_DIGIT_RE = /\d/g;
+function isValidPhone(value) {
+  const stripped = value.replace(PHONE_STRIP_RE, "");
+  const digitCount = (stripped.match(PHONE_DIGIT_RE) ?? []).length;
+  return digitCount >= 6;
+}
+function isValidDateString(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+  return !Number.isNaN(Date.parse(trimmed));
+}
+
 const CONTACT_FIELD_CONFIG = {
   contact: {
     required: ["name", "email"],
@@ -373,6 +396,15 @@ function validateContactPayload(kind, payload) {
 
   if (typeof payload.email === "string" && payload.email.trim() && !EMAIL_REGEX.test(payload.email.trim())) {
     if (!errors.some(e => e.field === "email")) errors.push({ field: "email", reason: "invalid_format" });
+  }
+
+  if (kind === "booking") {
+    if (typeof payload.telefono === "string" && payload.telefono.trim() && !isValidPhone(payload.telefono)) {
+      if (!errors.some(e => e.field === "telefono")) errors.push({ field: "telefono", reason: "invalid_format" });
+    }
+    if (typeof payload.fecha === "string" && payload.fecha.trim() && !isValidDateString(payload.fecha)) {
+      if (!errors.some(e => e.field === "fecha")) errors.push({ field: "fecha", reason: "invalid_format" });
+    }
   }
 
   return errors;

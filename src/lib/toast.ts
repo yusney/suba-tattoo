@@ -41,8 +41,8 @@ const containerClasses = [
 const toastBaseClasses = [
   "pointer-events-auto",
   "bg-surface-container",
-  "rounded-md",
-  "shadow-lg",
+  "rounded-none",
+  "shadow-none",
   "w-full",
   "md:w-auto",
   "md:max-w-sm",
