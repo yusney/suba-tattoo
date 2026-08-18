@@ -356,7 +356,19 @@ const gdprStrings = {
         fecha: String(formData.get("fecha") ?? ""),
         descripcion: String(formData.get("descripcion") ?? ""),
         sitio_web: String(formData.get("sitio_web") ?? ""),
-        "cf-turnstile-response": String(formData.get("cf-turnstile-response") ?? ""),
+        "cf-turnstile-response": (() => {
+          // The token can live in two same-named inputs: the page's hidden input
+          // (filled by the data-callback) and Turnstile's own input inside the
+          // widget. api.js loads `async`, so the widget can resolve BEFORE the
+          // callback is wired up — the page input stays empty while Turnstile's
+          // input already holds the token. formData.get() would blindly return the
+          // first (empty) one and the server would answer captcha_required, so take
+          // the first NON-empty value instead and never drop a valid token.
+          const values = formData.getAll("cf-turnstile-response")
+            .map(v => String(v).trim())
+            .filter(Boolean);
+          return values[0] ?? "";
+        })(),
         privacy_accepted: privacyCheckbox?.checked ?? false,
         policy_version: String(formData.get("policy_version") ?? ""),
       };

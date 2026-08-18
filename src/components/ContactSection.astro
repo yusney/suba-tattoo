@@ -326,7 +326,17 @@ const gdprStrings = {
         style: String(formData.get("style") ?? ""),
         description: String(formData.get("description") ?? ""),
         website: String(formData.get("website") ?? ""),
-        "cf-turnstile-response": String(formData.get("cf-turnstile-response") ?? ""),
+        "cf-turnstile-response": (() => {
+          // Same race as BookingForm: api.js loads `async`, so the widget can
+          // resolve before the data-callback is wired up, leaving the page's
+          // hidden input empty while Turnstile's own input already holds the
+          // token. formData.get() would return the first (empty) input and the
+          // server would answer captcha_required — take the first NON-empty value.
+          const values = formData.getAll("cf-turnstile-response")
+            .map(v => String(v).trim())
+            .filter(Boolean);
+          return values[0] ?? "";
+        })(),
         privacy_accepted: privacyCheckbox?.checked ?? false,
         policy_version: String(formData.get("policy_version") ?? ""),
       };
