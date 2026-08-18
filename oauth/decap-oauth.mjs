@@ -87,16 +87,25 @@ function stripIpv6Scope(ip) {
 }
 
 function getClientIp(request) {
-  // Trust the X-Forwarded-For first hop. The sidecar listens on 127.0.0.1
-  // inside the container, so only the upstream proxy (nginx in front of the
-  // site, which sets X-Forwarded-For itself before proxying to the sidecar)
-  // can reach it. Direct external XFF spoofing is impossible because the
-  // sidecar isn't internet-facing. Fall back to socket.remoteAddress if
-  // the header is missing (e.g., during local `astro dev` with vite proxy).
+  // The domain is proxied through Cloudflare, so CF-Connecting-IP carries the
+  // true client IP. Cloudflare OVERWRITES this header on every request, which
+  // makes it unspoofable from the browser — BUT only as long as the origin VPS
+  // accepts traffic exclusively from Cloudflare's IP ranges. If the VPS port
+  // 80/443 is reachable directly, an attacker can bypass Cloudflare and forge
+  // CF-Connecting-IP. Lock the firewall to Cloudflare ranges (see DEPLOY.md).
+  const cfConnectingIp = request.headers["cf-connecting-ip"];
+  if (typeof cfConnectingIp === "string" && cfConnectingIp.trim()) {
+    return stripIpv6Scope(cfConnectingIp.trim());
+  }
+  // Fallback for paths without Cloudflare (staging, local `astro dev` via the
+  // vite proxy). Use the LAST hop of X-Forwarded-For: it is the entry appended
+  // by the nearest trusted proxy. The FIRST hop is client-controlled and was
+  // trivially spoofable (that bug let an attacker bypass the /api/contact rate
+  // limit and poison the Turnstile remoteip + GDPR consent IP).
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return stripIpv6Scope(first);
+    const last = forwarded.split(",").pop()?.trim();
+    if (last) return stripIpv6Scope(last);
   }
   return stripIpv6Scope(request.socket?.remoteAddress ?? "unknown");
 }
