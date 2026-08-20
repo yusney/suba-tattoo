@@ -736,6 +736,24 @@ const server = createServer(async (request, response) => {
   }
 });
 
+/**
+ * Extract a structured description of any thrown/rejected value. Used by
+ * the unhandledRejection safety net so transient failures to GitHub log
+ * a clean error record instead of crashing the process.
+ *
+ * Typed for JSDoc so an IDE / tsc --checkJs flags mismatches at the call
+ * site if `logEvent` ever changes shape. `reason` is typed as `unknown`
+ * because Node declares it that way — anything can be thrown/rejected.
+ * @param {unknown} reason
+ * @returns {{ type: string, message: string }}
+ */
+function describeRejection(reason) {
+  if (reason instanceof Error) {
+    return { type: reason.name, message: reason.message };
+  }
+  return { type: "UnknownError", message: String(reason) };
+}
+
 // Safety net for any promise rejection that escapes the router's try/catch.
 // In Node 15+, the default for unhandled rejections is to throw — which kills
 // the process and triggers a Docker restart. We log instead, so a transient
@@ -743,9 +761,10 @@ const server = createServer(async (request, response) => {
 // instead of taking the whole sidecar down. The router-level await above is
 // the real fix; this is defense in depth in case a future route forgets.
 process.on("unhandledRejection", (reason) => {
+  const { type, message } = describeRejection(reason);
   logEvent("oauth_unhandled_rejection", {
-    errorType: reason instanceof Error ? reason.name : "UnknownError",
-    errorMessage: reason instanceof Error ? reason.message : String(reason),
+    errorType: type,
+    errorMessage: message,
   });
 });
 
