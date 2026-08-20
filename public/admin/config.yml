@@ -9,10 +9,12 @@ backend:
   name: github
   repo: yusney/suba-tattoo
   branch: main
-  # Decap opens ${base_url}/${auth_endpoint} in a popup. The OAuth proxy then
-  # handles the GitHub redirect at /admin/callback and posts the token back to
-  # the opener using Decap's authorization handshake.
-  auth_endpoint: /auth
+  # Decap 3.15+ parses auth_endpoint as a full URL with `new URL()`. A
+  # relative path throws Invalid URL and the code falls back to Netlify
+  # Git Gateway (api.netlify.com/auth), which is NOT what we want — we
+  # host the OAuth proxy ourselves. Use the full URL of the /auth path
+  # that nginx location = /auth proxies to the in-container OAuth sidecar.
+  auth_endpoint: https://suba.donduque.dev/auth
   # The callback path remains /admin/callback because it is already registered
   # in the GitHub OAuth App (see nginx.conf).
   # For local dev, set local_backend: true and run `pnpm run cms-dev` instead.

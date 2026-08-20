@@ -11,6 +11,8 @@
     <!-- The decap-cms.js UMD bundle auto-initializes against /admin/config.yml. -->
     <!-- With auth_endpoint configured, the OAuth proxy handles GitHub's callback and posts the token to Decap. -->
     <!-- Do NOT call CMS.init() manually — it conflicts with the auto-init. -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Pinned to 3.15.1 (was ^3.0.0) to avoid silent regressions like the 3.15.x change that broke -->
+    <!-- relative auth_endpoint paths. Bump deliberately after testing against a new minor. -->
+    <script src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
   </body>
 </html>
