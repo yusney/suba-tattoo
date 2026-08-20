@@ -9,12 +9,19 @@ backend:
   name: github
   repo: yusney/suba-tattoo
   branch: main
-  # Decap 3.15+ parses auth_endpoint as a full URL with `new URL()`. A
-  # relative path throws Invalid URL and the code falls back to Netlify
-  # Git Gateway (api.netlify.com/auth), which is NOT what we want — we
-  # host the OAuth proxy ourselves. Use the full URL of the /auth path
-  # that nginx location = /auth proxies to the in-container OAuth sidecar.
-  auth_endpoint: https://suba.donduque.dev/auth
+  # Decap 3.15+ (with embedded decap-cms-core 3.17+) builds the OAuth popup
+  # URL as `base_url + "/" + auth_endpoint` (literally that template string
+  # in lib-auth.netlify-auth.js). The default base_url is
+  # `https://api.netlify.com`, so passing auth_endpoint as a full URL
+  # becomes `api.netlify.com/https://suba.donduque.dev/auth?...` — which
+  # is the Netlify Git Gateway, not our OAuth proxy.
+  #
+  # Fix: set base_url to our public origin and auth_endpoint to the path
+  # (no leading slash — the code interpolates the slash). The popup will
+  # open at https://suba.donduque.dev/auth?provider=github&site_id=...,
+  # which nginx location = /auth proxies to the in-container OAuth sidecar.
+  base_url: https://suba.donduque.dev
+  auth_endpoint: auth
   # The callback path remains /admin/callback because it is already registered
   # in the GitHub OAuth App (see nginx.conf).
   # For local dev, set local_backend: true and run `pnpm run cms-dev` instead.
