@@ -709,13 +709,15 @@ const server = createServer(async (request, response) => {
     }
 
     if (request.method === "GET" && (url.pathname === "/callback" || url.pathname === "/admin/callback")) {
-      return handleCallback(url, response, requestId);
+      await handleCallback(url, response, requestId);
+      return;
     }
 
     // Token exchange. Decap calls both /auth (legacy) and /auth/authorize
     // (current v3.x) depending on apiURL form. We accept either.
     if (request.method === "POST" && (url.pathname === "/auth" || url.pathname === "/auth/authorize")) {
-      return handleTokenExchange(request, response, requestId);
+      await handleTokenExchange(request, response, requestId);
+      return;
     }
 
     // Contact / booking form submission → transactional email via Resend.
@@ -732,6 +734,19 @@ const server = createServer(async (request, response) => {
     });
     return respond(response, 500, JSON.stringify({ error: "internal_server_error" }), "application/json");
   }
+});
+
+// Safety net for any promise rejection that escapes the router's try/catch.
+// In Node 15+, the default for unhandled rejections is to throw — which kills
+// the process and triggers a Docker restart. We log instead, so a transient
+// fetch failure (e.g. GitHub is briefly down) degrades each request to a 500
+// instead of taking the whole sidecar down. The router-level await above is
+// the real fix; this is defense in depth in case a future route forgets.
+process.on("unhandledRejection", (reason) => {
+  logEvent("oauth_unhandled_rejection", {
+    errorType: reason instanceof Error ? reason.name : "UnknownError",
+    errorMessage: reason instanceof Error ? reason.message : String(reason),
+  });
 });
 
 server.listen(PORT, HOST, () => console.error(`Decap OAuth listening on http://${HOST}:${PORT}`));
