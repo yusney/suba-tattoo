@@ -45,7 +45,9 @@ RUN pnpm run build
 # Alpine's package ships nodejs v22 — enough for our OAuth server.
 # Total image size: ~60 MB (vs ~320 MB with node:alpine + nginx).
 # ============================================================
-FROM nginx:1.27-alpine
+# Pinned to mainline 1.31.3 (patched against CVE-2026-42945 "NGINX Rift",
+# CVE-2026-42533 and CVE-2026-42946). Do not float on major-only tags.
+FROM nginx:1.31.3-alpine
 
 # Node.js for the OAuth proxy. v18+ is required (built-in fetch); Alpine 3.20 ships v22.
 RUN apk add --no-cache nodejs

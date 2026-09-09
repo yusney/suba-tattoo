@@ -130,18 +130,31 @@ function checkContactRateLimit(ip, requestId) {
   return { ok: true };
 }
 
-function getPublicOrigin(request) {
-  const forwardedProto = request.headers["x-forwarded-proto"];
-  const forwardedHost = request.headers["x-forwarded-host"];
-  const proto = typeof forwardedProto === "string" && forwardedProto.trim()
-    ? forwardedProto.split(",")[0].trim()
-    : "https";
-  const host = typeof forwardedHost === "string" && forwardedHost.trim()
-    ? forwardedHost.trim()
-    : request.headers.host;
+// Local-only fallback for development. Production origin must come ONLY
+// from the PUBLIC_SITE_URL env var — no production URL may be hardcoded
+// here, so a missing env var can never mint a redirect_uri for the live
+// site. Matches the documented `astro dev` URL (see README).
+const DEFAULT_PUBLIC_ORIGIN = "http://localhost:4321";
 
-  if (typeof host !== "string" || !host) throw new Error("Missing public host");
-  return `${proto}://${host}`;
+function getPublicOrigin() {
+  // Allowlisted origin is the single source of truth. Never trust
+  // X-Forwarded-Host / Host here: either header is client-controlled when
+  // the origin is reachable directly, which would let an attacker forge the
+  // redirect_uri handed to GitHub. PUBLIC_SITE_URL must match the OAuth App
+  // callback registration exactly (scheme + host, no trailing slash).
+  // A value of "false" (see .env.example) or empty counts as unset and
+  // falls back to the localhost default, mirroring astro.config.mjs.
+  const raw = typeof process.env.PUBLIC_SITE_URL === "string"
+    ? process.env.PUBLIC_SITE_URL.trim().replace(/\/+$/, "")
+    : "";
+  const configured = raw && raw.toLowerCase() !== "false" ? raw : "";
+  const origin = configured || DEFAULT_PUBLIC_ORIGIN;
+  if (!origin) throw new Error("Missing public origin");
+  try {
+    return new URL(origin).origin;
+  } catch {
+    throw new Error("Invalid public origin");
+  }
 }
 
 function callbackMessage(status, payload) {
@@ -202,6 +215,15 @@ function respondCallback(response, status, message) {
 }
 
 async function readBody(request) {
+  // Early Content-Length gate: reject oversized bodies before buffering the
+  // stream, so a huge Content-Length cannot force us to allocate first.
+  const contentLength = request.headers["content-length"];
+  if (typeof contentLength === "string" && contentLength.trim() !== "") {
+    const parsedLength = Number.parseInt(contentLength.trim(), 10);
+    if (Number.isFinite(parsedLength) && parsedLength > REQUEST_BODY_LIMIT) {
+      throw new Error("Request body too large");
+    }
+  }
   // Decode each chunk as UTF-8 BEFORE concatenation. Without this, Node
   // delivers Buffer chunks that we coerce to string via `body += chunk`,
   // and multi-byte chars (á é ñ ç ...) split across chunk boundaries are
@@ -275,9 +297,17 @@ async function exchangeCode({ code, state, requestId }) {
 async function handleTokenExchange(request, response, requestId) {
   const contentType = request.headers["content-type"] ?? "";
   const body = await readBody(request);
-  const params = contentType.includes("application/json")
-    ? Object.fromEntries(Object.entries(JSON.parse(body)))
-    : Object.fromEntries(new URLSearchParams(body));
+  let params;
+  if (contentType.includes("application/json")) {
+    try {
+      params = Object.fromEntries(Object.entries(JSON.parse(body)));
+    } catch {
+      logEvent("oauth_invalid_request", { requestId, reason: "invalid_json" });
+      return respond(response, 400, JSON.stringify({ error: "invalid_request" }), "application/json");
+    }
+  } else {
+    params = Object.fromEntries(new URLSearchParams(body));
+  }
   const exchange = await exchangeCode({ code: params.code, state: params.state, requestId });
 
   if (!exchange.ok) {
@@ -688,13 +718,11 @@ const server = createServer(async (request, response) => {
       // object with a `nonce` field. (GitHub echoes whatever we put in
       // the authorize URL back to us unchanged in /admin/callback.)
       const stateString = JSON.stringify({ nonce: randomBytes(32).toString("hex") });
-      // X-Forwarded-Proto may be empty if nginx didn't preserve the incoming
-      // header (container-internal port is http://). The public scheme is
-      // always https when reached through Cloudflare/Traefik; we default to
-      // https so the redirect_uri we hand to GitHub matches the OAuth App's
-      // registered callback URL.
+      // redirect_uri comes from the allowlisted PUBLIC_SITE_URL origin
+      // (localhost fallback in dev), never from Host headers, so it always
+      // matches the OAuth App's registered callback URL.
       // Keep the callback path already registered in the GitHub OAuth App.
-      const redirectUri = `${getPublicOrigin(request)}/admin/callback?provider=github`;
+      const redirectUri = `${getPublicOrigin()}/admin/callback?provider=github`;
       states.set(stateString, { expiresAt: Date.now() + STATE_TTL_MS, redirectUri });
       logEvent("oauth_authorization_started", {
         requestId,

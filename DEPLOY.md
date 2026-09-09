@@ -201,6 +201,22 @@ En el browser, verificar visualmente que el widget aparece (puede ser invisible 
 
 Volver a [Paso 5 — Configurar dominio](#paso-5--configurar-dominio).
 
+## Paso 4d — Required sidecar environment (hardening)
+
+Set these on the Dokploy service (Environment tab), then redeploy:
+
+```
+PUBLIC_SITE_URL=https://suba.donduque.dev
+NODE_ENV=production
+TURNSTILE_SECRET_KEY=0x4BBBBBBBXXXXXXXXXXXX
+```
+
+- `PUBLIC_SITE_URL`: single source of truth for the OAuth `redirect_uri` (`<origin>/admin/callback?provider=github`). Must match the GitHub OAuth App callback URL exactly (no trailing slash). Required in production — when unset (or `false`) the sidecar falls back to `http://localhost:4321`, which breaks CMS login on the live domain.
+- `NODE_ENV`: must be exactly `production`. Any other value runs the sidecar in dev mode (captcha verification skipped when the secret is missing).
+- `TURNSTILE_SECRET_KEY`: required in production; submissions are rejected with `503 captcha_misconfigured` when missing.
+
+Network: the origin must accept HTTP traffic only from Cloudflare ranges (cf-guard / firewall locked to Cloudflare IPs). The sidecar trusts `CF-Connecting-IP` for rate limiting and captcha `remoteip`, which is only unspoofable behind that restriction.
+
 ## Paso 5 — Configurar dominio
 
 1. En el service recién creado, ir al tab **Domains**
