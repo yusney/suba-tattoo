@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import policyDecorative from "../assets/reserva/policy-decorative.jpg";
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 
@@ -31,12 +33,14 @@ const t = useTranslations(locale);
   </ul>
   <div class="mt-8 pt-8 border-t border-outline-variant">
     <div class="aspect-square bg-surface-container-high relative flex items-center justify-center overflow-hidden">
-      <img
+      <Image
         class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40"
         alt={t("reserva.image_alt") as string}
-        src="/images/reserva/policy-decorative.jpg"
-        width="512"
-        height="512"
+        src={policyDecorative}
+        widths={[256, 512]}
+        sizes="(min-width: 1024px) 25vw, 100vw"
+        loading="lazy"
+        decoding="async"
       />
       <span class="relative z-10 font-label-sm text-[10px] uppercase tracking-[0.3em] rotate-90">{t("reserva.studio_identity")}</span>
     </div>
