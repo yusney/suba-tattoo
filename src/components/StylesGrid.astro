@@ -50,14 +50,14 @@ const { styles } = Astro.props;
                 />
                 <div class="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black/80 to-transparent">
                   <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
-                  <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>
+                  <h3 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h3>
                 </div>
               </>
             ) : (
               <div class="absolute inset-0 flex items-center justify-center bg-[#1a1a1a] p-12">
                 <div class="text-center">
                   <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
-                  <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>
+                  <h3 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h3>
                   <p class="text-label-sm text-on-surface-variant mt-4 max-w-xs text-justify leading-relaxed md:text-left">{style.description}</p>
                 </div>
               </div>

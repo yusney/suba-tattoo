@@ -14,10 +14,10 @@ const t = useTranslations(locale);
 ---
 
 <div class="sticky top-32 p-8 border border-primary/30 bg-surface-container-low">
-  <h4 class="font-label-sm text-label-sm text-primary uppercase mb-6 flex items-center gap-2">
+  <h3 class="font-label-sm text-label-sm text-primary uppercase mb-6 flex items-center gap-2">
     <span class="material-symbols-outlined icon-filled text-sm" aria-hidden="true">gavel</span>
     {t("reserva.policy_title")}
-  </h4>
+  </h3>
   <ul class="space-y-6 text-sm text-on-surface-variant">
     {t.arrayObjects<PolicyBullet>("reserva.policy_bullets").map((b) => (
       <li class="flex gap-4">
