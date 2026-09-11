@@ -97,6 +97,14 @@
     "previous": "Anterior",
     "loading": "Carregant…"
   },
+  "not_found": {
+    "title": "Pàgina no trobada — SUBA TATTOO",
+    "heading": "404 · Pàgina no trobada",
+    "message": "La pàgina que busques no existeix o s'ha mogut. Pots tornar a l'inici, veure la galeria o reservar la teva cita.",
+    "cta_home": "Tornar a l'inici",
+    "cta_gallery": "Veure galeria",
+    "cta_booking": "Reservar cita"
+  },
   "a11y": {
     "skip_to_content": "Salta al contingut principal",
     "section_marker_format": "{current} / {total}"
