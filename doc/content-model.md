@@ -1,6 +1,6 @@
 # Content Model
 
-A short tour of the four content collections that power the SUBA TATTOO site. The schema lives in two places that must stay in sync: `public/admin/config.yml` (what Decap renders in the admin UI) and `src/content.config.ts` (what Astro validates at build time). Field names, types, and required flags are identical between the two.
+A short tour of the four content collections that power the SUBA TATTOO site. The schema lives in two places that must stay in sync: `src/cms/config.yml` (the Decap template rendered at build; what Decap shows in the admin UI) and `src/content.config.ts` (what Astro validates at build time). Field names, types, and required flags are identical between the two.
 
 ## Locale separation
 

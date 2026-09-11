@@ -13,14 +13,20 @@ backend:
   # URL as `base_url + "/" + auth_endpoint` (literally that template string
   # in lib-auth.netlify-auth.js). The default base_url is
   # `https://api.netlify.com`, so passing auth_endpoint as a full URL
-  # becomes `api.netlify.com/https://suba.donduque.dev/auth?...` — which
+  # becomes `api.netlify.com/https://<site-origin>/auth?...` — which
   # is the Netlify Git Gateway, not our OAuth proxy.
   #
   # Fix: set base_url to our public origin and auth_endpoint to the path
   # (no leading slash — the code interpolates the slash). The popup will
-  # open at https://suba.donduque.dev/auth?provider=github&site_id=...,
-  # which nginx location = /auth proxies to the in-container OAuth sidecar.
-  base_url: https://suba.donduque.dev
+  # open at <site-origin>/auth?provider=github&site_id=..., which nginx
+  # location = /auth proxies to the in-container OAuth sidecar.
+  #
+  # NOTE: This file is a build-time template, NOT the served config. It is
+  # rendered by src/pages/admin/config.yml.ts, which replaces the __SITE_URL__
+  # token with the PUBLIC_SITE_URL origin. This keeps the real domain out of the repo
+  # while the served /admin/config.yml stays environment-correct. Decap does
+  # NOT read env vars from config.yml, so the substitution happens at build.
+  base_url: __SITE_URL__
   auth_endpoint: auth
   # The callback path remains /admin/callback because it is already registered
   # in the GitHub OAuth App (see nginx.conf).
