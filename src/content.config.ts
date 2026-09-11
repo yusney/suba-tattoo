@@ -4,7 +4,7 @@ import { glob } from "astro/loaders";
 /**
  * Content collections for SUBA TATTOO.
  *
- * The schema here mirrors `public/admin/config.yml` 1:1 so that the Decap CMS
+ * The schema here mirrors `src/cms/config.yml` 1:1 so that the Decap CMS
  * (and any human editing the markdown / JSON directly) validate the same
  * shape. Field names and types must stay in sync.
  *

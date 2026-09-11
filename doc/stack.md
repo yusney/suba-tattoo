@@ -48,7 +48,7 @@ We use the **CDN installation** (no npm install of Decap itself) so the admin bu
 #### Where it lives
 
 - `public/admin/index.html` — Decap loader (the UI). Served at `/admin/`.
-- `public/admin/config.yml` — the schema: which collections, which fields, which widgets.
+- `src/cms/config.yml` — the schema template: which collections, which fields, which widgets (rendered to `/admin/config.yml` at build by `src/pages/admin/config.yml.ts`).
 - `src/content.config.ts` — the Zod mirror of the schema, used by Astro at build time. **Keep this in sync with `config.yml`.**
 - `src/content/` — the actual content files (markdown for tattoos, JSON for the rest).
 - `src/lib/site.ts` — typed helper that reads `site_settings` and exposes it to components (with a `whatsappLink()` util).
@@ -177,7 +177,7 @@ src/
 │   ├── faq.json       FAQ & Cuidados (single JSON)
 │   ├── sobre.json     Sobre el Artista (single JSON)
 │   └── settings.json  Global site settings (single JSON)
-├── content.config.ts  Zod schemas — mirror of public/admin/config.yml
+├── content.config.ts  Zod schemas — mirror of src/cms/config.yml
 ├── layouts/           BaseLayout.astro — wraps every page
 ├── lib/               Typed helpers (e.g. site.ts → getSiteSettings())
 ├── pages/             File-based routing → URL

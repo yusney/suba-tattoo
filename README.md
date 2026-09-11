@@ -4,12 +4,12 @@
 
 Underground tattoo studio portfolio & booking site for **Joshua Jiménez Buendía**, based in Montcada i Reixac (Barcelona). Realism, Blackwork, Color and Fine Line.
 
-- **Pre-production / staging** (current): [https://suba.donduque.dev](https://suba.donduque.dev)
-- **Admin panel**: [https://suba.donduque.dev/admin/](https://suba.donduque.dev/admin/)
+- **Pre-production / staging** (current): served from a temporary staging origin (not committed — see `PUBLIC_SITE_URL` in `DEPLOY.md`).
+- **Admin panel**: `<staging-origin>/admin/`
 - **Production**: TBD — when the client purchases their own domain, the same Dokploy pipeline serves it.
 - **Repository**: [github.com/yusney/suba-tattoo](https://github.com/yusney/suba-tattoo)
 
-> **Note on environments.** `suba.donduque.dev` is a subdomain of the developer's main domain (`donduque.dev`) used as a **pre-production preview** for the artist to review work in progress. The final production domain will be different (the artist's own domain, e.g. `subatattoo.com` or similar) and will be configured at the same Dokploy pipeline when available. All config files (`astro.config.mjs`, `public/robots.txt`, `public/admin/config.yml`) currently point to the staging URL — they are swapped to the production URL when ready, no code changes required.
+> **Note on environments.** The staging origin is a temporary subdomain owned by the developer, used as a **pre-production preview** for the artist to review work in progress. The final production domain will be the artist's own domain (e.g. `subatattoo.com` or similar), configured at the same Dokploy pipeline when available. The canonical origin comes from a single `PUBLIC_SITE_URL` env var at build time: it drives `site`, sitemap, canonicals, `robots.txt`, and the Decap OAuth `base_url` (generated from `src/cms/config.yml`). No real domains are committed to the repo.
 
 ---
 
@@ -157,7 +157,7 @@ Full walkthrough in [`DEPLOY.md`](./DEPLOY.md). Summary:
 2. Dokploy has a webhook on push → `main`.
 3. Dokploy builds the Docker image and runs it on port 80.
 4. Traefik (in front of Dokploy) handles SSL with Let's Encrypt.
-5. The site is reachable at the configured domain (currently `suba.donduque.dev` for staging).
+5. The site is reachable at the configured domain (staging origin set via `PUBLIC_SITE_URL`; no domain is committed).
 
 For content updates from `/admin/`, Decap commits to the same repo → Dokploy rebuilds automatically → live in ~2 minutes.
 

@@ -6,20 +6,20 @@ Guia paso a paso para desplegar en Dokploy (VPS con Docker).
 
 | Entorno | URL | Notas |
 |---|---|---|
-| **Pre-producción / staging** | `https://suba.donduque.dev` | Subdominio temporal del dev (`donduque.dev`) — para que el artista revise el sitio mientras se construye. |
+| **Pre-producción / staging** | `https://<staging-origin>` | Subdominio temporal de staging (lo define `PUBLIC_SITE_URL`) — para que el artista revise el sitio mientras se construye. |
 | **Producción** | TBD | Dominio propio del artista (ej: `subatattoo.com`). Se configura igual en Dokploy cuando esté disponible. |
 
-> La diferencia entre los dos entornos es **solo el dominio**: el código, el Dockerfile, el pipeline de Dokploy, y el repo de GitHub son los mismos. Cambiar de staging a producción es swap de DNS + actualizacion de 3 archivos (`astro.config.mjs`, `robots.txt`, `Decap config.yml`).
+> La diferencia entre los dos entornos es **solo el dominio**: el código, el Dockerfile, el pipeline de Dokploy, y el repo de GitHub son los mismos. El origin canónico vive en una sola variable, `PUBLIC_SITE_URL`, que se pasa como build-arg en Dokploy; de ahí salen `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap. Cambiar de staging a producción es swap de DNS + actualizar `PUBLIC_SITE_URL` (y el callback de la OAuth App): **sin editar ni commitear archivos**.
 
 ## Estado actual
 
-- **Repo GitHub**: `yusney/suba-tattoo` (configurado en `public/admin/config.yml`)
-- **Entorno activo**: pre-producción en `https://suba.donduque.dev`
+- **Repo GitHub**: `yusney/suba-tattoo` (Decap config template en `src/cms/config.yml`)
+- **Entorno activo**: pre-producción servida en el origin definido por `PUBLIC_SITE_URL`
 
 ## Pre-requisitos
 
 - VPS con Dokploy ya instalado y accesible
-- Subdominio `suba.donduque.dev` con DNS A record apuntando a la IP del VPS
+- Subdominio `tu-dominio.com` con DNS A record apuntando a la IP del VPS
 - Cuenta de GitHub con acceso al repo `yusney/suba-tattoo`
 
 ## Paso 1 — Crear el repo de GitHub (si todavía no existe)
@@ -47,8 +47,8 @@ git push -u origin main
 2. Click **New OAuth App**
 3. Llenar:
    - **Application name**: `SUBA TATTOO CMS`
-   - **Homepage URL**: `https://suba.donduque.dev`
-   - **Authorization callback URL**: `https://suba.donduque.dev/admin/callback`
+   - **Homepage URL**: `https://tu-dominio.com`
+   - **Authorization callback URL**: `https://tu-dominio.com/admin/callback`
 4. Click **Register application**
 5. Copiar el **Client ID** y generar un **Client Secret**.
 
@@ -56,35 +56,24 @@ Necesitarás el **Client ID** y **Client Secret** de la OAuth App. Se configuran
 
 ## Paso 3 — Configurar Decap CMS
 
-Ya está configurado en `public/admin/config.yml`:
+El config de Decap es un **template** versionado en `src/cms/config.yml`. El dominio real no está en el repo: en build, el endpoint `src/pages/admin/config.yml.ts` reemplaza el token `__SITE_URL__` por el origin de `PUBLIC_SITE_URL` y emite el `/admin/config.yml` que se sirve. Decap no soporta variables de entorno dentro del YAML, así que la sustitución ocurre en build time.
 
 ```yaml
 backend:
   name: github
   repo: yusney/suba-tattoo
   branch: main
-  base_url: https://suba.donduque.dev
-  auth_endpoint: https://suba.donduque.dev/auth
+  base_url: __SITE_URL__   # -> origin de PUBLIC_SITE_URL en build
+  auth_endpoint: auth
 ```
 
 El backend `github` apunta al proxy OAuth del propio container (`base_url + /auth`). El proxy corre como proceso Node dentro del container; Dokploy/Traefik no necesita config adicional.
 
-Si tenés que cambiar el dominio en el futuro, editá:
-- `public/admin/config.yml` → `base_url`
-- `astro.config.mjs` → `site`
-- `public/robots.txt` → URL del sitemap
-
-Committear y pushear:
-
-```bash
-git add .
-git commit -m "Configure for staging domain"
-git push
-```
+Para cambiar el dominio en el futuro: seteá `PUBLIC_SITE_URL` como build-arg en Dokploy (ver [Paso 4d](#paso-4d--required-sidecar-environment-hardening)) y redesplegá. No hay que editar ni commitear archivos.
 
 ## Paso 4 — Crear proyecto en Dokploy
 
-1. Login en Dokploy (ej: `https://dokploy.donduque.dev` o donde lo tengas)
+1. Login en Dokploy (ej: `https://dokploy.tu-dominio.com` o donde lo tengas)
 2. Click **Create Project** → nombre: `suba-tattoo`
 3. Dentro del proyecto, click **Create Service** → **Application**
 4. **Source**: GitHub → seleccionar repo `yusney/suba-tattoo`, branch `main`
@@ -124,7 +113,7 @@ Pasos para producción:
 3. Resend devuelve registros DNS: **MX en el subdominio `send.`** (ej. `send.subatattoo.es → feedback-smtp.us-east-1.amazonses.com`), **DKIM** y **DMARC**. Agregarlos en el panel DNS del dominio y esperar a que Resend confirme la verificación.
 4. Crear API key con permiso **Sending access** → guardar como `RESEND_API_KEY`.
 
-En staging el dominio temporal es `suba.donduque.dev`; mientras ese dominio no esté verificado en Resend, podés probar el flujo enviando a tu propio email vía `onboarding@resend.dev` (limitaciones de Resend: solo hacia emails de la cuenta que creó la API key).
+En staging el dominio temporal es `tu-dominio.com`; mientras ese dominio no esté verificado en Resend, podés probar el flujo enviando a tu propio email vía `onboarding@resend.dev` (limitaciones de Resend: solo hacia emails de la cuenta que creó la API key).
 
 ### Setup en Dokploy
 
@@ -168,7 +157,7 @@ Si falta `TURNSTILE_SECRET_KEY`:
 1. Ir a [Cloudflare Dashboard → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile) → **Add Widget**
 2. Llenar:
    - **Widget name**: `SUBA TATTOO`
-   - **Hostname**: `suba.donduque.dev` (o el dominio final en producción)
+   - **Hostname**: `tu-dominio.com` (o el dominio final en producción)
    - **Widget Mode**: **Managed** (recomendado — invisible para usuarios legítimos, solo muestra checkbox si el riesgo es alto)
 3. Click **Create**
 4. Copiar las dos keys que aparecen en el panel:
@@ -201,17 +190,20 @@ En el browser, verificar visualmente que el widget aparece (puede ser invisible 
 
 Volver a [Paso 5 — Configurar dominio](#paso-5--configurar-dominio).
 
-## Paso 4d — Required sidecar environment (hardening)
+## Paso 4d — Required environment (build + runtime)
 
-Set these on the Dokploy service (Environment tab), then redeploy:
+`PUBLIC_SITE_URL` is needed in **two places**, both set on the Dokploy service:
+
+1. **Build arg** — the Astro build reads it for `site`, sitemap, canonicals, `robots.txt`, and the generated `/admin/config.yml`. In Dokploy: service → **Build** → **Build Args** (el nombre exacto del tab depende de la versión de Dokploy).
+2. **Runtime env** — the OAuth sidecar uses it as the `redirect_uri` origin. Service → **Environment** tab.
 
 ```
-PUBLIC_SITE_URL=https://suba.donduque.dev
+PUBLIC_SITE_URL=https://tu-dominio.com   # build-arg AND runtime env
 NODE_ENV=production
 TURNSTILE_SECRET_KEY=0x4BBBBBBBXXXXXXXXXXXX
 ```
 
-- `PUBLIC_SITE_URL`: single source of truth for the OAuth `redirect_uri` (`<origin>/admin/callback?provider=github`). Must match the GitHub OAuth App callback URL exactly (no trailing slash). Required in production — when unset (or `false`) the sidecar falls back to `http://localhost:4321`, which breaks CMS login on the live domain.
+- `PUBLIC_SITE_URL`: single source of truth for the canonical origin. At **build** it drives `site`, sitemap, canonicals, `robots.txt` and the Decap `base_url` (the `__SITE_URL__` token in `src/cms/config.yml`); at **runtime** it is the OAuth `redirect_uri` origin (`<origin>/admin/callback?provider=github`). Must match the GitHub OAuth App callback URL exactly (no trailing slash). Required in production — when unset (or `false`) the build fails and the sidecar falls back to `http://localhost:4321`, which breaks CMS login on the live domain.
 - `NODE_ENV`: must be exactly `production`. Any other value runs the sidecar in dev mode (captcha verification skipped when the secret is missing).
 - `TURNSTILE_SECRET_KEY`: required in production; submissions are rejected with `503 captcha_misconfigured` when missing.
 
@@ -222,7 +214,7 @@ Network: the origin must accept HTTP traffic only from Cloudflare ranges (cf-gua
 1. En el service recién creado, ir al tab **Domains**
 2. Click **Add Domain**
 3. Llenar:
-   - **Host**: `suba.donduque.dev`
+   - **Host**: `tu-dominio.com`
    - **Path**: `/` (dejar vacío o `/`)
    - **Container Port**: `80` (porque nginx escucha en 80 dentro del container)
    - **HTTPS**: **activado** (toggle on)
@@ -236,7 +228,7 @@ Dokploy automáticamente:
 
 **No requiere redeploy** — los cambios de dominio en Dokploy se aplican via hot reload de Traefik.
 
-**Importante**: el DNS A record de `suba.donduque.dev` tiene que apuntar a la IP del VPS **antes** de configurar el dominio en Dokploy, si no Let's Encrypt no va a poder validar el certificado.
+**Importante**: el DNS A record de `tu-dominio.com` tiene que apuntar a la IP del VPS **antes** de configurar el dominio en Dokploy, si no Let's Encrypt no va a poder validar el certificado.
 
 ## Paso 6 — Habilitar auto-deploy
 
@@ -252,25 +244,25 @@ Dokploy automáticamente:
 
 ```bash
 # Deberia devolver HTML del sitio
-curl -sI https://suba.donduque.dev
+curl -sI https://tu-dominio.com
 
 # Verificar el admin (deberia servir el HTML del panel)
-curl -sI https://suba.donduque.dev/admin/
+curl -sI https://tu-dominio.com/admin/
 
 # Verificar que /en/ y /ca/ funcionan (i18n)
-curl -sI https://suba.donduque.dev/en/
-curl -sI https://suba.donduque.dev/ca/
+curl -sI https://tu-dominio.com/en/
+curl -sI https://tu-dominio.com/ca/
 
 # Sitemap
-curl -sI https://suba.donduque.dev/sitemap-index.xml
+curl -sI https://tu-dominio.com/sitemap-index.xml
 
 # OG image
-curl -sI https://suba.donduque.dev/images/og/og-default.jpg
+curl -sI https://tu-dominio.com/images/og/og-default.jpg
 ```
 
 ## Paso 7 — Onboarding del artista
 
-1. El artista va a `https://suba.donduque.dev/admin/`
+1. El artista va a `https://tu-dominio.com/admin/`
 2. Click **Login with GitHub**
 3. GitHub le pide autorizar la OAuth App
 4. Una vez autorizado, ve el panel de Decap con todas las colecciones
@@ -283,16 +275,12 @@ El artista necesita tener acceso de escritura al repo de GitHub. Opciones:
 
 1. Comprar el dominio definitivo (ej: `subatattoo.com`)
 2. Configurar DNS A record → IP del VPS
-3. En Dokploy, agregar el dominio final al service (mantener `suba.donduque.dev` también para preview si querés, o removerlo)
-4. Actualizar en el código (solo 3 archivos):
-   - `astro.config.mjs` → `site: 'https://[dominio-final]'`
-   - `public/robots.txt` → URL del sitemap
-   - `public/admin/config.yml` → `base_url`
+3. En Dokploy, agregar el dominio final al service (mantener el staging origin también para preview si querés, o removerlo)
+4. Actualizar `PUBLIC_SITE_URL` al dominio final (build-arg) y redesplegar. Eso regenera `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap en un solo paso.
 5. En GitHub OAuth App, agregar el nuevo callback URL (podés tener varios callbacks en una misma OAuth App)
-6. `git commit -m "Switch to production domain" && git push` — Dokploy redespliega automáticamente
-7. Verificar con `curl -sI https://[dominio-final]`
+6. Verificar con `curl -sI https://[dominio-final]`
 
-> **Tip de roll-back rápido:** como Dokploy mantiene el `suba.donduque.dev` mientras siga configurado, si algo falla en producción podés volver a staging cambiando los 3 archivos al revés. El historial de git lo deja documentado.
+> **Tip de roll-back rápido:** como Dokploy mantiene el staging origin mientras siga configurado, si algo falla en producción volvés a staging cambiando `PUBLIC_SITE_URL` al valor anterior y redesplegando. El historial de Dokploy lo deja documentado y no hay código que revertir.
 
 ## Mantenimiento
 
@@ -313,7 +301,7 @@ git push
 Recomendado: cron + restic a S3/B2 cada noche. El código está en GitHub, pero los uploads via Decap CMS también commitean al repo, así que con backups del VPS estás cubierto.
 
 ### Monitor
-Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://suba.donduque.dev`.
+Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://tu-dominio.com`.
 
 ## Troubleshooting
 
@@ -327,7 +315,7 @@ Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://sub
 - Verificar que `OAUTH_CLIENT_ID` y `OAUTH_CLIENT_SECRET` estén presentes en las variables de entorno del container en Dokploy
 - Verificar que `curl -sI https://<host>/auth` redirija a `github.com`
 - Verificar que la `Authorization callback URL` en GitHub OAuth App sea EXACTAMENTE `https://<host>/admin/callback` (sin trailing slash, con https)
-- Verificar que el `base_url` y `auth_endpoint` en `config.yml` coincidan con el dominio real
+- Verificar que `PUBLIC_SITE_URL` (build-arg) coincida con el dominio real: el `/admin/config.yml` servido se genera con ese origin en `base_url` (`auth_endpoint: auth`), así que un build con el valor viejo deja el login apuntando al dominio equivocado
 
 **Las imágenes no se ven:**
 - Verificar que la carpeta `public/images/` se commitea al repo

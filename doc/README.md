@@ -22,7 +22,7 @@ suba_tattoo/
 ├── src/                  Astro source code
 │   ├── components/
 │   ├── content/          Content files: tattoos/, faq.json, sobre.json, settings.json
-│   ├── content.config.ts Zod schemas (mirror of public/admin/config.yml)
+│   ├── content.config.ts Zod schemas (mirror of src/cms/config.yml)
 │   ├── layouts/
 │   ├── lib/              Typed helpers (site.ts)
 │   ├── pages/
