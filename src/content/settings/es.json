@@ -12,5 +12,12 @@
   "hero_headline_line_2_stroke": "& Arte Único",
   "hero_subtitle": "Realismo, Blackwork, Color y Fine Line. Diseños concebidos a medida para cada anatomía. Fusionamos la precisión técnica con la crudeza artística.",
   "about_short": "Estudio de tatuaje underground en Montcada i Reixac (Barcelona). Realismo, Blackwork, Color y Fine Line. Diseños personalizados con precisión técnica y crudeza artística.",
-  "opening_hours": "Lun — Sáb · 11:00 — 20:00"
+  "opening_hours": "Lun — Sáb · 11:00 — 20:00",
+  "geo": {
+    "street": "Carrer Mallorca, 32",
+    "postal_code": "08110",
+    "city": "Montcada i Reixac",
+    "region": "Barcelona"
+  },
+  "schema_opening_hours": "Mo-Sa 11:00-20:00"
 }

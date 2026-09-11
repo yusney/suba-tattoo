@@ -439,6 +439,16 @@ collections:
           - { name: "instagram_url_secondary", label: "URL de Instagram secundaria (ej: línea de trabajo)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "Número WhatsApp (formato internacional, ej: +34000000000)", widget: "string", required: false }
           - { name: "address",        label: "Dirección física",      widget: "string", required: false }
+          - name: "geo"
+            label: "SEO local — dirección estructurada"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "street",      label: "Calle y número", widget: "string" }
+              - { name: "postal_code", label: "Código postal",  widget: "string" }
+              - { name: "city",        label: "Ciudad",         widget: "string" }
+              - { name: "region",      label: "Provincia",      widget: "string" }
+          - { name: "schema_opening_hours", label: "SEO local — horario schema.org (ej: Mo-Sa 11:00-20:00)", widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — línea 1 (sólida)",          widget: "string" }
           - { name: "hero_headline_line_2_stroke", label: "Hero — línea 2 (text-stroke)",     widget: "string" }
           - { name: "hero_subtitle",              label: "Hero — subtítulo",                 widget: "text" }
@@ -456,6 +466,16 @@ collections:
           - { name: "instagram_url_secondary", label: "Instagram URL (secondary, e.g. work line)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "WhatsApp number (international format, e.g. +44000000000)", widget: "string", required: false }
           - { name: "address",        label: "Physical address", widget: "string", required: false }
+          - name: "geo"
+            label: "Local SEO — structured address"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "street",      label: "Street and number", widget: "string" }
+              - { name: "postal_code", label: "Postal code",       widget: "string" }
+              - { name: "city",        label: "City",              widget: "string" }
+              - { name: "region",      label: "Region/Province",   widget: "string" }
+          - { name: "schema_opening_hours", label: "Local SEO — schema.org opening hours (e.g. Mo-Sa 11:00-20:00)", widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — line 1 (solid)",        widget: "string" }
           - { name: "hero_headline_line_2_stroke", label: "Hero — line 2 (text-stroke)",   widget: "string" }
           - { name: "hero_subtitle",              label: "Hero — subtitle",               widget: "text" }
@@ -473,6 +493,16 @@ collections:
           - { name: "instagram_url_secondary", label: "URL d'Instagram secundària (ex: línia de treball)", widget: "string", required: false }
           - { name: "whatsapp_number", label: "Número WhatsApp (format internacional, ex.: +34000000000)", widget: "string", required: false }
           - { name: "address",        label: "Adreça física",    widget: "string", required: false }
+          - name: "geo"
+            label: "SEO local — adreça estructurada"
+            widget: "object"
+            required: false
+            fields:
+              - { name: "street",      label: "Carrer i número", widget: "string" }
+              - { name: "postal_code", label: "Codi postal",     widget: "string" }
+              - { name: "city",        label: "Ciutat",          widget: "string" }
+              - { name: "region",      label: "Província",       widget: "string" }
+          - { name: "schema_opening_hours", label: "SEO local — horari schema.org (ex: Mo-Sa 11:00-20:00)", widget: "string", required: false }
           - { name: "hero_headline_line_1",       label: "Hero — línia 1 (sòlida)",     widget: "string" }
           - { name: "hero_headline_line_2_stroke", label: "Hero — línia 2 (text-stroke)", widget: "string" }
           - { name: "hero_subtitle",              label: "Hero — subtítol",             widget: "text" }

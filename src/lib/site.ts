@@ -17,6 +17,13 @@ export interface SiteSettings {
   hero_subtitle: string;
   about_short: string;
   opening_hours?: string;
+  geo?: {
+    street: string;
+    postal_code: string;
+    city: string;
+    region: string;
+  };
+  schema_opening_hours?: string;
 }
 
 function readConfiguredSiteUrl(value: string | undefined): string | undefined {

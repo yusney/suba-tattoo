@@ -2,7 +2,9 @@
 import "../styles/global.css";
 import { useTranslations, getLocaleFromPath, localizePath, LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
-import { configuredSiteUrl } from "../lib/site";
+import { configuredSiteUrl, getSiteSettings } from "../lib/site";
+import { buildTattooShopSchema } from "../lib/structured-data";
+import JsonLd from "../components/JsonLd.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
@@ -57,6 +59,10 @@ const hreflangs = siteOrigin
   : [];
 const xDefaultHref = hreflangs.find((h) => h.lang === DEFAULT_LOCALE)?.href ?? (siteOrigin ? new URL("/", siteOrigin).toString() : undefined);
 const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+
+// Site-wide business entity for rich results. Settings are memoized per locale.
+const settings = await getSiteSettings(safeLocale);
+const tattooShopSchema = siteOrigin ? buildTattooShopSchema(settings, siteOrigin) : undefined;
 ---
 
 <!doctype html>
@@ -78,6 +84,8 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
       <link rel="alternate" hreflang={lang} href={href} />
     ))}
     {xDefaultHref && <link rel="alternate" hreflang="x-default" href={xDefaultHref} />}
+
+    {tattooShopSchema && <JsonLd data={tattooShopSchema} />}
 
     <meta property="og:title" content={finalTitle} />
     <meta property="og:description" content={finalDescription} />
