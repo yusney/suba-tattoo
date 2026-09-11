@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TopBar from "../components/TopBar.astro";
+import Footer from "../components/Footer.astro";
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+
+// Static 404.html served by nginx for any unmatched URL (see nginx.conf:
+// `error_page 404 /404.html`). It always renders in the default locale; the
+// CTAs use the trailing slash the edge serves to avoid an extra redirect.
+const t = useTranslations(DEFAULT_LOCALE);
+---
+<Layout title={t("not_found.title")} noindex={true}>
+  <TopBar />
+  <main id="main" class="flex min-h-screen items-center pt-24">
+    <section class="mx-auto w-full max-w-container-max px-margin-mobile py-12 text-center md:px-margin-desktop">
+      <span class="section-marker" aria-hidden="true">404</span>
+      <h1 class="mb-6 font-headline-lg text-3xl uppercase md:text-headline-lg">{t("not_found.heading")}</h1>
+      <p class="mx-auto mb-10 max-w-2xl font-body-md text-body-md text-on-surface-variant">{t("not_found.message")}</p>
+      <nav class="flex flex-col items-center justify-center gap-4 md:flex-row md:gap-6">
+        <a
+          class="w-full border border-primary bg-primary px-10 py-4 text-label-sm font-label-sm font-bold uppercase tracking-[0.2em] text-on-primary transition-[background-color,color] hover:bg-transparent hover:text-primary touch-manipulation md:w-auto"
+          href="/"
+        >{t("not_found.cta_home")}</a>
+        <a
+          class="w-full border border-primary px-10 py-4 text-label-sm font-label-sm font-bold uppercase tracking-[0.2em] text-primary transition-[background-color,color] hover:bg-primary hover:text-on-primary touch-manipulation md:w-auto"
+          href="/galeria/"
+        >{t("not_found.cta_gallery")}</a>
+        <a
+          class="w-full border border-outline-variant px-10 py-4 text-label-sm font-label-sm font-bold uppercase tracking-[0.2em] text-on-surface-variant transition-[background-color,color] hover:border-primary hover:text-primary touch-manipulation md:w-auto"
+          href="/reserva/"
+        >{t("not_found.cta_booking")}</a>
+      </nav>
+    </section>
+  </main>
+  <Footer />
+</Layout>
