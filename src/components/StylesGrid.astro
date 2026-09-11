@@ -1,4 +1,11 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import blackworkImage from "../assets/styles/blackwork.jpg";
+import realismoImage from "../assets/styles/realismo.jpg";
+import fineLineImage from "../assets/styles/fine-line.jpg";
+import illustrativeColorImage from "../assets/styles/illustrative-color.jpg";
+import darkArtImage from "../assets/styles/dark-art.jpg";
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 
@@ -11,6 +18,14 @@ interface Style {
 interface Props {
   styles: Style[];
 }
+
+const styleImages: Record<string, ImageMetadata> = {
+  "/images/styles/blackwork.jpg": blackworkImage,
+  "/images/styles/realismo.jpg": realismoImage,
+  "/images/styles/fine-line.jpg": fineLineImage,
+  "/images/styles/illustrative-color.jpg": illustrativeColorImage,
+  "/images/styles/dark-art.jpg": darkArtImage,
+};
 
 const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
 const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
@@ -34,20 +49,33 @@ const { styles } = Astro.props;
       {styles.map((style, index) => {
         const number = String(index + 1).padStart(2, "0");
         const hasImage = style.image && style.image.length > 0;
+        const mappedImage = style.image ? styleImages[style.image] : undefined;
         return (
           <div class="group border-r border-b border-outline-variant relative overflow-hidden h-96 hover:border-primary transition-colors duration-300">
             {hasImage ? (
               <>
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-[background-color] duration-500 z-10"></div>
-                <img
-                  alt={t("sobre.styles_image_alt").replace("{style}", style.name)}
-                  class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter,transform] duration-700 scale-100 group-hover:scale-105"
-                  src={style.image}
-                  width="800"
-                  height="640"
-                  loading="lazy"
-                  decoding="async"
-                />
+                {mappedImage ? (
+                  <Image
+                    alt={t("sobre.styles_image_alt").replace("{style}", style.name)}
+                    class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter,transform] duration-700 scale-100 group-hover:scale-105"
+                    src={mappedImage}
+                    widths={[400, 600, 800]}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <img
+                    alt={t("sobre.styles_image_alt").replace("{style}", style.name)}
+                    class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter,transform] duration-700 scale-100 group-hover:scale-105"
+                    src={style.image}
+                    width="800"
+                    height="640"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 <div class="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black/80 to-transparent">
                   <span class="font-label-sm text-[10px] text-primary tracking-[0.2em] mb-2 block">{number}</span>
                   <h4 class="font-headline-md text-headline-md text-white uppercase">{style.name}</h4>

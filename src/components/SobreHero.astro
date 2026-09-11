@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import artistPortrait from "../assets/sobre/artist-portrait.jpg";
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 
@@ -34,12 +36,14 @@ const t = useTranslations(locale);
       </div>
     </div>
     <div class="col-span-12 md:col-span-6 relative h-[60vh] md:h-auto md:min-h-[calc(100vh-96px)]">
-      <img
+      <Image
         class="absolute inset-0 h-full w-full object-cover filter grayscale contrast-125"
         alt={t("sobre.hero_image_alt")}
-        src="/images/sobre/artist-portrait.jpg"
-        width="1376"
-        height="768"
+        src={artistPortrait}
+        widths={[768, 1024, 1376]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        loading="eager"
+        decoding="async"
       />
     </div>
   </div>
