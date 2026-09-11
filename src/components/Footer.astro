@@ -16,9 +16,10 @@ const igLineHandle = (settings.instagram_url_secondary || "").split("/").filter(
 const waHref = whatsappLink(settings.whatsapp_number);
 const ubicacionHref = locale === DEFAULT_LOCALE ? "/#contact" : `/${locale}/#contact`;
 
-// Per-locale legal URLs.
-const privacidadHref = locale === "en" ? localizePath("/privacy", "en") : locale === "ca" ? localizePath("/privacitat", "ca") : localizePath("/privacidad", DEFAULT_LOCALE);
-const cookiesHref = locale === "en" ? localizePath("/cookies", "en") : locale === "ca" ? localizePath("/cookies", "ca") : localizePath("/cookies", DEFAULT_LOCALE);
+// Legal slugs are uniform across locales — only the locale prefix changes,
+// so localizePath on the default-locale slug is enough (no slug map needed).
+const privacidadHref = localizePath("/privacidad", locale);
+const cookiesHref = localizePath("/cookies", locale);
 ---
 <footer class="border-t border-outline-variant bg-surface-container-lowest">
   <div class="mx-auto flex w-full max-w-container-max flex-col items-center justify-between gap-8 px-margin-mobile py-12 md:flex-row md:px-margin-desktop">
