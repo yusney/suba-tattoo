@@ -31,6 +31,17 @@ const finalDescription = description ?? t("site_meta.default_description");
 const skipLabel = t("a11y.skip_to_content");
 
 const siteOrigin = Astro.site?.origin ?? configuredSiteUrl;
+
+// The edge (Cloudflare/nginx) answers extension-less directory paths with a
+// 301 to the trailing-slash URL (e.g. /galeria -> /galeria/). Canonical,
+// og:url and hreflang must point at the final 200 URL, so every emitted URL
+// carries the trailing slash. The bare root stays "/".
+const withTrailingSlash = (pathname: string): string => {
+  const clean = (pathname || "/").split("?")[0].split("#")[0];
+  if (clean === "" || clean === "/") return "/";
+  return clean.endsWith("/") ? clean : `${clean}/`;
+};
+
 const stripLocalePath = (() => {
   const segments = Astro.url.pathname.split("/").filter(Boolean);
   if (segments[0] === "en" || segments[0] === "ca") {
@@ -39,11 +50,18 @@ const stripLocalePath = (() => {
   return Astro.url.pathname === "/" ? "/" : Astro.url.pathname;
 })();
 
-const finalCanonical = siteOrigin
-  ? canonical ??
-    (new URL(stripLocalePath, siteOrigin).toString().replace(/\/$/, "") ||
-      new URL("/", siteOrigin).toString())
-  : undefined;
+// The canonical is self-referential per locale: the /en/ and /ca/ variants are
+// distinct indexed pages with their own hreflang cluster, so they must point
+// at themselves — not at the default-locale URL. Build it from the request
+// pathname (locale included) so it always matches the real slug of the page.
+const resolveCanonical = (value: string): string => {
+  const url = new URL(value, siteOrigin ?? undefined);
+  url.pathname = withTrailingSlash(url.pathname);
+  return url.toString();
+};
+const rawCanonical =
+  canonical ?? (siteOrigin ? new URL(withTrailingSlash(Astro.url.pathname), siteOrigin).toString() : undefined);
+const finalCanonical = rawCanonical ? resolveCanonical(rawCanonical) : undefined;
 
 const ogImageUrl = siteOrigin ? new URL(ogImage, siteOrigin).toString() : undefined;
 const ogLocale = t("meta.og.locale_" + safeLocale) || "es_ES";
@@ -51,7 +69,7 @@ const siteName = t("meta.og.site_name");
 
 const hreflangs = siteOrigin
   ? LOCALES.map((loc) => {
-      const localizedPath = localizePath(stripLocalePath, loc);
+      const localizedPath = withTrailingSlash(localizePath(stripLocalePath, loc));
       return { lang: loc, href: new URL(localizedPath, siteOrigin).toString() };
     })
   : [];
