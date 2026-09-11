@@ -175,6 +175,17 @@ const site_settings = defineCollection({
     hero_subtitle: z.string(),
     about_short: z.string(),
     opening_hours: z.string().optional(),
+    // Structured fields for JSON-LD (SEO local). Optional so the CMS/JSON can
+    // stay minimal; the structured-data builders fall back gracefully.
+    geo: z
+      .object({
+        street: z.string(),
+        postal_code: z.string(),
+        city: z.string(),
+        region: z.string(),
+      })
+      .optional(),
+    schema_opening_hours: z.string().optional(),
   }),
 });
 

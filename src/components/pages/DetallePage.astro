@@ -11,7 +11,9 @@ import DetalleMetadata from "../../components/DetalleMetadata.astro";
 import DetalleNotes from "../../components/DetalleNotes.astro";
 import DetalleTestimonial from "../../components/DetalleTestimonial.astro";
 import DetalleRelated from "../../components/DetalleRelated.astro";
+import JsonLd from "../../components/JsonLd.astro";
 import { getSiteSettings } from "../../lib/site";
+import { buildArtworkSchema } from "../../lib/structured-data";
 import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 import { getTattoos } from "../../lib/tattoos";
@@ -71,9 +73,23 @@ const nextLink = next
 const relatedItems = related.map((r) => ({ ...r, href: toHref(r.slug) }));
 const archiveHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 const reservaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+
+const artworkSchema = Astro.site
+  ? buildArtworkSchema({
+      title: data.title ?? data.slug,
+      description: data.description,
+      image: data.image,
+      year: data.year,
+      style: data.style,
+      studioName: settings.brand_name,
+      siteOrigin: Astro.site.origin,
+      pageUrl: new URL(Astro.url.pathname, Astro.site).toString(),
+    })
+  : undefined;
 ---
 
 <Layout title={pageTitle} description={pageDescription} ogType="article">
+  {artworkSchema && <JsonLd data={artworkSchema} />}
   <TopBar />
   <main id="main" class="pt-24 scroll-mt-24">
     <DetalleMeta

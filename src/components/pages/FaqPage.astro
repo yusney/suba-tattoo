@@ -10,7 +10,9 @@ import FaqAccordion from "../../components/FaqAccordion.astro";
 import CareSteps from "../../components/CareSteps.astro";
 import HygieneProtocol from "../../components/HygieneProtocol.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
+import JsonLd from "../../components/JsonLd.astro";
 import { getSiteSettings } from "../../lib/site";
+import { buildFaqSchema } from "../../lib/structured-data";
 import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 
@@ -35,6 +37,9 @@ const hygiene = sections.find((s) => s.protocol_items && s.protocol_items.length
 const pageTitle = t("meta.faq.title");
 const pageDescription = t("meta.faq.description");
 const ctaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+
+const faqSchema =
+  info.questions && info.questions.length > 0 ? buildFaqSchema(info.questions) : undefined;
 ---
 
 <Layout
@@ -42,6 +47,7 @@ const ctaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
   description={pageDescription}
   ogType="website"
 >
+  {faqSchema && <JsonLd data={faqSchema} />}
   <TopBar />
   <main id="main" class="pt-24 scroll-mt-24">
     <FaqHero
