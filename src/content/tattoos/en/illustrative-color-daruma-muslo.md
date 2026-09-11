@@ -15,6 +15,6 @@ duration_hours: 4
 sessions: 1
 body_part: "Left outer thigh"
 size_cm: "18x22"
-description: "Traditional Daruma reinterpreted with clouds and leaves. High saturation with a firm outline; reds are layered in three passes so they don't drift toward orange over time."
+description: "The traditional Daruma is reinterpreted with clouds and leaves on the left outer thigh, at 18x22 cm worked over four hours. The figure keeps the amulet essential traits — roundness, uneven eyes and a concentrated expression — and folds them into a wider composition where the clouds frame the silhouette and green leaves add a second plane. The outline is firm and orders each area before colour goes on, applied saturated and in layers to sustain the intensity of the red. Placement on the thigh lets the drawing unfold vertically and uses the surface so the elements can breathe. The intention is a colourful, direct piece with an approachable read, one that keeps the strength of the traditional motif while adapting it to a current graphic language."
 testimonial: "It's brutal how he treats every shadow so it ages well."
 ---

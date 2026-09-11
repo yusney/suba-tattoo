@@ -15,6 +15,6 @@ duration_hours: 5
 sessions: 1
 body_part: "Muslo externo"
 size_cm: "22x18"
-description: "Espantapájaros en estilo dark art con atmósfera brumosa. Contraste entre detalle nítido en la figura y degradados ambientales."
+description: "El espantapájaros se resuelve en estilo dark art sobre el muslo externo, en 22x18 cm y cinco horas de ejecución. La figura aparece envuelta en una atmósfera brumosa que separa el primer plano del fondo: el rostro y las manos conservan un detalle nítido, mientras los ropajes y el entorno se deshilachan en degradados suaves. Esa diferencia de foco crea la sensación de que el personaje emerge de la niebla en lugar de estar recortado sobre ella. La colocación en el muslo permite una escala cómoda para el volumen de la escena y un buen recorrido de la mirada de arriba abajo. La paleta se limita a negros y reservas de piel, trabajando las transiciones con tramas abiertas para que la bruma no se convierta en gris plano. El resultado busca una presencia inquietante y cinematográfica."
 testimonial: "El espantapájaros tiene una presencia escalofriante. Parece que está en mi muslo."
 ---

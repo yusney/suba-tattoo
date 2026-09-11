@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 2
 body_part: "Pantorrilla exterior"
 size_cm: "22x18"
-description: "Bowser reinterpretado con un lenguaje geométrico: planos angulares, contraste de color y líneas rectas que rompen la silueta orgánica original. La paleta se trabaja en capas para mantener la saturación."
+description: "Bowser se reinterpreta con un lenguaje geométrico sobre la pantorrilla exterior, en 22x18 cm y dos sesiones de trabajo. La silueta original del personaje se descompone en planos angulares, aristas marcadas y superficies de color que rompen la redondez del diseño de partida. La paleta se construye por capas para mantener la saturación, apoyándose en contornos firmes que ordenan cada zona antes de rellenar. La pantorrilla ofrece un soporte vertical que permite desplegar la figura de arriba abajo, acompañando el músculo y aprovechando su volumen para dar cuerpo a los planos. La intención es transformar un icono reconocible en una pieza gráfica y contemporánea, donde la geometría no borre el parecido sino que lo traduzca a un idioma visual distinto, más duro y estructurado, coherente con el resto del estilo."
 testimonial: "Todo el mundo me pregunta si es un personaje diferente. Tiene fuerza y es totalmente yo."
 ---

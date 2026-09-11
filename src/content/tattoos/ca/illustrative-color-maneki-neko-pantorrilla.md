@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 2
 body_part: "Panxell dret"
 size_cm: "22x28"
-description: "Maneki Neko reinterpretat com a guardià: melena lleonada i urpes afilades, treball de color pla sobre el panxell. El degradat ataronjat es construeix per capes, no amb negre diluït."
+description: "El Maneki Neko es reinterpreta com un guardià sobre el panxell dret, en 22x28 cm i dues sessions de treball. La figura adopta una melena lleonada i urpes afilades que reforcen la seva presència protectora, i es resol amb color pla i contorns definits. El degradat ataronjat es construeix per capes de pigment en lloc de diluir el negre, de manera que la transició mantingui netedat i la peça conservi la seva força cromàtica. Les fulles verdes acompanyen la base i ajuden a assentar la figura en la forma del múscul, mentre l'orientació vertical s'adapta al panxell. L'objectiu és una imatge d'actitud rotunda i simpàtica alhora, on el color i la línia treballin junts per donar volum sense recórrer a l'ombrejat excessiu."
 testimonial: "Portava anys volent un Maneki Neko amb aquesta actitud. Joshua el va clavar."
 ---

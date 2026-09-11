@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 2
 body_part: "Right calf"
 size_cm: "22x28"
-description: "Maneki Neko reimagined as a guardian: leonine mane and sharp claws, flat color work over the calf. The orange gradient is built in layers, never with diluted black."
+description: "The Maneki Neko is reimagined as a guardian on the right calf, at 22x28 cm across two sessions. The figure takes on a leonine mane and sharp claws that reinforce its protective presence, rendered with flat colour and defined contours. The orange gradient is built from layers of pigment rather than diluted black, so the transition stays clean and the piece keeps its chromatic strength. Green leaves accompany the base and help settle the figure into the shape of the muscle, while the vertical orientation suits the calf. The goal is an image with both forceful and friendly attitude, where colour and line work together to give volume without resorting to heavy shading."
 testimonial: "I had wanted a Maneki Neko with this attitude for years. Joshua nailed it."
 ---

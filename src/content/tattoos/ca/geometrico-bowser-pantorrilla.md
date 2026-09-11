@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 2
 body_part: "Pantorrilla exterior"
 size_cm: "22x18"
-description: "Bowser reinterpretat amb un llenguatge geomètric: plans angulars, contrast de color i línies rectes que trenquen la silueta orgànica original. La paleta es treballa en capes per mantenir la saturació."
+description: "Bowser es reinterpreta amb un llenguatge geomètric sobre el panxell exterior, en 22x18 cm i dues sessions de treball. La silueta original del personatge es descompon en plans angulars, arestes marcades i superfícies de color que trenquen la rodonesa del disseny de partida. La paleta es construeix per capes per mantenir la saturació, recolzant-se en contorns ferms que ordenen cada zona abans de reblir. El panxell ofereix un suport vertical que permet desplegar la figura de dalt a baix, acompanyant el múscul i aprofitant el seu volum per donar cos als plans. La intenció és transformar una icona reconeixible en una peça gràfica i contemporània, on la geometria no esborri el semblant sinó que el tradueixi a un idioma visual diferent."
 testimonial: "Tothom em pregunta si és un personatge diferent. Té força i és totalment jo."
 ---

@@ -15,6 +15,6 @@ duration_hours: 5
 sessions: 1
 body_part: "Full arm"
 size_cm: "22x18"
-description: "Japanese peony reinterpreted in blackwork with crosshatched shading. Petals are built in density layers to create depth without losing the traditional motif's character."
+description: "The Japanese peony is reinterpreted in blackwork across the full arm, a 22x18 cm piece worked over five hours. The flower keeps the traditional character of the motif — broad petals, a marked centre and a clear hierarchy of masses — translated into a language of patterns and densities. Each petal layer is built by opening or closing the dotwork to create depth without thinning the black into pale greys. The composition is organised around an axis that follows the direction of the arm, with the lower petals left more open and the core more concentrated to guide the eye. The goal is a piece with graphic strength that stays legible, where the contrast between solid masses and open space carries the rhythm without relying on colour."
 testimonial: "The peony has brutal strength on the arm. The gradient gives life to each petal."
 ---

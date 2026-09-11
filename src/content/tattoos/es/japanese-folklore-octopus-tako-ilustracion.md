@@ -15,6 +15,6 @@ duration_hours: 7
 sessions: 2
 body_part: "Espalda alta"
 size_cm: "40x25"
-description: "Pieza narrativa estilo tatuaje tradicional japonés: pulpo y doncella con escenas paralelas. Composición horizontal en espalda alta, sellos rojos del artista incluidos."
+description: "Pulpo y doncella se plantean como una pieza narrativa de estilo tradicional japonés sobre la espalda alta, en 40x25 cm y dos sesiones. La composición es horizontal y organiza dos escenas paralelas que se leen como una sola historia: el pulpo rojo con kimono azul y la doncella, acompañados de elementos ornamentales y los sellos rojos del artista. El color se trabaja saturado y con contornos firmes, apoyándose en el negro para separar planos y sostener la estructura del relato. El formato ancho se adapta a la espalda alta, aprovechando la superficie para desplegar el conjunto sin forzar la anatomía. La intención es una obra de gran presencia simbólica y folclórica, donde cada zona tenga algo que descubrir y la lectura cambie según la distancia a la que se mire."
 testimonial: "Una pieza para siempre. Cada vez que me la miro descubro un detalle nuevo."
 ---
