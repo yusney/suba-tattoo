@@ -8,6 +8,7 @@ import GalleryFilter from "../../components/GalleryFilter.astro";
 import { getGalleryPageHref, getGalleryTattoos, GALLERY_PAGE_SIZE } from "../../lib/gallery";
 import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
+import { configuredSiteUrl } from "../../lib/site";
 
 interface Props {
   locale: Locale;
@@ -35,7 +36,19 @@ const pageTitle = currentPage > 1 ? `${t("gallery_page.title")} · ${currentPage
 const pageDescription = currentPage > 1
   ? `${t("gallery_page.description")} (${currentPage})`
   : t("gallery_page.description");
-const canonicalUrl = Astro.site ? new URL(pageHref(currentPage), Astro.site.origin).toString() : undefined;
+// Indexing policy for filtered gallery views: the `?estilo=` filter is pure
+// client-side UI state over this same document. A filtered URL (e.g.
+// /galeria/?estilo=blackwork) must consolidate into the clean, paginated
+// gallery URL, so the canonical is rebuilt from the page path only — never
+// from the query string. The filter is driven by <button> elements (not
+// <a href>), so crawlers cannot discover filtered URLs from the page itself;
+// any externally shared filtered link still canonicalizes back here.
+//
+// Deliberately NOT disallowed in robots.txt: a robots.txt block would stop
+// crawlers from ever reading this canonical, which is the recommended signal
+// for consolidating duplicate/filtered URLs.
+const siteOrigin = Astro.site?.origin ?? configuredSiteUrl;
+const canonicalUrl = siteOrigin ? new URL(pageHref(currentPage), siteOrigin).toString() : undefined;
 ---
 
 <Layout title={pageTitle} description={pageDescription} canonical={canonicalUrl}>
