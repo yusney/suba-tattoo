@@ -45,6 +45,7 @@
   "gallery_page": {
     "title": "Galeria Completa",
     "subtitle": "Explora totes les peces de l'estudi, filtrades per estil.",
+    "description": "Explora la galeria completa de SUBA TATTOO a Barcelona: filtra per realisme, blackwork, fine line o color i troba inspiració per a la teva propera peça.",
     "filter_label": "Filtra per estil",
     "load_more": "Carrega'n més",
     "end_message": "Has arribat al final de la galeria",

@@ -45,6 +45,7 @@
   "gallery_page": {
     "title": "Full Gallery",
     "subtitle": "Explore every studio piece, filtered by style.",
+    "description": "Browse the full SUBA TATTOO gallery in Barcelona: filter by realism, blackwork, fine line or colour and find inspiration here for your next custom piece.",
     "filter_label": "Filter by style",
     "load_more": "Load more",
     "end_message": "You've reached the end of the gallery",

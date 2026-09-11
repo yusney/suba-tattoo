@@ -33,8 +33,8 @@ const nextPageHref = currentPage < totalPages ? pageHref(currentPage + 1) : "";
 const previousPageHref = currentPage > 1 ? pageHref(currentPage - 1) : "";
 const pageTitle = currentPage > 1 ? `${t("gallery_page.title")} · ${currentPage}` : t("gallery_page.title");
 const pageDescription = currentPage > 1
-  ? `${t("gallery_page.subtitle")} (${currentPage})`
-  : t("gallery_page.subtitle");
+  ? `${t("gallery_page.description")} (${currentPage})`
+  : t("gallery_page.description");
 const canonicalUrl = Astro.site ? new URL(pageHref(currentPage), Astro.site.origin).toString() : undefined;
 ---
 
