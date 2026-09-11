@@ -15,6 +15,6 @@ duration_hours: 5
 sessions: 1
 body_part: "Inner forearm"
 size_cm: "25x12"
-description: "Blackwork snake with dense shading and defined silhouette. Clean lines build depth without diluting the black, preserving saturation over time."
+description: "A coiled snake winds around the inner forearm in a 25x12 cm blackwork piece completed in a single five-hour session. The design leans on a firm, readable silhouette, with the head and body shaped to the natural curve of the limb so the movement of the arm reinforces the sense that the animal is locked onto the skin. Dense shading is built with liner and filler needles, keeping the deepest areas in solid black and reserving the transitions for controlled patterns. The aim is to preserve pigment saturation and avoid the grey veil that appears when black is over-diluted. The composition keeps the contours clean so the piece stays legible even at a distance, without crowding the figure with unnecessary detail around it."
 testimonial: "The snake looks like it's coiled around my arm. It gives a real sense of movement."
 ---

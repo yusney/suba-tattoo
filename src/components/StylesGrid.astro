@@ -40,7 +40,7 @@ const { styles } = Astro.props;
               <>
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-[background-color] duration-500 z-10"></div>
                 <img
-                  alt={`Estilo ${style.name}`}
+                  alt={t("sobre.styles_image_alt").replace("{style}", style.name)}
                   class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter,transform] duration-700 scale-100 group-hover:scale-105"
                   src={style.image}
                   width="800"

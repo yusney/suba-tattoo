@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 1
 body_part: "Cuixa exterior"
 size_cm: "20x18"
-description: "Escarabat heràldic construït en blackwork pur. La profunditat s'aconsegueix amb trames i clarobscur controlat, sense diluir el negre, evitant l'efecte grisenc típic."
+description: "L'escarabat heràldic es desenvolupa en blackwork pur sobre la cuixa exterior, en un format de 20x18 cm resolt en sis hores de treball. La peça adopta un llenguatge de gravat antic: simetria marcada, volum mitjançant clarobscur i una closca central que organitza tota la lectura. El contrast s'aconsegueix per acumulació de trames i reserves de pell, sense recórrer a dilucions que rebaixin la força del negre. La col·locació a la cuixa permet recolzar la figura sobre una superfície àmplia i estable, de manera que l'arquitectura de l'insecte respiri i les potes s'integrin amb la forma de la cama. El disseny busca un pes visual rotund i una presència gairebé escultòrica, mantenint la zona central del negre sòlida i les vores progressivament més obertes per afavorir una lectura nítida."
 testimonial: "L'escarabat té un pes visual brutal. Sembla un gravat antic sobre la pell."
 ---

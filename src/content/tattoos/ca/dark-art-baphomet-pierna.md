@@ -15,6 +15,6 @@ duration_hours: 8
 sessions: 2
 body_part: "Panxell complet"
 size_cm: "30x25"
-description: "Baphomet reinterpretat en dark art amb pentagrama i geometria sagrada. Símbols esotèrics amb ombrejat dens que manté la profunditat simbòlica."
+description: "Baphomet s'aborda des del dark art en una peça de gran format, 30x25 cm, que ocupa el panxell complet en dues sessions de treball. La composició combina la figura central amb pentagrama i geometria sagrada, integrant símbols esotèrics en una estructura ordenada de cercles, eixos i plans. L'ombrejat dens es reserva per als fons i les zones de més pes, mentre que els elements geomètrics es mantenen nets i precisos perquè conservin la seva funció simbòlica. El panxell aporta un suport allargat que permet desplegar la peça en vertical, acompanyant el múscul i evitant que la simetria del disseny es deformi amb el moviment. L'objectiu és una imatge de forta presència ritual, amb contrast sostingut i una lectura que es descobreix per capes."
 testimonial: "La peça té una força simbòlica brutal. El Baphomet domina tot el panxell."
 ---

@@ -45,6 +45,7 @@
   "gallery_page": {
     "title": "Full Gallery",
     "subtitle": "Explore every studio piece, filtered by style.",
+    "description": "Browse the full SUBA TATTOO gallery in Barcelona: filter by realism, blackwork, fine line or colour and find inspiration here for your next custom piece.",
     "filter_label": "Filter by style",
     "load_more": "Load more",
     "end_message": "You've reached the end of the gallery",
@@ -122,30 +123,30 @@
     },
     "home": {
       "title": "SUBA TATTOO — Custom Tattoos Barcelona",
-      "description": "Realism, Blackwork, Color and Fine Line. Designs shaped to every anatomy. Barcelona studio."
+      "description": "Barcelona tattoo studio specialising in realism, blackwork, fine line and colour. Custom designs shaped to your anatomy — request your consultation today."
     },
     "sobre": {
       "title": "About the Studio — SUBA TATTOO Barcelona",
-      "description": "10+ years of professional tattoo experience. Realism, blackwork, fine line and color."
+      "description": "Meet SUBA TATTOO, a tattoo studio in Montcada i Reixac, Barcelona. Over 10 years of realism, blackwork, fine line and colour with a strong technical focus."
     },
     "reserva": {
       "title": "Book Your Session — SUBA TATTOO Barcelona",
-      "description": "Request a consultation for your next tattoo. Free initial consultation, full session or touch-up."
+      "description": "Book your session at SUBA TATTOO, Barcelona. Initial consultation, full session or touch-up for your next tattoo — send your request and we'll reply fast."
     },
     "faq": {
       "title": "FAQ & Aftercare — SUBA TATTOO Barcelona",
-      "description": "Frequently asked questions about tattoos, post-session care, hygiene protocol and bookings."
+      "description": "Clear answers about tattooing at SUBA TATTOO, Barcelona: post-session aftercare, hygiene protocol, bookings and how to request a quote for your next piece."
     },
     "detalle": {
       "title_suffix": " — SUBA TATTOO Barcelona"
     },
     "privacidad": {
       "title": "Privacy Policy — SUBA TATTOO Barcelona",
-      "description": "How SUBA TATTOO processes your personal data under GDPR and the Spanish LOPDGDD. Controller identity, purpose, legal basis and your rights."
+      "description": "See how SUBA TATTOO, a Barcelona tattoo studio, protects your personal data under GDPR and Spanish law: purposes, legal basis, retention and your rights."
     },
     "cookies": {
       "title": "Cookies Policy — SUBA TATTOO Barcelona",
-      "description": "Types of cookies used on the SUBA TATTOO website, how to manage them and how to keep control over your preferences."
+      "description": "Learn about the cookies SUBA TATTOO, a Barcelona tattoo studio, uses, what they are for and how to manage or withdraw your consent whenever you choose."
     }
   },
   "sobre": {
@@ -159,7 +160,9 @@
     "styles_portfolio_label": "PORTFOLIO",
     "styles_title": "Mastered Styles",
     "styles_subtitle": "Specialised technical command of contemporary and classical currents of underground tattooing.",
-    "featured_in_label": "Featured In / Press"
+    "featured_in_label": "Featured In / Press",
+    "hero_image_alt": "Editorial close-up of tattooed forearms working with a tattoo machine in geometric blackwork, dramatic studio lighting and high-contrast black and white",
+    "styles_image_alt": "Tattoo piece in {style} style created at the SUBA TATTOO studio in Barcelona"
   },
   "reserva": {
     "page_title": "Book your Session | ",

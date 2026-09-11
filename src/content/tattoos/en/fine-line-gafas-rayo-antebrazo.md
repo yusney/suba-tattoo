@@ -15,6 +15,6 @@ duration_hours: 3
 sessions: 1
 body_part: "Inner forearm"
 size_cm: "10x6"
-description: "Minimalist fine line composition with Harry Potter's round glasses and the iconic lightning bolt scar right above. The thin stroke keeps the lines legible and allows clean aging of the black."
+description: "Harry Potter's round glasses and the lightning-bolt scar are rendered in fine line on the inner forearm, in a reduced 10x6 cm format across three hours of work. The composition is deliberately minimalist: two frames, the bridge and the bolt just above, with no background or ornament competing with the motif. The line is executed with very fine liner needles, aiming for a clean, continuous black that preserves the legibility of the rims and the direction of the scar. The small scale and visible placement make for a discreet detail, recognisable to those who know the reference and understated for those who do not. The design prioritises precise gauge and clean contour so the piece keeps its read over time without relying on fill or shading."
 testimonial: "It is the perfect detail. People recognize it instantly and it always makes me smile."
 ---

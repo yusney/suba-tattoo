@@ -15,6 +15,6 @@ duration_hours: 7
 sessions: 1
 body_part: "Cuixa exterior"
 size_cm: "24x20"
-description: "Pallasso en estil dark art amb detalls pertorbadors. Clarobscur agressiu per accentuar el somriure tort i els ulls enfonsats."
+description: "El pallasso sinistre ocupa la cuixa exterior en una peça de 24x20 cm desenvolupada durant set hores. La composició se centra en el rostre i el somriure tort, amb els ulls enfonsats com a punt de màxima tensió. El clarobscur és molt agressiu: grans masses de negre construeixen la conca i els plecs, i els blancs reservats accentuen la pell i les dents per forçar una lectura immediata. El format vertical permet que el maquillatge i els cabells s'integrin en la forma de la cuixa, adaptant els trets a la curvatura sense perdre el gest. La peça evita el detall gratuït i concentra el treball en l'expressió, de manera que l'atmosfera pertorbadora sorgeixi del contrast i no de l'acumulació d'elements. El resultat és una imatge intensa, teatral i difícil d'oblidar."
 testimonial: "El pallasso té una mirada que no s'oblida. Cada vegada que el miro se sent més intens."
 ---

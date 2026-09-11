@@ -15,6 +15,6 @@ duration_hours: 6
 sessions: 2
 body_part: "Pantorrilla derecha"
 size_cm: "22x28"
-description: "Maneki Neko reinterpretado como guardián: melena leonada y garras afiladas, trabajo de color plano sobre la pantorrilla. El degradado naranja se construye por capas, no por negro diluido."
+description: "El Maneki Neko se reinterpreta como un guardián sobre la pantorrilla derecha, en 22x28 cm y dos sesiones de trabajo. La figura adopta una melena leonada y garras afiladas que refuerzan su presencia protectora, y se resuelve con color plano y contornos definidos. El degradado naranja se construye por capas de pigmento en lugar de diluir el negro, de modo que la transición mantenga limpieza y la pieza conserve su fuerza cromática. Las hojas verdes acompañan la base y ayudan a asentar la figura en la forma del músculo, mientras la orientación vertical se adapta a la pantorrilla. El objetivo es una imagen de actitud rotunda y simpática a la vez, donde el color y la línea trabajen juntos para dar volumen sin recurrir al sombreado excesivo."
 testimonial: "Llevaba años queriendo un Maneki Neko con esta actitud. Joshua lo clavó."
 ---

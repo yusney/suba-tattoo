@@ -15,6 +15,6 @@ duration_hours: 8
 sessions: 2
 body_part: "Espatlla i avantbraç esquerre"
 size_cm: "30x40"
-description: "Realisme en blanc i negre sobre espatlla i avantbraç. Llop, bosc de pins i lluna es construeixen amb degradats suaus per conservar profunditat sense empastar el negre."
+description: "El llop udolant es resol en realisme en blanc i negre sobre l'espatlla i l'avantbraç esquerre, en 30x40 cm i dues sessions de treball. La composició integra la figura de l'animal, un bosc de pins i la lluna en una escena nocturna contínua que recorre dues zones anatòmiques diferents. Els degradats suaus construeixen el pèl, la boira i el cel, mantenint el negre profund només als punts de màxim contrast per no empastar la imatge. La transició entre espatlla i braç es planifica perquè l'escena mantingui la coherència quan el braç es mou. La intenció és una peça atmosfèrica i detallada, on la mirada del llop i la profunditat del paisatge generin la sensació que la figura segueix l'espectador."
 testimonial: "La foto no li fa justícia. En persona sembla que el llop et segueix amb la mirada."
 ---

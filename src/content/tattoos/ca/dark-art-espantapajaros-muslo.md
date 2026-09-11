@@ -15,6 +15,6 @@ duration_hours: 5
 sessions: 1
 body_part: "Cuixa exterior"
 size_cm: "22x18"
-description: "Espantaocells en estil dark art amb atmosfera brumosa. Contrast entre detall nítid a la figura i degradats ambientals."
+description: "L'espantaocells es resol en estil dark art sobre la cuixa exterior, en 22x18 cm i cinc hores d'execució. La figura apareix embolcallada en una atmosfera boirosa que separa el primer pla del fons: el rostre i les mans conserven un detall nítid, mentre que les robes i l'entorn es desfilen en degradats suaus. Aquesta diferència d'enfocament crea la sensació que el personatge emergeix de la boira en lloc d'estar retallat sobre ella. La col·locació a la cuixa permet una escala còmoda per al volum de l'escena i un bon recorregut de la mirada de dalt a baix. La paleta es limita a negres i reserves de pell, treballant les transicions amb trames obertes perquè la boira no es converteixi en gris pla. El resultat busca una presència inquietant i cinematogràfica."
 testimonial: "L'espantaocells té una presència esgarrifosa. Sembla que estigui a la meva cuixa."
 ---

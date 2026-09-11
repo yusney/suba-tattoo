@@ -45,6 +45,7 @@
   "gallery_page": {
     "title": "Galería Completa",
     "subtitle": "Explora todas las piezas del estudio, filtradas por estilo.",
+    "description": "Explora la galería completa de SUBA TATTOO en Barcelona: filtra por realismo, blackwork, fine line o color y encuentra inspiración para tu próxima pieza.",
     "filter_label": "Filtrar por estilo",
     "load_more": "Cargar más",
     "end_message": "Has llegado al final de la galería",
@@ -122,30 +123,30 @@
     },
     "home": {
       "title": "SUBA TATTOO — Tatuajes Personalizados Barcelona",
-      "description": "Realismo, Blackwork, Color y Fine Line. Diseños concebidos a medida para cada anatomía. Estudio en Barcelona."
+      "description": "Estudio de tatuaje en Barcelona especializado en realismo, blackwork, fine line y color. Diseños a medida según tu anatomía: solicita tu valoración hoy."
     },
     "sobre": {
       "title": "Sobre el Estudio — SUBA TATTOO Barcelona",
-      "description": "10+ años de experiencia en tatuaje profesional. Realismo, blackwork, fine line y color."
+      "description": "Conoce SUBA TATTOO, estudio de tatuaje en Montcada i Reixac (Barcelona). Más de 10 años de realismo, blackwork, fine line y color con enfoque técnico."
     },
     "reserva": {
       "title": "Reserva tu Sesión — SUBA TATTOO Barcelona",
-      "description": "Solicita una valoración para tu próximo tatuaje. Consulta inicial gratuita, sesión completa o touch-up."
+      "description": "Reserva tu sesión en SUBA TATTOO, Barcelona. Consulta inicial, sesión completa o touch-up para tu próximo tatuaje: envía tu solicitud hoy mismo sin compromiso."
     },
     "faq": {
       "title": "FAQ & Cuidados — SUBA TATTOO Barcelona",
-      "description": "Preguntas frecuentes sobre tatuajes, cuidados post-sesión, protocolo de higiene y reservas."
+      "description": "Resuelve tus dudas sobre tatuajes en SUBA TATTOO, Barcelona: cuidados post-sesión, protocolo de higiene, reservas y valoración de tu próxima pieza hoy."
     },
     "detalle": {
       "title_suffix": " — SUBA TATTOO Barcelona"
     },
     "privacidad": {
       "title": "Política de Privacidad — SUBA TATTOO Barcelona",
-      "description": "Cómo tratamos tus datos personales en SUBA TATTOO según el RGPD y la LOPDGDD. Identidad del responsable, finalidad, base legal y derechos."
+      "description": "Consulta cómo SUBA TATTOO, estudio de tatuaje en Barcelona, protege tus datos personales según el RGPD y la LOPDGDD: finalidad, base legal y derechos."
     },
     "cookies": {
       "title": "Política de Cookies — SUBA TATTOO Barcelona",
-      "description": "Tipos de cookies que utilizamos en el sitio web de SUBA TATTOO, cómo gestionarlas y cómo ejercer tu control sobre ellas."
+      "description": "Descubre qué cookies usa SUBA TATTOO, estudio de tatuaje en Barcelona, para qué sirven y cómo gestionarlas o revocarlas desde tu navegador en cualquier momento."
     }
   },
   "sobre": {
@@ -159,7 +160,9 @@
     "styles_portfolio_label": "PORTFOLIO",
     "styles_title": "Estilos Dominados",
     "styles_subtitle": "Especialización técnica en corrientes contemporáneas y clásicas del tatuaje underground.",
-    "featured_in_label": "Featured In / Press"
+    "featured_in_label": "Featured In / Press",
+    "hero_image_alt": "Primer plano editorial de antebrazos tatuados trabajando con una máquina de tatuaje en blackwork geométrico, iluminación dramática de estudio y blanco y negro de alto contraste",
+    "styles_image_alt": "Pieza de tatuaje estilo {style} creada en el estudio SUBA TATTOO de Barcelona"
   },
   "reserva": {
     "page_title": "Reserva tu Sesión | ",

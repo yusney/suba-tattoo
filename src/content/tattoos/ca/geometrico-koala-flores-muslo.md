@@ -15,6 +15,6 @@ duration_hours: 5
 sessions: 1
 body_part: "Cuixa exterior"
 size_cm: "20x16"
-description: "Coala i flors reinterpretats amb geometria poligonal. Les formes es descomponen en triangles i línies netes, mentre el color conserva la dolçor original del motiu."
+description: "Un coala entre flors es reinterpreta amb geometria poligonal sobre la cuixa exterior, en 20x16 cm executats en cinc hores. La figura es descompon en triangles i línies netes que fragmenten el volum sense perdre el gest amable de l'animal, mentre les flors acompanyen la composició com a masses secundàries. El color conserva la dolçor del motiu original, però s'aplica en plans definits que dialoguen amb les arestes de la geometria. La ubicació a la cuixa permet una escala còmoda i un desenvolupament horitzontal que s'adapta a la forma de la cama. El treball alterna contorns precisos i zones de color pla perquè la peça mantingui una lectura clara a diferents distàncies. El resultat busca un equilibri entre el tendre i l'estructurat."
 testimonial: "És tendre i potent alhora. Les línies li donen un aire modern que m'encisa."
 ---
