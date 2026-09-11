@@ -1,4 +1,6 @@
 ---
+import { Picture } from "astro:assets";
+import heroImage from "../assets/hero/tattoo-session.jpg";
 import { getSiteSettings } from "../lib/site";
 import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
@@ -11,10 +13,18 @@ const settings = await getSiteSettings(locale);
 
 <section class="relative mx-auto flex min-h-[90vh] w-full max-w-container-max flex-col justify-center overflow-hidden bg-surface px-margin-mobile py-20 pt-24 md:px-margin-desktop md:py-section-gap">
   <div class="pointer-events-none absolute inset-0 z-0">
-<div
-      class="animate-hero-zoom absolute inset-0 bg-no-repeat bg-cover bg-center bg-[url('/images/hero/tattoo-session.jpg')] opacity-50 md:opacity-65"
+<Picture
+      src={heroImage}
+      formats={["avif", "webp"]}
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      alt=""
       aria-hidden="true"
-    ></div>
+      class="animate-hero-zoom absolute inset-0 h-full w-full object-cover object-center opacity-50 md:opacity-65"
+    />
     <div class="absolute inset-0 bg-gradient-to-b from-surface/50 via-surface/30 to-surface/40 md:bg-gradient-to-r md:from-surface md:via-surface/90 md:to-transparent"></div>
     <div class="pointer-events-none absolute inset-0 overflow-hidden opacity-15">
       <svg class="absolute left-10 top-10 h-32 w-32 text-primary/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"><path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z" /></svg>
