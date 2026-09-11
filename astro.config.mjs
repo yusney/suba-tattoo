@@ -101,18 +101,12 @@ export default defineConfig({
           }
         },
       serialize(item) {
-        // Canonicals are emitted WITHOUT a trailing slash (see Layout.astro),
-        // so every sitemap URL and hreflang alternate must match exactly —
-        // mixed signals make Google treat them as distinct URLs.
-        // Known exception: the bare origin root. The plugin normalizes it
-        // through `new URL()` (empty path == "/"), so the home entry keeps
-        // its slash. Harmless: Google treats root "/" and "" as identical.
-        const trim =
-          /** @param {string} u */
-          (u) => u.replace(/\/+$/, '');
-        item.url = trim(item.url);
+        // Canonicals and hreflang alternates are emitted WITH a trailing slash
+        // (see Layout.astro) to match the URL the edge actually serves
+        // (e.g. /galeria/). @astrojs/sitemap already normalizes its entries
+        // that way, so no URL rewriting is needed here — we only add the
+        // x-default alias.
         if (item.links) {
-          item.links = item.links.map((link) => ({ ...link, url: trim(link.url) }));
           // x-default resolves to the default-locale (es) variant, mirroring
           // the hreflang cluster declared in the HTML head.
           const esVariant = item.links.find((link) => link.lang === 'es-ES');
