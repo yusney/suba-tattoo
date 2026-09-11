@@ -36,6 +36,13 @@ COPY . .
 ARG PUBLIC_TURNSTILE_SITE_KEY
 ENV PUBLIC_TURNSTILE_SITE_KEY=$PUBLIC_TURNSTILE_SITE_KEY
 
+# Canonical site origin (Astro `site`: sitemap, canonical URLs, robots.txt
+# Sitemap:). Same ARG -> ENV pattern as above: Dokploy/CI passes it as a
+# build-arg and astro.config.mjs reads it from process.env (note: .env files
+# are dockerignored, so loadEnv() alone would never see it in this stage).
+ARG PUBLIC_SITE_URL
+ENV PUBLIC_SITE_URL=$PUBLIC_SITE_URL
+
 RUN pnpm run build
 
 # ============================================================
