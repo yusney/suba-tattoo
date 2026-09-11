@@ -160,7 +160,9 @@
     "styles_portfolio_label": "PORTFOLIO",
     "styles_title": "Estilos Dominados",
     "styles_subtitle": "Especialización técnica en corrientes contemporáneas y clásicas del tatuaje underground.",
-    "featured_in_label": "Featured In / Press"
+    "featured_in_label": "Featured In / Press",
+    "hero_image_alt": "Primer plano editorial de antebrazos tatuados trabajando con una máquina de tatuaje en blackwork geométrico, iluminación dramática de estudio y blanco y negro de alto contraste",
+    "styles_image_alt": "Pieza de tatuaje estilo {style} creada en el estudio SUBA TATTOO de Barcelona"
   },
   "reserva": {
     "page_title": "Reserva tu Sesión | ",

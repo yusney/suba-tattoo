@@ -160,7 +160,9 @@
     "styles_portfolio_label": "PORTFOLIO",
     "styles_title": "Mastered Styles",
     "styles_subtitle": "Specialised technical command of contemporary and classical currents of underground tattooing.",
-    "featured_in_label": "Featured In / Press"
+    "featured_in_label": "Featured In / Press",
+    "hero_image_alt": "Editorial close-up of tattooed forearms working with a tattoo machine in geometric blackwork, dramatic studio lighting and high-contrast black and white",
+    "styles_image_alt": "Tattoo piece in {style} style created at the SUBA TATTOO studio in Barcelona"
   },
   "reserva": {
     "page_title": "Book your Session | ",

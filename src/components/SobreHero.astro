@@ -1,4 +1,7 @@
 ---
+import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import type { Locale } from "../lib/i18n";
+
 interface Props {
   artistName: string;
   artistSubtitle: string;
@@ -7,6 +10,10 @@ interface Props {
 
 const { artistName, artistSubtitle, introText } = Astro.props;
 const paragraphs = introText.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+
+const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
+const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+const t = useTranslations(locale);
 ---
 
 <section class="border-b border-outline-variant">
@@ -29,7 +36,7 @@ const paragraphs = introText.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
     <div class="col-span-12 md:col-span-6 relative h-[60vh] md:h-auto md:min-h-[calc(100vh-96px)]">
       <img
         class="absolute inset-0 h-full w-full object-cover filter grayscale contrast-125"
-        alt="Close-up editorial de antebrazos tatuados trabajando con máquina de tatuaje en blackwork geométrico, iluminación dramática de estudio, blanco y negro de alto contraste"
+        alt={t("sobre.hero_image_alt")}
         src="/images/sobre/artist-portrait.jpg"
         width="1376"
         height="768"
