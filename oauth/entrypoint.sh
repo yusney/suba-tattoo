@@ -11,7 +11,9 @@ shutdown() {
 }
 trap shutdown TERM INT
 
-node /usr/local/app/decap-oauth.mjs &
+# Run the sidecar as the unprivileged `nginx` user: it only needs to read its
+# script and bind 127.0.0.1:3000 (a high port), so it never needs root.
+su-exec nginx node /usr/local/app/decap-oauth.mjs &
 oauth_pid=$!
 
 attempt=0
