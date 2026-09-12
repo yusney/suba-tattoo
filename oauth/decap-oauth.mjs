@@ -117,11 +117,16 @@ function getClientIp(request) {
   if (typeof cfConnectingIp === "string" && cfConnectingIp.trim()) {
     return stripIpv6Scope(cfConnectingIp.trim());
   }
-  // Fallback for paths without Cloudflare (staging, local `astro dev` via the
-  // vite proxy). Use the LAST hop of X-Forwarded-For: it is the entry appended
-  // by the nearest trusted proxy. The FIRST hop is client-controlled and was
-  // trivially spoofable (that bug let an attacker bypass the /api/contact rate
-  // limit and poison the Turnstile remoteip + GDPR consent IP).
+  // Fallback for direct/dev traffic (local `astro dev` via the vite proxy).
+  // Use the LAST hop of X-Forwarded-For: the entry appended by the nearest
+  // proxy in the chain. WARNING: in the production chain (Cloudflare ->
+  // Traefik -> nginx -> this sidecar) the last entry is the closest internal
+  // proxy, NOT the visitor — production must rely on CF-Connecting-IP above.
+  // This fallback is dev-only; if Cloudflare is ever removed, configure
+  // nginx `real_ip` (or pass a single trusted header) instead of trusting
+  // XFF hops. The FIRST hop is client-controlled and was trivially spoofable
+  // (that bug let an attacker bypass the /api/contact rate limit and poison
+  // the Turnstile remoteip + GDPR consent IP).
   const forwarded = request.headers["x-forwarded-for"];
   if (typeof forwarded === "string" && forwarded.trim()) {
     const last = forwarded.split(",").pop()?.trim();
@@ -252,7 +257,7 @@ async function readBody(request) {
   let body = "";
   for await (const chunk of request) {
     body += chunk;
-    if (body.length > 16_384) throw new Error("Request body too large");
+    if (body.length > REQUEST_BODY_LIMIT) throw new Error("Request body too large");
   }
   return body;
 }
@@ -680,6 +685,26 @@ async function handleContact(request, response, requestId) {
         errors: sanitizeLogValue(JSON.stringify(verifyData["error-codes"] ?? [])),
       });
       return respond(response, 403, JSON.stringify({ error: "captcha_rejected" }), "application/json");
+    }
+    // Defense in depth: Turnstile tokens are domain-bound, and the siteverify
+    // response reports the hostname where the challenge was solved. Reject a
+    // token minted for a different hostname. Production-only: Cloudflare's
+    // test keys return placeholder hostnames, which would break dev flows.
+    if (process.env.NODE_ENV === "production") {
+      let expectedHostname;
+      try {
+        expectedHostname = new URL(getPublicOrigin()).hostname;
+      } catch {
+        expectedHostname = undefined;
+      }
+      const solvedHostname = typeof verifyData.hostname === "string" ? verifyData.hostname : "";
+      if (expectedHostname && solvedHostname && solvedHostname !== expectedHostname) {
+        logEvent("contact_captcha_hostname_mismatch", {
+          requestId,
+          hostname: sanitizeLogValue(solvedHostname),
+        });
+        return respond(response, 403, JSON.stringify({ error: "captcha_rejected" }), "application/json");
+      }
     }
     logEvent("contact_captcha_verified", { requestId });
   }
