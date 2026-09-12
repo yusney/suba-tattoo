@@ -3,7 +3,7 @@
 # ============================================================
 # Stage 1 — Build the Astro static site
 # ============================================================
-FROM node:24-alpine AS builder
+FROM node:24-alpine@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS builder
 WORKDIR /app
 
 # Enable pnpm via corepack (matches the project's package manager).
@@ -49,18 +49,20 @@ RUN pnpm run build
 # Stage 2 — Serve static files via nginx with the OAuth proxy
 # ------------------------------------------------------------
 # Stay on nginx:alpine (not node:alpine) to keep the image lean.
-# Alpine's package ships nodejs v22 — enough for our OAuth server.
+# Alpine's package ships nodejs 24 — enough for our OAuth server.
 # Total image size: ~60 MB (vs ~320 MB with node:alpine + nginx).
 # ============================================================
 # Pinned to mainline 1.31.3 (patched against CVE-2026-42945 "NGINX Rift",
 # CVE-2026-42533 and CVE-2026-42946). Do not float on major-only tags.
-FROM nginx:1.31.3-alpine
+FROM nginx:1.31.3-alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752
 
-# Node.js for the OAuth proxy. v18+ is required (built-in fetch); Alpine 3.20 ships v22.
+# Node.js for the OAuth proxy. v18+ is required (built-in fetch).
 # su-exec lets the entrypoint drop privileges for the OAuth sidecar (runs as
 # the unprivileged `nginx` user; nginx itself keeps the root master needed to
 # bind :80 and spawn workers).
-RUN apk add --no-cache nodejs su-exec
+# Versions pinned for reproducible builds; bump deliberately (and re-run the
+# image build) when Alpine ships updates.
+RUN apk add --no-cache 'nodejs=24.18.1-r0' 'su-exec=0.3-r0'
 
 # Custom nginx config (cache strategy + SPA routing + /auth proxy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
