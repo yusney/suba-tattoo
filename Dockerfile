@@ -57,7 +57,10 @@ RUN pnpm run build
 FROM nginx:1.31.3-alpine
 
 # Node.js for the OAuth proxy. v18+ is required (built-in fetch); Alpine 3.20 ships v22.
-RUN apk add --no-cache nodejs
+# su-exec lets the entrypoint drop privileges for the OAuth sidecar (runs as
+# the unprivileged `nginx` user; nginx itself keeps the root master needed to
+# bind :80 and spawn workers).
+RUN apk add --no-cache nodejs su-exec
 
 # Custom nginx config (cache strategy + SPA routing + /auth proxy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
