@@ -7,6 +7,13 @@ const CLIENT_SECRET = process.env.OAUTH_CLIENT_SECRET;
 const PORT = 3000;
 const HOST = "127.0.0.1";
 const STATE_TTL_MS = 5 * 60 * 1000;
+// Hard cap on in-flight OAuth states. `/auth` is intentionally exempt from
+// the contact rate limit (see note below), so without a cap a sustained
+// flood could grow the Map for up to STATE_TTL_MS. When full, the OLDEST
+// entries are evicted first (Map preserves insertion order): memory stays
+// bounded and legitimate logins keep working — an evicted state only fails
+// that single attempt, and the user retries.
+const STATES_MAX = 10_000;
 // Optional: transactional email via Resend. If any of the three is missing
 // the sidecar still boots (so Decap keeps working), but POST /api/contact
 // will respond 503 until all three are set.
@@ -22,8 +29,9 @@ const REQUEST_BODY_LIMIT = 16_384;
 //      /auth, one callback redirect to /admin/callback). A real user can
 //      retry safely; an attacker has no incentive to spam these routes
 //      because they don't yield anything useful (no email, no DB write).
-//   2. State validation in pruneStates() already expires unused entries
-//      after STATE_TTL_MS (5 min), bounding memory growth.
+//   2. State validation in pruneStates() expires unused entries after
+//      STATE_TTL_MS (5 min) and enforceStatesCapacity() hard-caps the Map
+//      at STATES_MAX entries (oldest evicted first), bounding memory growth.
 //   3. Rate-limiting the callback would block legitimate users behind
 //      flaky proxies / corporate gateways that retry the OAuth round-trip.
 // If abuse appears on /auth, add a separate coarse-grained throttle.
@@ -75,6 +83,18 @@ function pruneStates() {
   for (const [state, entry] of states) {
     if (entry.expiresAt <= now) states.delete(state);
   }
+}
+
+function enforceStatesCapacity() {
+  if (states.size < STATES_MAX) return;
+  let evicted = 0;
+  while (states.size >= STATES_MAX) {
+    const oldest = states.keys().next();
+    if (oldest.done) break;
+    states.delete(oldest.value);
+    evicted += 1;
+  }
+  logEvent("oauth_states_capacity_evicted", { evicted, size: states.size, max: STATES_MAX });
 }
 
 function stripIpv6Scope(ip) {
@@ -711,6 +731,7 @@ const server = createServer(async (request, response) => {
 
     if (request.method === "GET" && url.pathname === "/auth") {
       pruneStates();
+      enforceStatesCapacity();
       // Decap 3.x's popup-side completeAuth parses the `state` URL parameter
       // as JSON and reads the `.nonce` field. A plain string causes the
       // parse to fail silently, no token exchange POST is made, and the
