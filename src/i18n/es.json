@@ -44,6 +44,7 @@
   },
   "gallery_page": {
     "title": "Galería Completa",
+    "meta_title": "Galería de tatuajes en Barcelona — SUBA TATTOO",
     "subtitle": "Explora todas las piezas del estudio, filtradas por estilo.",
     "description": "Explora la galería completa de SUBA TATTOO en Barcelona: filtra por realismo, blackwork, fine line o color y encuentra inspiración para tu próxima pieza.",
     "filter_label": "Filtrar por estilo",
@@ -138,7 +139,9 @@
       "description": "Resuelve tus dudas sobre tatuajes en SUBA TATTOO, Barcelona: cuidados post-sesión, protocolo de higiene, reservas y valoración de tu próxima pieza hoy."
     },
     "detalle": {
-      "title_suffix": " — SUBA TATTOO Barcelona"
+      "title_suffix": " — SUBA TATTOO Barcelona",
+      "title_with_style": "{title}: tatuaje {style}",
+      "title_suffix_short": " — SUBA TATTOO"
     },
     "privacidad": {
       "title": "Política de Privacidad — SUBA TATTOO Barcelona",

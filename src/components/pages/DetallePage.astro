@@ -58,7 +58,20 @@ const related = localeTattoos
 
 const subtitleParts = [data.style, data.category, t("detalle.editorial_label")];
 const subtitle = subtitleParts.filter(Boolean).join(" · ");
-const pageTitle = `${data.title}${t("meta.detalle.title_suffix")}`;
+// Search results truncate titles around 60 characters, so pick the most
+// descriptive variant that fits: name + style + city, then name + style,
+// then the plain name + city fallback used before.
+const MAX_TITLE_LENGTH = 60;
+const withStyle = data.style
+  ? t("meta.detalle.title_with_style", { title: data.title, style: data.style })
+  : data.title;
+const titleCandidates = [
+  `${withStyle}${t("meta.detalle.title_suffix")}`,
+  `${withStyle}${t("meta.detalle.title_suffix_short")}`,
+  `${data.title}${t("meta.detalle.title_suffix")}`,
+];
+const pageTitle =
+  titleCandidates.find((candidate) => candidate.length <= MAX_TITLE_LENGTH) ?? titleCandidates[titleCandidates.length - 1];
 const pageDescription = (data.description ?? settings.about_short).slice(0, 160);
 
 const toHref = (s: string) =>
