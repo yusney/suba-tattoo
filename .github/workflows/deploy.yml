@@ -10,8 +10,11 @@
 #   PUBLIC_SITE_URL            e.g. https://suba.donduque.dev (bare https origin)
 #   PUBLIC_TURNSTILE_SITE_KEY  Cloudflare Turnstile sitekey
 #
-# Optional repository secrets. While any of them is missing, the image is
-# still built and pushed, but the deploy job is skipped:
+# Optional secrets of the `production` environment (Settings -> Environments
+# -> production), whose deployment branch policy only allows `main`: a
+# workflow modified on any other branch cannot read them. Do NOT store them as
+# repository secrets, which every branch can read. While any of them is
+# missing, the image is still built and pushed, but the deploy is skipped:
 #   DOKPLOY_URL             e.g. https://dokploy.example.com (no trailing slash)
 #   DOKPLOY_API_KEY         Dokploy API key (Settings -> Profile -> API/CLI)
 #   DOKPLOY_APPLICATION_ID  ID of the suba-tattoo application in Dokploy
@@ -47,6 +50,8 @@ env:
 jobs:
   build:
     name: Build and push image
+    # A manual run from another branch must never overwrite the :main image.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -101,6 +106,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Restricted to `main` by the environment's deployment branch policy.
+    environment: production
     steps:
       - name: Call Dokploy API
         env:
