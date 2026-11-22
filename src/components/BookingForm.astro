@@ -34,7 +34,7 @@ const errorStrings = {
 const settings = await getSiteSettings(locale);
 const taxId = settings.tax_id ?? "[NIF/CIF pendiente]";
 const policyVersion = settings.policy_version ?? "v1.0";
-const privacyLink = locale === DEFAULT_LOCALE ? "/privacidad" : `/${locale}/privacidad`;
+const privacyLink = locale === DEFAULT_LOCALE ? "/privacidad/" : `/${locale}/privacidad/`;
 
 const gdprStrings = {
   info_compact: t("form_gdpr.info_compact", { tax_id: taxId }),

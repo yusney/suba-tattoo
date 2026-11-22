@@ -27,7 +27,7 @@ const styleCounts = Object.fromEntries(
   styles.map((style) => [style, allTattoos.filter((entry) => entry.data.style === style).length]),
 );
 const detailHref = (slug: string) =>
-  locale === DEFAULT_LOCALE ? `/detalle/${slug}` : `/${locale}/detalle/${slug}`;
+  locale === DEFAULT_LOCALE ? `/detalle/${slug}/` : `/${locale}/detalle/${slug}/`;
 const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 const pageHref = (page: number) => getGalleryPageHref(locale, page);
 const nextPageHref = currentPage < totalPages ? pageHref(currentPage + 1) : "";

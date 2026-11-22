@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { useTranslations, getLocaleFromPath, localizePath, LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
+import { useTranslations, getLocaleFromPath, localizePath, withTrailingSlash, LOCALES, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 import { configuredSiteUrl, getSiteSettings } from "../lib/site";
 import { buildTattooShopSchema } from "../lib/structured-data";
@@ -38,12 +38,6 @@ const siteOrigin = Astro.site?.origin ?? configuredSiteUrl;
 // 301 to the trailing-slash URL (e.g. /galeria -> /galeria/). Canonical,
 // og:url and hreflang must point at the final 200 URL, so every emitted URL
 // carries the trailing slash. The bare root stays "/".
-const withTrailingSlash = (pathname: string): string => {
-  const clean = (pathname || "/").split("?")[0].split("#")[0];
-  if (clean === "" || clean === "/") return "/";
-  return clean.endsWith("/") ? clean : `${clean}/`;
-};
-
 const stripLocalePath = (() => {
   const segments = Astro.url.pathname.split("/").filter(Boolean);
   if (segments[0] === "en" || segments[0] === "ca") {
