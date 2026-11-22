@@ -221,6 +221,7 @@ collections:
                   - name: "icon"
                     label: "Ícono (Material Symbols)"
                     widget: "select"
+                    # Keep in sync with MATERIAL_ICONS in src/lib/icons.ts (the icon font is subset to that list).
                     options:
                       - "cleaning_services"
                       - "medical_services"
@@ -267,6 +268,7 @@ collections:
                   - name: "icon"
                     label: "Icon (Material Symbols)"
                     widget: "select"
+                    # Keep in sync with MATERIAL_ICONS in src/lib/icons.ts (the icon font is subset to that list).
                     options:
                       - "cleaning_services"
                       - "medical_services"
@@ -313,6 +315,7 @@ collections:
                   - name: "icon"
                     label: "Icona (Material Symbols)"
                     widget: "select"
+                    # Keep in sync with MATERIAL_ICONS in src/lib/icons.ts (the icon font is subset to that list).
                     options:
                       - "cleaning_services"
                       - "medical_services"
