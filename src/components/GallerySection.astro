@@ -2,6 +2,7 @@
 import { useTranslations, styleLabel, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 import { getTattoos } from "../lib/tattoos";
+import { getEstiloHrefByStyle } from "../lib/estilos";
 
 const rawLocale = (Astro.currentLocale ?? DEFAULT_LOCALE) as Locale;
 const locale: Locale = (["es", "en", "ca"] as Locale[]).includes(rawLocale) ? rawLocale : DEFAULT_LOCALE;
@@ -18,6 +19,10 @@ const styles = Array.from(new Set(tattoos.map((entry) => entry.data.style)));
 const detailHref = (slug: string) =>
   locale === DEFAULT_LOCALE ? `/detalle/${slug}/` : `/${locale}/detalle/${slug}/`;
 const galleryHref = locale === DEFAULT_LOCALE ? "/galeria/" : `/${locale}/galeria/`;
+// "View all" goes to the style landing page when one exists, else the gallery filter.
+const estiloHrefByStyle = await getEstiloHrefByStyle(locale);
+const viewAllHref = (style: string) =>
+  estiloHrefByStyle.get(style) ?? `${galleryHref}?estilo=${encodeURIComponent(style)}`;
 
 // Curated preview per style: featured first, then by date desc.
 const previewByStyle = styles.map((style) => {
@@ -50,7 +55,7 @@ const previewByStyle = styles.map((style) => {
       <div class="flex flex-col gap-6" data-reveal>
         <div class="flex items-baseline justify-between border-b border-outline-variant pb-3">
           <h3 class="text-headline-md font-headline-md uppercase">{styleLabel(t, group.style)}</h3>
-          <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={`${galleryHref}?estilo=${encodeURIComponent(group.style)}`}>
+          <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={viewAllHref(group.style)}>
             {t("gallery.view_all")} →
           </a>
         </div>

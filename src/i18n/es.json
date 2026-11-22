@@ -372,5 +372,14 @@
     "privacy_label": "He leído y acepto la {privacy_link}.",
     "privacy_link_text": "Política de Privacidad",
     "privacy_required_error": "Debes aceptar la Política de Privacidad para continuar."
+  },
+  "estilo_page": {
+    "label": "Estilo",
+    "works_title": "Trabajos de {style}",
+    "faq_title": "Preguntas frecuentes",
+    "cta_title": "¿Tienes una idea en este estilo?",
+    "cta_button": "Solicitar valoración",
+    "explore_label": "Explorar por estilo",
+    "title_suffix": " — SUBA TATTOO"
   }
 }
