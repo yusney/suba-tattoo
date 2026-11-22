@@ -35,7 +35,12 @@ export function buildTattooShopSchema(settings: SiteSettings, siteOrigin: string
     ...(address ? { address } : {}),
     ...(settings.schema_opening_hours ? { openingHours: settings.schema_opening_hours } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
-    areaServed: settings.location,
+    // Structured service area (the studio's town first, then the city/region)
+    // so search engines tie the business to Montcada i Reixac and Barcelona.
+    // Falls back to the plain-text `location` when no structured geo exists.
+    areaServed: settings.geo
+      ? Array.from(new Set([settings.geo.city, settings.geo.region])).map((name) => ({ "@type": "City", name }))
+      : settings.location,
   };
 }
 
