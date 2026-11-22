@@ -86,14 +86,13 @@ const gdprStrings = {
       <input type="text" name="website" id="website-honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] top-0 h-px w-px opacity-0 pointer-events-none" />
 
       <!-- Cloudflare Turnstile: server verifies the token in handleContact.
-           The widget resolves automatically in the background (managed
-           mode); the token lands in the hidden input below via the callback. -->
+           The widget (managed mode) is rendered lazily by src/lib/turnstile.ts
+           when the form nears the viewport; the token lands in the hidden input below via the callback. -->
       <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response-contact" />
       <div class="md:col-span-2">
         <div
-          class="cf-turnstile"
+          data-turnstile
           data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY}
-          data-callback="onContactTurnstileSuccess"
         ></div>
       </div>
 
@@ -139,6 +138,7 @@ const gdprStrings = {
 <script>
   import { validateContact, type FieldError } from "../lib/forms";
   import { showToast } from "../lib/toast";
+  import { mountTurnstileWhenNeeded } from "../lib/turnstile";
 
   declare global {
     interface Window {
@@ -152,13 +152,18 @@ const gdprStrings = {
   }
 
   // Turnstile widget callback: stores the resolved token in the hidden
-  // input so it travels with the FormData on submit. The widget script
-  // (loaded in Layout.astro) finds `window.onContactTurnstileSuccess`
-  // by name from the `data-callback` attribute on the widget div.
+  // input so it travels with the FormData on submit. The widget is rendered
+  // explicitly (and only when the form is near) by mountTurnstileWhenNeeded.
   window.onContactTurnstileSuccess = (token: string) => {
     const input = document.getElementById("cf-turnstile-response-contact") as HTMLInputElement | null;
     if (input) input.value = token;
   };
+
+  const turnstileForm = document.querySelector<HTMLElement>("[data-contact-form]");
+  const turnstileContainer = turnstileForm?.querySelector<HTMLElement>("[data-turnstile]");
+  if (turnstileForm && turnstileContainer) {
+    mountTurnstileWhenNeeded(turnstileForm, turnstileContainer, (token) => window.onContactTurnstileSuccess?.(token));
+  }
 
   type ContactStatus = "idle" | "sending" | "success" | "error";
   type StatusStrings = {
@@ -327,11 +332,10 @@ const gdprStrings = {
         description: String(formData.get("description") ?? ""),
         website: String(formData.get("website") ?? ""),
         "cf-turnstile-response": (() => {
-          // Same race as BookingForm: api.js loads `async`, so the widget can
-          // resolve before the data-callback is wired up, leaving the page's
-          // hidden input empty while Turnstile's own input already holds the
-          // token. formData.get() would return the first (empty) input and the
-          // server would answer captcha_required — take the first NON-empty value.
+          // Same as BookingForm: the token can live in the page's hidden input
+          // (filled by the render callback) and in Turnstile's own input inside
+          // the widget. formData.get() could return an empty one and the server
+          // would answer captcha_required — take the first NON-empty value.
           const values = formData.getAll("cf-turnstile-response")
             .map(v => String(v).trim())
             .filter(Boolean);
