@@ -60,9 +60,12 @@ FROM nginx:1.31.3-alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3a
 # su-exec lets the entrypoint drop privileges for the OAuth sidecar (runs as
 # the unprivileged `nginx` user; nginx itself keeps the root master needed to
 # bind :80 and spawn workers).
-# Versions pinned for reproducible builds; bump deliberately (and re-run the
-# image build) when Alpine ships updates.
-RUN apk add --no-cache 'nodejs=24.18.1-r0' 'su-exec=0.3-r0'
+# Pinned to the major/minor line with `~`, not to an exact revision: Alpine's
+# repositories keep only the latest build of each package, so an exact pin
+# (e.g. `nodejs=24.18.1-r0`) stops resolving as soon as a patch ships and
+# breaks every uncached build. `~24` accepts any 24.x security patch while
+# still blocking an unplanned major upgrade.
+RUN apk add --no-cache 'nodejs~24' 'su-exec~0.3'
 
 # Custom nginx config (cache strategy + SPA routing + /auth proxy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
