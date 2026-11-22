@@ -32,7 +32,9 @@ const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 const pageHref = (page: number) => getGalleryPageHref(locale, page);
 const nextPageHref = currentPage < totalPages ? pageHref(currentPage + 1) : "";
 const previousPageHref = currentPage > 1 ? pageHref(currentPage - 1) : "";
-const pageTitle = currentPage > 1 ? `${t("gallery_page.title")} · ${currentPage}` : t("gallery_page.title");
+// <title> uses a search-oriented string; the visible H1 keeps gallery_page.title.
+const metaTitle = t("gallery_page.meta_title");
+const pageTitle = currentPage > 1 ? `${metaTitle} · ${currentPage}` : metaTitle;
 const pageDescription = currentPage > 1
   ? `${t("gallery_page.description")} (${currentPage})`
   : t("gallery_page.description");

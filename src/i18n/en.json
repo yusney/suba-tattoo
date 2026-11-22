@@ -44,6 +44,7 @@
   },
   "gallery_page": {
     "title": "Full Gallery",
+    "meta_title": "Tattoo Gallery in Barcelona — SUBA TATTOO",
     "subtitle": "Explore every studio piece, filtered by style.",
     "description": "Browse the full SUBA TATTOO gallery in Barcelona: filter by realism, blackwork, fine line or colour and find inspiration here for your next custom piece.",
     "filter_label": "Filter by style",
@@ -138,7 +139,9 @@
       "description": "Clear answers about tattooing at SUBA TATTOO, Barcelona: post-session aftercare, hygiene protocol, bookings and how to request a quote for your next piece."
     },
     "detalle": {
-      "title_suffix": " — SUBA TATTOO Barcelona"
+      "title_suffix": " — SUBA TATTOO Barcelona",
+      "title_with_style": "{title}: {style} tattoo",
+      "title_suffix_short": " — SUBA TATTOO"
     },
     "privacidad": {
       "title": "Privacy Policy — SUBA TATTOO Barcelona",
