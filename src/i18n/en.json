@@ -372,5 +372,9 @@
     "privacy_label": "I have read and accept the {privacy_link}.",
     "privacy_link_text": "Privacy Policy",
     "privacy_required_error": "You must accept the Privacy Policy to continue."
+  },
+  "style_labels": {
+    "Realismo": "Realism",
+    "Geométrico": "Geometric"
   }
 }

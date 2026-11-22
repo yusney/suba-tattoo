@@ -29,7 +29,13 @@ const sobre = sobreEntry.data;
 const t = useTranslations(locale);
 const settings = await getSiteSettings(locale);
 const pageTitle = t("meta.sobre.title");
-const pageDescription = (sobre.intro_text ?? "").split(/\n\n+/)[0] ?? settings.about_short;
+// Dedicated meta description (~150 chars). The first intro paragraph used
+// before ran to 230+ chars and was truncated in search results.
+const metaDescription = t("meta.sobre.description");
+const pageDescription =
+  metaDescription !== "meta.sobre.description"
+    ? metaDescription
+    : ((sobre.intro_text ?? "").split(/\n\n+/)[0] || settings.about_short);
 ---
 
 <Layout title={pageTitle} description={pageDescription} ogType="website">

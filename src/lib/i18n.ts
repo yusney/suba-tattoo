@@ -118,3 +118,16 @@ export function stripLocale(pathname: string): string {
   }
   return localized === "/" ? "/" : localized;
 }
+
+/**
+ * Display label for a tattoo style or category value. Those values are shared
+ * across locales on purpose (they drive the CMS selects, the gallery filters
+ * and `?estilo=` URLs), so they are only translated when rendered, via the
+ * optional `style_labels` map of each dictionary. Unmapped values — and every
+ * value in the default Spanish locale — are shown as stored.
+ */
+export function styleLabel(t: Translator, value: string): string {
+  const key = `style_labels.${value}`;
+  const label = t(key);
+  return label === key ? value : label;
+}
