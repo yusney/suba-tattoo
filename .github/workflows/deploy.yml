@@ -1,0 +1,123 @@
+# Build the production image on GitHub-hosted runners and tell Dokploy to
+# deploy it, so the VPS never runs `pnpm install` / `astro build` itself.
+# Building on the same server that serves the site can freeze it; see
+# https://docs.dokploy.com/docs/core/applications/going-production
+#
+# Setup (one time) is documented in DEPLOY.md, "Paso 6".
+#
+# Required repository variables (Settings -> Secrets and variables -> Actions
+# -> Variables). They are public values inlined into the static build:
+#   PUBLIC_SITE_URL            e.g. https://suba.donduque.dev (bare https origin)
+#   PUBLIC_TURNSTILE_SITE_KEY  Cloudflare Turnstile sitekey
+#
+# Optional repository secrets. While any of them is missing, the image is
+# still built and pushed, but the deploy job is skipped:
+#   DOKPLOY_URL             e.g. https://dokploy.example.com (no trailing slash)
+#   DOKPLOY_API_KEY         Dokploy API key (Settings -> Profile -> API/CLI)
+#   DOKPLOY_APPLICATION_ID  ID of the suba-tattoo application in Dokploy
+
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+    # Files that never reach the image build output. Content lives in
+    # src/content/**/*.md, so Markdown must NOT be ignored globally.
+    paths-ignore:
+      - 'README.md'
+      - 'DEPLOY.md'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'SECURITY-AUDIT-*.md'
+      - '.atl/**'
+  workflow_dispatch:
+
+# Several CMS publishes in a row collapse into a single deploy of the newest
+# commit: a newer run cancels the one still in progress.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check required variables
+        env:
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+        run: |
+          missing=0
+          for name in PUBLIC_SITE_URL PUBLIC_TURNSTILE_SITE_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository variable $name is not set (see DEPLOY.md, Paso 6)."
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Log in to GHCR
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:main
+            ${{ env.IMAGE }}:sha-${{ github.sha }}
+          build-args: |
+            PUBLIC_SITE_URL=${{ vars.PUBLIC_SITE_URL }}
+            PUBLIC_TURNSTILE_SITE_KEY=${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Trigger Dokploy deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call Dokploy API
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_APPLICATION_ID: ${{ secrets.DOKPLOY_APPLICATION_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DOKPLOY_URL" ] || [ -z "$DOKPLOY_API_KEY" ] || [ -z "$DOKPLOY_APPLICATION_ID" ]; then
+            echo "::notice::Dokploy secrets are not configured; image pushed, deploy skipped."
+            exit 0
+          fi
+          payload=$(jq -n --arg id "$DOKPLOY_APPLICATION_ID" '{applicationId: $id}')
+          curl --fail-with-body --silent --show-error --max-time 60 \
+            -X POST "${DOKPLOY_URL%/}/api/application.deploy" \
+            -H 'Content-Type: application/json' \
+            -H "x-api-key: $DOKPLOY_API_KEY" \
+            --data "$payload"
+          echo
+          echo "Deploy requested for ${IMAGE}:main (sha-${GITHUB_SHA})."
