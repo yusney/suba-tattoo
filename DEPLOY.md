@@ -9,7 +9,7 @@ Guia paso a paso para desplegar en Dokploy (VPS con Docker).
 | **Pre-producción / staging** | `https://<staging-origin>` | Subdominio temporal de staging (lo define `PUBLIC_SITE_URL`) — para que el artista revise el sitio mientras se construye. |
 | **Producción** | TBD | Dominio propio del artista (ej: `subatattoo.com`). Se configura igual en Dokploy cuando esté disponible. |
 
-> La diferencia entre los dos entornos es **solo el dominio**: el código, el Dockerfile, el pipeline de Dokploy, y el repo de GitHub son los mismos. El origin canónico vive en una sola variable, `PUBLIC_SITE_URL`, que se pasa como build-arg en Dokploy; de ahí salen `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap. Cambiar de staging a producción es swap de DNS + actualizar `PUBLIC_SITE_URL` (y el callback de la OAuth App): **sin editar ni commitear archivos**.
+> La diferencia entre los dos entornos es **solo el dominio**: el código, el Dockerfile, el pipeline de Dokploy, y el repo de GitHub son los mismos. El origin canónico vive en una sola variable, `PUBLIC_SITE_URL`, que se define como variable del repo en GitHub (build, ver [Paso 6](#paso-6--build-en-github-actions-y-deploy-en-dokploy)) y como env en Dokploy (runtime); de ahí salen `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap. Cambiar de staging a producción es swap de DNS + actualizar `PUBLIC_SITE_URL` (y el callback de la OAuth App): **sin editar ni commitear archivos**.
 
 ## Estado actual
 
@@ -69,7 +69,7 @@ backend:
 
 El backend `github` apunta al proxy OAuth del propio container (`base_url + /auth`). El proxy corre como proceso Node dentro del container; Dokploy/Traefik no necesita config adicional.
 
-Para cambiar el dominio en el futuro: seteá `PUBLIC_SITE_URL` como build-arg en Dokploy (ver [Paso 4d](#paso-4d--required-sidecar-environment-hardening)) y redesplegá. No hay que editar ni commitear archivos.
+Para cambiar el dominio en el futuro: actualizá la variable `PUBLIC_SITE_URL` del repo en GitHub (build) y la env de Dokploy (runtime) — ver [Paso 4d](#paso-4d--required-environment-build--runtime) — y volvé a correr el workflow. No hay que editar ni commitear archivos.
 
 ## Paso 4 — Crear proyecto en Dokploy
 
@@ -83,6 +83,8 @@ Para cambiar el dominio en el futuro: seteá `PUBLIC_SITE_URL` como build-arg en
    - `OAUTH_CLIENT_SECRET`: Client Secret de la OAuth App del paso 2
    - `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` — ver [Paso 4b — Configurar envío de emails (Resend)](#paso-4b--configurar-envío-de-emails-resend) para detalle de cada variable y pre-requisitos
 7. Click **Deploy**
+
+> Setup inicial. Una vez funcionando, migrar al build en GitHub Actions del [Paso 6](#paso-6--build-en-github-actions-y-deploy-en-dokploy): el VPS deja de construir la imagen.
 
 Dokploy va a:
 - Clonar el repo
@@ -194,11 +196,11 @@ Volver a [Paso 5 — Configurar dominio](#paso-5--configurar-dominio).
 
 `PUBLIC_SITE_URL` is needed in **two places**, both set on the Dokploy service:
 
-1. **Build arg** — the Astro build reads it for `site`, sitemap, canonicals, `robots.txt`, and the generated `/admin/config.yml`. In Dokploy: service → **Build** → **Build Args** (el nombre exacto del tab depende de la versión de Dokploy).
+1. **Build arg** — the Astro build reads it for `site`, sitemap, canonicals, `robots.txt`, and the generated `/admin/config.yml`. The image is built by GitHub Actions (see [Paso 6](#paso-6--build-en-github-actions-y-deploy-en-dokploy)), so set it as a **repository variable** in GitHub (Settings → Secrets and variables → Actions → Variables), together with `PUBLIC_TURNSTILE_SITE_KEY`. Build args configured in Dokploy are no longer used.
 2. **Runtime env** — the OAuth sidecar uses it as the `redirect_uri` origin. Service → **Environment** tab.
 
 ```
-PUBLIC_SITE_URL=https://tu-dominio.com   # build-arg AND runtime env
+PUBLIC_SITE_URL=https://tu-dominio.com   # GitHub repo variable (build) AND Dokploy env (runtime)
 NODE_ENV=production
 TURNSTILE_SECRET_KEY=0x4BBBBBBBXXXXXXXXXXXX
 ```
@@ -230,15 +232,26 @@ Dokploy automáticamente:
 
 **Importante**: el DNS A record de `tu-dominio.com` tiene que apuntar a la IP del VPS **antes** de configurar el dominio en Dokploy, si no Let's Encrypt no va a poder validar el certificado.
 
-## Paso 6 — Habilitar auto-deploy
+## Paso 6 — Build en GitHub Actions y deploy en Dokploy
 
-1. En el service, ir al tab **General**
-2. Toggle **Auto Deploy** → ON
-3. Eso es todo. Dokploy usa GitHub App internamente, no necesitás configurar webhooks manualmente.
+Construir la imagen en el mismo VPS que sirve la web consume CPU/RAM y puede congelar el servidor ([Dokploy: Going Production](https://docs.dokploy.com/docs/core/applications/going-production)). Por eso la imagen se construye en GitHub Actions (`.github/workflows/deploy.yml`) y Dokploy solo la descarga y reinicia el container.
 
-**Para GitHub específicamente:** Dokploy detecta pushes a la rama configurada (en nuestro caso `main`) y dispara un redeploy automático. Si usáramos GitLab / Bitbucket / Gitea, ahí sí habría que copiar el webhook URL manualmente desde el tab Deployments.
+Flujo: push a `main` (incluido cada **Publicar** del CMS) → Actions construye y sube `ghcr.io/yusney/suba-tattoo:main` (y `:sha-<commit>`) → llama a `POST /api/application.deploy` de Dokploy. Si hay varios pushes seguidos, el run más nuevo cancela al anterior y se despliega una sola vez.
 
-**Branch matching**: asegurate de que la rama configurada en Dokploy coincida con la rama a la que pusheás (debe ser `main`). Si hay mismatch, vas a ver "Branch Not Match" en los logs.
+### Migración (una sola vez, en este orden)
+
+1. **Variables del repo** (GitHub → Settings → Secrets and variables → Actions → **Variables**): crear `PUBLIC_SITE_URL` y `PUBLIC_TURNSTILE_SITE_KEY` con los mismos valores que tenían los build args de Dokploy.
+2. **Dokploy**: en el service, tab **General**, poner **Auto Deploy → OFF** (si no, cada push construiría también en el VPS).
+3. **Mergear el PR** del workflow. El primer run construye y sube la imagen; el job de deploy se salta (todavía no hay secrets) con el aviso `Dokploy secrets are not configured`.
+4. **Hacer pública la imagen**: GitHub → perfil → **Packages** → `suba-tattoo` → **Package settings** → **Change visibility → Public**. El repo ya es público y la imagen no contiene secretos (se inyectan en runtime), así Dokploy la descarga sin credenciales.
+5. **Dokploy → Source**: cambiar de GitHub a **Docker**, imagen `ghcr.io/yusney/suba-tattoo:main`. Las variables de **Environment** (OAuth, Resend, Turnstile secret, `PUBLIC_SITE_URL`, `NODE_ENV`) y el dominio se mantienen. Click **Deploy** y verificar el sitio ([Paso 6 — Verificar](#paso-6--verificar)).
+6. **API de Dokploy**: Settings → Profile → **API/CLI** → generar una API key. El `applicationId` sale de la URL del service en Dokploy.
+7. **Secrets del repo** (GitHub → Settings → Secrets and variables → Actions → **Secrets**): `DOKPLOY_URL` (ej. `https://dokploy.tu-dominio.com`, sin `/` final), `DOKPLOY_API_KEY`, `DOKPLOY_APPLICATION_ID`.
+8. **Probar**: GitHub → Actions → **Build and deploy** → **Run workflow**. El job *Trigger Dokploy deploy* debe terminar en verde y Dokploy mostrar un deploy nuevo.
+
+**Ojo con Cloudflare**: los runners de GitHub tienen que poder llegar a `DOKPLOY_URL`. Si el panel está detrás de Cloudflare con WAF/Bot Fight Mode, puede devolver 403/challenge al runner; en ese caso, agregar una regla que permita `/api/application.deploy` con el header `x-api-key`.
+
+**Rollback**: en Dokploy, cambiar la imagen a `ghcr.io/yusney/suba-tattoo:sha-<commit-anterior>` y desplegar.
 
 ## Paso 6 — Verificar
 
@@ -276,11 +289,11 @@ El artista necesita tener acceso de escritura al repo de GitHub. Opciones:
 1. Comprar el dominio definitivo (ej: `subatattoo.com`)
 2. Configurar DNS A record → IP del VPS
 3. En Dokploy, agregar el dominio final al service (mantener el staging origin también para preview si querés, o removerlo)
-4. Actualizar `PUBLIC_SITE_URL` al dominio final (build-arg) y redesplegar. Eso regenera `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap en un solo paso.
+4. Actualizar `PUBLIC_SITE_URL` al dominio final en la variable del repo de GitHub (build) y en la env de Dokploy (runtime), y volver a correr el workflow **Build and deploy** (Actions → Run workflow). Eso regenera `site`, sitemap, canonicals, `robots.txt` y el `base_url` de Decap en un solo paso.
 5. En GitHub OAuth App, agregar el nuevo callback URL (podés tener varios callbacks en una misma OAuth App)
 6. Verificar con `curl -sI https://[dominio-final]`
 
-> **Tip de roll-back rápido:** como Dokploy mantiene el staging origin mientras siga configurado, si algo falla en producción volvés a staging cambiando `PUBLIC_SITE_URL` al valor anterior y redesplegando. El historial de Dokploy lo deja documentado y no hay código que revertir.
+> **Tip de roll-back rápido:** como Dokploy mantiene el staging origin mientras siga configurado, si algo falla en producción volvés a la imagen anterior: en Dokploy cambiá la imagen a `ghcr.io/yusney/suba-tattoo:sha-<commit-anterior>`, restaurá la env `PUBLIC_SITE_URL` al valor anterior y desplegá. Redesplegar sin cambiar la imagen **no** cambia el origin compilado: para un build nuevo con otro `PUBLIC_SITE_URL` hay que actualizar la variable del repo y volver a correr el workflow.
 
 ## Mantenimiento
 
@@ -291,7 +304,7 @@ En Dokploy UI → tu proyecto → tu servicio → Logs
 
 ### Actualizar el sitio
 ```bash
-# Hacer cambios, commitear, pushear — Dokploy redespleiega automático
+# Hacer cambios, commitear, pushear — GitHub Actions construye la imagen y pide el deploy a Dokploy
 git add .
 git commit -m "Tu mensaje"
 git push
@@ -315,7 +328,7 @@ Uptime Kuma (open source) en otro container, o similar. Apuntarlo a `https://tu-
 - Verificar que `OAUTH_CLIENT_ID` y `OAUTH_CLIENT_SECRET` estén presentes en las variables de entorno del container en Dokploy
 - Verificar que `curl -sI https://<host>/auth` redirija a `github.com`
 - Verificar que la `Authorization callback URL` en GitHub OAuth App sea EXACTAMENTE `https://<host>/admin/callback` (sin trailing slash, con https)
-- Verificar que `PUBLIC_SITE_URL` (build-arg) coincida con el dominio real: el `/admin/config.yml` servido se genera con ese origin en `base_url` (`auth_endpoint: auth`), así que un build con el valor viejo deja el login apuntando al dominio equivocado
+- Verificar que `PUBLIC_SITE_URL` (variable del repo en GitHub, usada en el build) coincida con el dominio real: el `/admin/config.yml` servido se genera con ese origin en `base_url` (`auth_endpoint: auth`), así que un build con el valor viejo deja el login apuntando al dominio equivocado
 
 **Las imágenes no se ven:**
 - Verificar que la carpeta `public/images/` se commitea al repo
