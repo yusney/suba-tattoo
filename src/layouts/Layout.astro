@@ -136,11 +136,9 @@ const tattooShopSchema = siteOrigin ? buildTattooShopSchema(settings, siteOrigin
       set:html={`@font-face{font-family:"Material Symbols Outlined";font-style:normal;font-weight:400;font-display:block;src:url("${ICON_FONT_URL}") format("woff2");}`}
     ></style>
 
-    <!-- Cloudflare Turnstile anti-bot captcha. The widget is rendered
-         auto-magically by this script when it finds a <div class="cf-turnstile">
-         in the page (see ContactSection.astro and BookingForm.astro). The
-         script is small and async, so loading it on every page is cheap. -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- Cloudflare Turnstile is NOT loaded here: the contact and booking forms
+         load it on demand (src/lib/turnstile.ts), so pages without a form, and
+         visitors who never reach one, skip its ~1.5 MiB challenge scripts. -->
   </head>
   <body class="bg-surface text-on-surface font-body-md">
     <a
