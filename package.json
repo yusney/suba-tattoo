@@ -7,11 +7,12 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check-built-fonts.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "cms-dev": "npx decap-server",
-    "sidecar": "node --env-file-if-exists=.env oauth/decap-oauth.mjs"
+    "sidecar": "node --env-file-if-exists=.env oauth/decap-oauth.mjs",
+    "icons:font": "node scripts/update-icon-font.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.6",
