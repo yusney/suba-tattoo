@@ -2,6 +2,9 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -56,6 +59,37 @@ function resolveSiteUrl(raw) {
 }
 
 const normalizedSiteUrl = resolveSiteUrl(rawSiteUrl);
+
+/**
+ * Maps each tattoo detail page path (`/detalle/<slug>/`, `/en/detalle/<slug>/`,
+ * `/ca/detalle/<slug>/`) to its photo, for the image sitemap below. Content
+ * collections are not available while the config loads, so the frontmatter of
+ * src/content/tattoos/<locale>/*.md is read directly (only `slug` and `image`).
+ *
+ * @returns {Map<string, string>}
+ */
+function buildTattooImageIndex() {
+  const root = fileURLToPath(new URL('./src/content/tattoos/', import.meta.url));
+  /** @type {Map<string, string>} */
+  const index = new Map();
+  for (const locale of readdirSync(root)) {
+    const dir = join(root, locale);
+    if (!statSync(dir).isDirectory()) continue;
+    for (const file of readdirSync(dir).filter((name) => name.endsWith('.md'))) {
+      const frontmatter = readFileSync(join(dir, file), 'utf8').match(/^---\n([\s\S]*?)\n---/)?.[1] ?? '';
+      const field = (/** @type {string} */ name) =>
+        frontmatter.match(new RegExp(`^${name}:\\s*"?([^"\\n]+?)"?\\s*$`, 'm'))?.[1];
+      const slug = field('slug');
+      const image = field('image');
+      if (!slug || !image) continue;
+      const prefix = locale === 'es' ? '' : `/${locale}`;
+      index.set(`${prefix}/detalle/${slug}/`, image);
+    }
+  }
+  return index;
+}
+
+const tattooImageByPath = buildTattooImageIndex();
 
 if (!normalizedSiteUrl && !isDev) {
   throw new Error(
@@ -147,6 +181,14 @@ export default defineConfig({
           if (esVariant && !item.links.some((link) => link.lang === 'x-default')) {
             item.links = [...item.links, { ...esVariant, lang: 'x-default' }];
           }
+        }
+        // Image sitemap: each tattoo detail page lists its photo so Google
+        // Images can discover it (people search tattoo ideas by image).
+        // `img` is passed through to the `sitemap` library, which supports it,
+        // even though @astrojs/sitemap's SitemapItem type does not declare it.
+        const image = tattooImageByPath.get(new URL(item.url).pathname);
+        if (image && normalizedSiteUrl) {
+          /** @type {any} */ (item).img = [{ url: new URL(image, normalizedSiteUrl).toString() }];
         }
         return item;
       },
