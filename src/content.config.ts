@@ -104,6 +104,8 @@ const faq = defineCollection({
         protocol_items: z
           .array(
             z.object({
+              // Keep in sync with MATERIAL_ICONS in src/lib/icons.ts: the icon
+              // font is subset to that list, so an unlisted name renders as text.
               icon: z.enum([
                 "cleaning_services",
                 "medical_services",
