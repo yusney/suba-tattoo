@@ -7,7 +7,9 @@ export type Locale = keyof typeof dictionaries;
 export const DEFAULT_LOCALE: Locale = "es";
 export const LOCALES: Locale[] = ["es", "en", "ca"];
 
-export type Translator = ((key: string) => string) & {
+export type TranslationParams = Record<string, string | number>;
+
+export type Translator = ((key: string, params?: TranslationParams) => string) & {
   array: (key: string) => string[];
   arrayObjects: <T>(key: string) => T[];
 };
@@ -25,9 +27,19 @@ export function useTranslations(locale: Locale | string | undefined): Translator
       return undefined;
     }, dictObj);
 
-  function t(key: string): string {
+  /**
+   * Returns the translated string for `key`. When `params` is given, each
+   * single-brace `{name}` token with a matching param is replaced by its
+   * value; unknown tokens and double-brace `{{name}}` tokens (filled in by
+   * client-side code) are left untouched.
+   */
+  function t(key: string, params?: TranslationParams): string {
     const value = resolve(key);
-    return typeof value === "string" ? value : (key as string);
+    if (typeof value !== "string") return key;
+    if (!params) return value;
+    return value.replace(/(?<!\{)\{(\w+)\}(?!\})/g, (token, name: string) =>
+      Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : token,
+    );
   }
 
   t.array = (key: string): string[] => {
