@@ -1,4 +1,12 @@
 <script>
+  // Elements already on screen when the page loads are revealed right away.
+  // The rest are revealed as soon as any part of them scrolls in (ignoring the
+  // bottom 10%, so the entrance animation is still noticeable).
+  //
+  // A ratio threshold like `0.15` must NOT be used: it is a fraction of the
+  // element's own height, so tall blocks — e.g. the full gallery grid,
+  // ~2,600 px on desktop and ~7,000 px on mobile — stayed hidden on load, or
+  // forever when 15 % of them is taller than the screen.
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -6,7 +14,14 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0, rootMargin: "0px 0px -10% 0px" });
 
-  document.querySelectorAll("[data-reveal]").forEach((element) => observer.observe(element));
+  document.querySelectorAll("[data-reveal]").forEach((element) => {
+    const box = element.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) {
+      element.classList.add("is-revealed");
+    } else {
+      observer.observe(element);
+    }
+  });
 </script>
