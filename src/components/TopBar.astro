@@ -23,7 +23,7 @@ const linkClass = (active: boolean) =>
 
 const galleryHref = locale === DEFAULT_LOCALE ? "/galeria/" : `/${locale}/galeria/`;
 const processHref = isLanding
-  ? (locale === DEFAULT_LOCALE ? "#process" : `/${locale}#process`)
+  ? (locale === DEFAULT_LOCALE ? "#process" : `/${locale}/#process`)
   : (locale === DEFAULT_LOCALE ? "/#process" : `/${locale}/#process`);
 
 const filosofiaHref = locale === DEFAULT_LOCALE ? "/sobre/" : `/${locale}/sobre/`;
