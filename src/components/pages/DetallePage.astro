@@ -62,7 +62,7 @@ const pageTitle = `${data.title}${t("meta.detalle.title_suffix")}`;
 const pageDescription = (data.description ?? settings.about_short).slice(0, 160);
 
 const toHref = (s: string) =>
-  locale === DEFAULT_LOCALE ? `/detalle/${s}` : `/${locale}/detalle/${s}`;
+  locale === DEFAULT_LOCALE ? `/detalle/${s}/` : `/${locale}/detalle/${s}/`;
 const prevLink = prev
   ? { slug: prev.data.slug, title: prev.data.title, style: prev.data.style, year: prev.data.year, href: toHref(prev.data.slug) }
   : null;
@@ -72,7 +72,7 @@ const nextLink = next
 
 const relatedItems = related.map((r) => ({ ...r, href: toHref(r.slug) }));
 const archiveHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
-const reservaHref = locale === DEFAULT_LOCALE ? "/reserva" : `/${locale}/reserva`;
+const reservaHref = locale === DEFAULT_LOCALE ? "/reserva/" : `/${locale}/reserva/`;
 
 const artworkSchema = Astro.site
   ? buildArtworkSchema({

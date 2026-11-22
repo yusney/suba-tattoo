@@ -16,8 +16,8 @@ const tattoos = allTattoos
 
 const styles = Array.from(new Set(tattoos.map((entry) => entry.data.style)));
 const detailHref = (slug: string) =>
-  locale === DEFAULT_LOCALE ? `/detalle/${slug}` : `/${locale}/detalle/${slug}`;
-const galleryHref = locale === DEFAULT_LOCALE ? "/galeria" : `/${locale}/galeria`;
+  locale === DEFAULT_LOCALE ? `/detalle/${slug}/` : `/${locale}/detalle/${slug}/`;
+const galleryHref = locale === DEFAULT_LOCALE ? "/galeria/" : `/${locale}/galeria/`;
 
 // Curated preview per style: featured first, then by date desc.
 const previewByStyle = styles.map((style) => {

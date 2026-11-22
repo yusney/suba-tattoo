@@ -11,6 +11,6 @@ export async function getGalleryTattoos(locale: Locale) {
 }
 
 export function getGalleryPageHref(locale: Locale, page: number) {
-  const base = locale === "es" ? "/galeria" : `/${locale}/galeria`;
-  return page === 1 ? base : `${base}/${page}`;
+  const base = locale === "es" ? "/galeria/" : `/${locale}/galeria/`;
+  return page === 1 ? base : `${base}${page}/`;
 }

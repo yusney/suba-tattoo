@@ -86,8 +86,22 @@ export function localizePath(pathname: string, target: Locale): string {
     tail = "/" + segments.slice(1).join("/");
   }
   if (tail === "/") tail = "";
-  if (target === DEFAULT_LOCALE) return tail === "" ? "/" : tail;
-  return tail === "" ? `/${target}` : `/${target}${tail}`;
+  if (target === DEFAULT_LOCALE) return withTrailingSlash(tail === "" ? "/" : tail);
+  return withTrailingSlash(tail === "" ? `/${target}` : `/${target}${tail}`);
+}
+
+/**
+ * Appends the trailing slash the site's URLs use (every page is served at
+ * `/path/`; `/path` answers with a 301). Keeps any `?query` and `#hash`, and
+ * leaves file-like paths (`/robots.txt`) untouched. Internal links must go
+ * through this (or be written with the slash) so crawlers never hit a redirect.
+ */
+export function withTrailingSlash(href: string): string {
+  const match = /^([^?#]*)(.*)$/.exec(href || "/");
+  const path = match?.[1] || "/";
+  const rest = match?.[2] ?? "";
+  if (path.endsWith("/") || /\.[a-z0-9]+$/i.test(path)) return `${path}${rest}`;
+  return `${path}/${rest}`;
 }
 
 /**
