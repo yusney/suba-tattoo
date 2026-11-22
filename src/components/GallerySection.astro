@@ -1,5 +1,5 @@
 ---
-import { useTranslations, DEFAULT_LOCALE } from "../lib/i18n";
+import { useTranslations, styleLabel, DEFAULT_LOCALE } from "../lib/i18n";
 import type { Locale } from "../lib/i18n";
 import { getTattoos } from "../lib/tattoos";
 
@@ -49,7 +49,7 @@ const previewByStyle = styles.map((style) => {
     {previewByStyle.map((group) => (
       <div class="flex flex-col gap-6" data-reveal>
         <div class="flex items-baseline justify-between border-b border-outline-variant pb-3">
-          <h3 class="text-headline-md font-headline-md uppercase">{group.style}</h3>
+          <h3 class="text-headline-md font-headline-md uppercase">{styleLabel(t, group.style)}</h3>
           <a class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary" href={`${galleryHref}?estilo=${encodeURIComponent(group.style)}`}>
             {t("gallery.view_all")} →
           </a>
@@ -71,7 +71,7 @@ const previewByStyle = styles.map((style) => {
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
                 <div class="absolute bottom-6 left-6">
-                  <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
+                  <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{styleLabel(t, tattoo.data.style)}</span>
                   {tattoo.data.title && (
                     <h4 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h4>
                   )}

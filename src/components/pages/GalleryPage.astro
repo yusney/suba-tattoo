@@ -6,7 +6,7 @@ import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import ScrollReveal from "../../components/ScrollReveal.astro";
 import GalleryFilter from "../../components/GalleryFilter.astro";
 import { getGalleryPageHref, getGalleryTattoos, GALLERY_PAGE_SIZE } from "../../lib/gallery";
-import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
+import { styleLabel, useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 import { configuredSiteUrl } from "../../lib/site";
 
@@ -99,7 +99,7 @@ const canonicalUrl = siteOrigin ? new URL(pageHref(currentPage), siteOrigin).toS
         </a>
       </div>
 
-      <GalleryFilter styles={styles} allLabel={t("gallery.filter_all")} filterLabel={t("gallery_page.filter_label")} />
+      <GalleryFilter styles={styles} styleLabels={Object.fromEntries(styles.map((style) => [style, styleLabel(t, style)]))} allLabel={t("gallery.filter_all")} filterLabel={t("gallery_page.filter_label")} />
 
       <p
         class="mt-12 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant"
@@ -138,7 +138,7 @@ const canonicalUrl = siteOrigin ? new URL(pageHref(currentPage), siteOrigin).toS
             />
             <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
             <div class="absolute bottom-6 left-6">
-              <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{tattoo.data.style}</span>
+              <span class="mb-1 block text-label-sm font-label-sm uppercase tracking-widest text-primary">{styleLabel(t, tattoo.data.style)}</span>
               {tattoo.data.title && <h2 class="text-headline-md font-headline-md uppercase">{tattoo.data.title}</h2>}
             </div>
           </a>

@@ -1,11 +1,13 @@
 ---
 interface Props {
   styles: string[];
+  /** Display text per style value; the button still filters by the raw value. */
+  styleLabels?: Record<string, string>;
   allLabel: string;
   filterLabel: string;
 }
 
-const { styles, allLabel, filterLabel } = Astro.props as Props;
+const { styles, styleLabels = {}, allLabel, filterLabel } = Astro.props as Props;
 ---
 
 <div class="mt-12 flex flex-wrap items-center gap-4 border-b border-outline-variant pb-2" data-filter-bar>
@@ -25,7 +27,7 @@ const { styles, allLabel, filterLabel } = Astro.props as Props;
       data-filter-style={style}
       aria-pressed="false"
     >
-      {style}
+      {styleLabels[style] ?? style}
     </button>
   ))}
 </div>

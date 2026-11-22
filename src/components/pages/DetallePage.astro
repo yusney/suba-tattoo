@@ -14,7 +14,7 @@ import DetalleRelated from "../../components/DetalleRelated.astro";
 import JsonLd from "../../components/JsonLd.astro";
 import { getSiteSettings } from "../../lib/site";
 import { buildArtworkSchema } from "../../lib/structured-data";
-import { useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
+import { useTranslations, styleLabel, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 import { getTattoos } from "../../lib/tattoos";
 
@@ -41,6 +41,8 @@ const data = entry.data;
 
 const t = useTranslations(locale);
 const pieceNumber = `${t("detalle.piece_label")}${String(idx + 1).padStart(3, "0")}`;
+// Style/category values are shared across locales; only their display text is translated.
+const label = (value: string) => styleLabel(t, value);
 
 const settings = await getSiteSettings(locale);
 
@@ -50,20 +52,20 @@ const related = localeTattoos
   .map((e) => ({
     slug: e.data.slug,
     title: e.data.title,
-    style: e.data.style,
+    style: label(e.data.style),
     year: e.data.year,
     image: e.data.image,
     alt_text: e.data.alt_text,
   }));
 
-const subtitleParts = [data.style, data.category, t("detalle.editorial_label")];
+const subtitleParts = [label(data.style), data.category && label(data.category), t("detalle.editorial_label")];
 const subtitle = subtitleParts.filter(Boolean).join(" · ");
 // Search results truncate titles around 60 characters, so pick the most
 // descriptive variant that fits: name + style + city, then name + style,
 // then the plain name + city fallback used before.
 const MAX_TITLE_LENGTH = 60;
 const withStyle = data.style
-  ? t("meta.detalle.title_with_style", { title: data.title, style: data.style })
+  ? t("meta.detalle.title_with_style", { title: data.title, style: label(data.style) })
   : data.title;
 const titleCandidates = [
   `${withStyle}${t("meta.detalle.title_suffix")}`,
@@ -77,10 +79,10 @@ const pageDescription = (data.description ?? settings.about_short).slice(0, 160)
 const toHref = (s: string) =>
   locale === DEFAULT_LOCALE ? `/detalle/${s}/` : `/${locale}/detalle/${s}/`;
 const prevLink = prev
-  ? { slug: prev.data.slug, title: prev.data.title, style: prev.data.style, year: prev.data.year, href: toHref(prev.data.slug) }
+  ? { slug: prev.data.slug, title: prev.data.title, style: label(prev.data.style), year: prev.data.year, href: toHref(prev.data.slug) }
   : null;
 const nextLink = next
-  ? { slug: next.data.slug, title: next.data.title, style: next.data.style, year: next.data.year, href: toHref(next.data.slug) }
+  ? { slug: next.data.slug, title: next.data.title, style: label(next.data.style), year: next.data.year, href: toHref(next.data.slug) }
   : null;
 
 const relatedItems = related.map((r) => ({ ...r, href: toHref(r.slug) }));
@@ -93,7 +95,7 @@ const artworkSchema = Astro.site
       description: data.description,
       image: data.image,
       year: data.year,
-      style: data.style,
+      style: label(data.style),
       studioName: settings.brand_name,
       siteOrigin: Astro.site.origin,
       pageUrl: new URL(Astro.url.pathname, Astro.site).toString(),
@@ -107,7 +109,7 @@ const artworkSchema = Astro.site
   <main id="main" class="pt-24 scroll-mt-24">
     <DetalleMeta
       pieceNumber={pieceNumber}
-      style={data.style}
+      style={label(data.style)}
       year={data.year}
     />
     <DetalleHero
@@ -131,7 +133,7 @@ const artworkSchema = Astro.site
             sessions={data.sessions}
             bodyPart={data.body_part}
             sizeCm={data.size_cm}
-            style={data.style}
+            style={label(data.style)}
             year={data.year}
           />
         </div>

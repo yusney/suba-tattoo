@@ -372,5 +372,9 @@
     "privacy_label": "He llegit i accepto la {privacy_link}.",
     "privacy_link_text": "Política de Privacitat",
     "privacy_required_error": "Has d'acceptar la Política de Privacitat per continuar."
+  },
+  "style_labels": {
+    "Realismo": "Realisme",
+    "Geométrico": "Geomètric"
   }
 }
