@@ -376,5 +376,14 @@
   "style_labels": {
     "Realismo": "Realism",
     "Geométrico": "Geometric"
+  },
+  "estilo_page": {
+    "label": "Style",
+    "works_title": "{style} pieces",
+    "faq_title": "Frequently asked questions",
+    "cta_title": "Have an idea in this style?",
+    "cta_button": "Request a consultation",
+    "explore_label": "Explore by style",
+    "title_suffix": " — SUBA TATTOO"
   }
 }

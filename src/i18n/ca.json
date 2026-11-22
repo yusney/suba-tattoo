@@ -376,5 +376,14 @@
   "style_labels": {
     "Realismo": "Realisme",
     "Geométrico": "Geomètric"
+  },
+  "estilo_page": {
+    "label": "Estil",
+    "works_title": "Treballs de {style}",
+    "faq_title": "Preguntes freqüents",
+    "cta_title": "Tens una idea en aquest estil?",
+    "cta_button": "Sol·licitar valoració",
+    "explore_label": "Explorar per estil",
+    "title_suffix": " — SUBA TATTOO"
   }
 }

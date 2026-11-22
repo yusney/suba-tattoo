@@ -74,6 +74,38 @@ const tattoos = defineCollection({
 });
 
 // ---------------------------------------------------------------------------
+// Style landing pages (/estilos/<slug>/, /en/estilos/<slug>/, /ca/estilos/<slug>/)
+// ---------------------------------------------------------------------------
+// One .md per (locale, slug) under src/content/estilos/<locale>/, edited from
+// the CMS "Estilos" collection. The markdown body is the main text. `style`
+// uses the same shared enum as the tattoos, so the page lists every tattoo of
+// that style automatically; `slug` is identical across locales so hreflang
+// alternates line up. A brand-new style needs a code change (sharedStyleEnum).
+const estilos = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/estilos",
+    generateId: ({ entry }: { entry: string }) =>
+      entry.replace(/\.md$/, "").replace(/^\/+/, ""),
+  }),
+  schema: z.object({
+    locale: z.enum(["es", "en", "ca"]),
+    slug: z.string().regex(/^[a-z0-9-]+$/, "slug: lowercase letters, digits and hyphens only"),
+    style: sharedStyleEnum,
+    order: z.number().int().default(100),
+    title: z.string().trim().min(1),
+    meta_title: z.string().trim().max(60, "meta_title: keep it within 60 characters").optional(),
+    meta_description: z.string().trim().min(1).max(170),
+    intro: z.string().trim().optional(),
+    cover_image: z.string().optional(),
+    cover_alt: z.string().trim().optional(),
+    faqs: z
+      .array(z.object({ question: z.string().trim().min(1), answer: z.string().trim().min(1) }))
+      .default([]),
+  }),
+});
+
+// ---------------------------------------------------------------------------
 // FAQ
 // ---------------------------------------------------------------------------
 const faq = defineCollection({
@@ -193,6 +225,7 @@ const site_settings = defineCollection({
 
 export const collections = {
   tattoos,
+  estilos,
   faq,
   sobre,
   site_settings,

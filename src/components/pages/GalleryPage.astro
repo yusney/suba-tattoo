@@ -6,6 +6,7 @@ import WhatsAppButton from "../../components/WhatsAppButton.astro";
 import ScrollReveal from "../../components/ScrollReveal.astro";
 import GalleryFilter from "../../components/GalleryFilter.astro";
 import { getGalleryPageHref, getGalleryTattoos, GALLERY_PAGE_SIZE } from "../../lib/gallery";
+import { getEstilos, estiloHref } from "../../lib/estilos";
 import { styleLabel, useTranslations, DEFAULT_LOCALE } from "../../lib/i18n";
 import type { Locale } from "../../lib/i18n";
 import { configuredSiteUrl } from "../../lib/site";
@@ -30,6 +31,11 @@ const detailHref = (slug: string) =>
   locale === DEFAULT_LOCALE ? `/detalle/${slug}/` : `/${locale}/detalle/${slug}/`;
 const homeHref = locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
 const pageHref = (page: number) => getGalleryPageHref(locale, page);
+// Crawlable links to the style landing pages (the filter buttons are JS-only).
+const estiloLinks = (await getEstilos(locale)).map((entry) => ({
+  href: estiloHref(locale, entry.data.slug),
+  label: styleLabel(t, entry.data.style),
+}));
 const nextPageHref = currentPage < totalPages ? pageHref(currentPage + 1) : "";
 const previousPageHref = currentPage > 1 ? pageHref(currentPage - 1) : "";
 // <title> uses a search-oriented string; the visible H1 keeps gallery_page.title.
@@ -100,6 +106,23 @@ const canonicalUrl = siteOrigin ? new URL(pageHref(currentPage), siteOrigin).toS
       </div>
 
       <GalleryFilter styles={styles} styleLabels={Object.fromEntries(styles.map((style) => [style, styleLabel(t, style)]))} allLabel={t("gallery.filter_all")} filterLabel={t("gallery_page.filter_label")} />
+
+
+      {estiloLinks.length > 0 && (
+
+        <nav class="mt-8 flex flex-wrap items-baseline gap-x-6 gap-y-2" aria-label={t("estilo_page.explore_label")}>
+
+          <span class="text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">{t("estilo_page.explore_label")}:</span>
+
+          {estiloLinks.map((link) => (
+
+            <a class="text-label-sm font-label-sm uppercase tracking-widest text-primary hover:underline" href={link.href}>{link.label}</a>
+
+          ))}
+
+        </nav>
+
+      )}
 
       <p
         class="mt-12 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant"

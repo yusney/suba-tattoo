@@ -1,0 +1,13 @@
+---
+import EstiloPage from "../../../components/pages/EstiloPage.astro";
+import { getEstilos } from "../../../lib/estilos";
+
+export async function getStaticPaths() {
+  const estilos = await getEstilos("ca");
+  return estilos.map((entry) => ({ params: { slug: entry.data.slug } }));
+}
+
+const { slug } = Astro.params;
+---
+
+<EstiloPage locale="ca" slug={slug as string} />

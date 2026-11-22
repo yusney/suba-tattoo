@@ -137,6 +137,8 @@ collections:
       - { name: "slug",          label: "Slug (URL)",              widget: "string", i18n: duplicate, hint: "Identificador único, sin espacios. Ej: fine-line-gafas-rayo-antebrazo" }
       - { name: "date",          label: "Fecha de la sesión",      widget: "datetime", picker_utc: false, format: "YYYY-MM-DD HH:mm", i18n: duplicate }
       - { name: "year",          label: "Año",                     widget: "number", value_type: "int", min: 2014, max: 2100, i18n: duplicate }
+      # Keep in sync with sharedStyleEnum in src/content.config.ts and the
+      # "estilos" collection `style` select below.
       - name: "style"
         label: "Estilo técnico"
         widget: "select"
@@ -177,6 +179,57 @@ collections:
       - { name: "size_cm",       label: "Tamaño (cm)",             widget: "string", required: false, i18n: duplicate, hint: "Ej: 18x22, 25x30" }
       - { name: "description",   label: "Notas del artista (página de detalle)", widget: "text", required: false, i18n: true }
       - { name: "testimonial",   label: "Testimonio del cliente",  widget: "text", required: false, i18n: true }
+
+  # ============================== ESTILOS ==============================
+  # One landing page per tattoo style: /estilos/<slug>/ (+ /en/, /ca/).
+  # Mirrors the `estilos` collection in src/content.config.ts. The page lists
+  # every tattoo whose `style` matches automatically. Adding a brand-new style
+  # needs a code change (sharedStyleEnum in src/content.config.ts).
+  - name: "estilos"
+    label: "Estilos · Páginas"
+    label_singular: "Página de estilo"
+    folder: "src/content/estilos"
+    create: true
+    delete: false
+    i18n: true
+    identifier_field: "slug"
+    slug: "{{slug}}"
+    summary: "{{title}} · [{{locale | upper}}]"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { name: "locale",           label: "Idioma",                          widget: "select", options: ["es", "en", "ca"], i18n: true, hint: "Debe coincidir con la pestaña de idioma y la carpeta src/content/estilos/<locale>/." }
+      - { name: "slug",             label: "Slug (URL)",                      widget: "string", i18n: duplicate, pattern: ["^[a-z0-9-]+$", "Solo minúsculas, números y guiones."], hint: "Parte de la URL: /estilos/<slug>/. Igual en los 3 idiomas. Ej: realismo, fine-line" }
+      # Keep in sync with sharedStyleEnum in src/content.config.ts and the tattoos `style` select.
+      - name: "style"
+        label: "Estilo"
+        widget: "select"
+        i18n: duplicate
+        hint: "Los tatuajes de este estilo aparecen automáticamente en la página."
+        options:
+          - "Blackwork"
+          - "Realismo"
+          - "Fine Line"
+          - "Illustrative Color"
+          - "Geométrico"
+          - "Dark Art"
+      - { name: "order",            label: "Orden",                           widget: "number", value_type: "int", default: 100, i18n: duplicate, hint: "Orden en los listados (1 = primero)." }
+      - { name: "title",            label: "Título de la página",             widget: "string", i18n: true, hint: "Título visible. Ej: Tatuajes de realismo en Montcada i Reixac" }
+      - { name: "meta_title",       label: "Título para Google (opcional)",   widget: "string", required: false, i18n: true, pattern: ["^.{0,60}$", "Máximo 60 caracteres (Google corta lo que sobra)."], hint: "Si se deja vacío se usa el título de la página + SUBA TATTOO." }
+      - { name: "meta_description", label: "Descripción para Google",         widget: "text", i18n: true, pattern: ["^[\\s\\S]{1,160}$", "Máximo 160 caracteres."], hint: "Entre 140 y 160 caracteres. Es el texto que aparece bajo el título en Google." }
+      - { name: "intro",            label: "Entradilla",                      widget: "text", required: false, i18n: true, hint: "1–2 frases bajo el título." }
+      - { name: "cover_image",      label: "Imagen de portada",               widget: "image", required: false, i18n: duplicate, hint: "Opcional. Si se deja vacía se usa la foto del tatuaje más reciente de este estilo." }
+      - { name: "cover_alt",        label: "Texto alternativo de la portada", widget: "string", required: false, i18n: true, hint: "Describe la imagen para lectores de pantalla y Google Imágenes." }
+      - name: "faqs"
+        label: "Preguntas frecuentes"
+        label_singular: "Pregunta"
+        widget: "list"
+        required: false
+        i18n: true
+        summary: "{{fields.question}}"
+        fields:
+          - { name: "question", label: "Pregunta",  widget: "string" }
+          - { name: "answer",   label: "Respuesta", widget: "text" }
+      - { name: "body",             label: "Texto principal",                 widget: "markdown", i18n: true, hint: "Usa títulos de nivel 2 (##) para las secciones." }
 
   # ============================== FAQ ==============================
   - name: "faq"
