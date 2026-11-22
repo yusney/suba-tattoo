@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { loadEnv } from 'vite';
 
@@ -70,6 +70,40 @@ if (!normalizedSiteUrl && !isDev) {
 // https://astro.build/config
 export default defineConfig({
   site: normalizedSiteUrl,
+  // Text fonts are downloaded from Google Fonts at build time and served from
+  // this origin (Astro Fonts API), so the first paint no longer waits for a
+  // render-blocking fonts.googleapis.com stylesheet. Weights mirror what
+  // global.css uses; no italic files exist for these families on the old
+  // stylesheet either. The <Font> components live in src/layouts/Layout.astro.
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Syne',
+      cssVariable: '--font-syne',
+      weights: [400, 600, 700, 800],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['sans-serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'Plus Jakarta Sans',
+      cssVariable: '--font-plus-jakarta-sans',
+      weights: [400, 500],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['sans-serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jetbrains-mono',
+      weights: [400, 500, 700],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['monospace'],
+    },
+  ],
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en', 'ca'],

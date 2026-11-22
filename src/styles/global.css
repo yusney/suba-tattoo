@@ -66,13 +66,13 @@
   --spacing-base: 8px;
 
   /* ========== Font Families ========== */
-  --font-body-md: "Plus Jakarta Sans", sans-serif;
-  --font-headline-lg: "Syne", sans-serif;
-  --font-headline-lg-mobile: "Syne", sans-serif;
-  --font-body-lg: "Plus Jakarta Sans", sans-serif;
-  --font-label-sm: "JetBrains Mono", monospace;
-  --font-headline-md: "Syne", sans-serif;
-  --font-display-lg: "Syne", sans-serif;
+  --font-body-md: var(--font-plus-jakarta-sans);
+  --font-headline-lg: var(--font-syne);
+  --font-headline-lg-mobile: var(--font-syne);
+  --font-body-lg: var(--font-plus-jakarta-sans);
+  --font-label-sm: var(--font-jetbrains-mono);
+  --font-headline-md: var(--font-syne);
+  --font-display-lg: var(--font-syne);
 
   /* ========== Typography scale ========== */
   --text-body-md: 16px;
@@ -138,7 +138,26 @@
 }
 
 /* ========== Icon font helpers ========== */
+/* Self-hosted Material Symbols subset (see src/lib/icons.ts; regenerate with
+ * `pnpm icons:font`). Its @font-face is emitted by src/layouts/Layout.astro
+ * because the file name carries a content hash.
+ *
+ * Base rules copied from the Google Fonts stylesheet this replaces. They stay
+ * unlayered, exactly like that stylesheet was, so icon sizing is unchanged. */
 .material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   display: inline-block;
   vertical-align: middle;
